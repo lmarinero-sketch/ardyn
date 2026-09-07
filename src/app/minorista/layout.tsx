@@ -1,0 +1,232 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import Link from 'next/link';
+
+import { ShoppingCart, Search, Menu, X, ChevronRight, Package, HelpCircle } from 'lucide-react';
+import { useCart } from '@/lib/cart';
+import MarqueeBar from '@/components/tienda/MarqueeBar';
+import MegaMenu from '@/components/tienda/MegaMenu';
+import { useStoreConfig } from '@/hooks/useStoreConfig';
+
+export default function TiendaLayout({ children }: { children: React.ReactNode }) {
+  const { getItemCount, isLoaded } = useCart();
+  const [cartCount, setCartCount] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // ═══ Configuraciones dinámicas con fallback a defaults ═══
+  const { config: identidad } = useStoreConfig('tienda_identidad');
+  const { config: footer } = useStoreConfig('tienda_footer');
+  const { config: whatsapp } = useStoreConfig('tienda_whatsapp');
+
+  useEffect(() => {
+    if (isLoaded) setCartCount(getItemCount());
+
+    const handler = () => {
+      const stored = localStorage.getItem('vyper_cart');
+      if (stored) {
+        const items = JSON.parse(stored);
+        setCartCount(items.reduce((s: number, i: { cantidad: number }) => s + i.cantidad, 0));
+      }
+    };
+    window.addEventListener('cart-updated', handler);
+    return () => window.removeEventListener('cart-updated', handler);
+  }, [isLoaded, getItemCount]);
+
+  const waLink = `https://api.whatsapp.com/send/?phone=${whatsapp.numero_minorista}&text=${encodeURIComponent(whatsapp.mensaje_minorista)}`;
+
+  return (
+    <div style={{ minHeight: '100vh', background: 'transparent' }}>
+      {/* ===== MARQUEE ===== */}
+      <MarqueeBar storeType="minorista" />
+
+      {/* ===== HEADER ===== */}
+      <header style={{
+        position: 'sticky',
+        top: 0,
+        zIndex: 50,
+        background: 'rgba(255,255,255,0.95)',
+        backdropFilter: 'blur(12px)',
+        borderBottom: '1px solid var(--border-color)',
+      }}>
+        <div style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '0.75rem 1.5rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '1rem',
+        }}>
+          {/* Left: Logo */}
+          <Link href="/minorista" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
+            <img src={identidad.logo_url} alt={identidad.nombre_marca} width={40} height={40} style={{ borderRadius: 8, objectFit: 'contain' }} />
+            <div>
+              <div style={{ fontWeight: 800, fontSize: '1.125rem', lineHeight: 1.2, letterSpacing: '-0.02em' }}>{identidad.nombre_marca}</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 500 }}>{identidad.subtitulo_minorista}</div>
+            </div>
+          </Link>
+
+          {/* Center: Desktop Nav */}
+          <nav style={{ display: 'none', gap: '0.25rem', alignItems: 'center' }} className="desktop-nav">
+            <Link href="/minorista">
+              <button className="btn-ghost" style={{ fontSize: '0.875rem' }}>Inicio</button>
+            </Link>
+            <MegaMenu baseUrl="/minorista" />
+            <a href={waLink} target="_blank" rel="noopener noreferrer">
+              <button className="btn-ghost" style={{ fontSize: '0.875rem' }}>Whatsapp</button>
+            </a>
+            <a href={whatsapp.url_sucursal} target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ fontSize: '0.875rem', textDecoration: 'none' }}>
+              Visita Nuestra Sucursal
+            </a>
+            <Link href="/minorista/como-comprar">
+              <button className="btn-ghost" style={{ fontSize: '0.875rem' }}>Como comprar?</button>
+            </Link>
+          </nav>
+
+          {/* Right: Cart + Mobile menu */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <Link href="/minorista/carrito">
+              <button className="btn-ghost" style={{ position: 'relative', padding: '0.625rem' }}>
+                <ShoppingCart size={22} />
+                {cartCount > 0 && (
+                  <span style={{
+                    position: 'absolute',
+                    top: 2,
+                    right: 2,
+                    width: 20,
+                    height: 20,
+                    borderRadius: '50%',
+                    background: 'var(--accent)',
+                    color: 'white',
+                    fontSize: '0.6875rem',
+                    fontWeight: 700,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                  }}>
+                    {cartCount}
+                  </span>
+                )}
+              </button>
+            </Link>
+
+            {/* Mobile hamburger */}
+            <button
+              className="btn-ghost mobile-only"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              style={{ padding: '0.625rem' }}
+            >
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile menu dropdown */}
+        {mobileMenuOpen && (
+          <div style={{
+            padding: '0.5rem 1.5rem 1rem',
+            borderTop: '1px solid var(--border-light)',
+            background: 'var(--bg-color)',
+            animation: 'slideUp 0.2s ease-out',
+          }}>
+            <Link href="/minorista" onClick={() => setMobileMenuOpen(false)}>
+              <div style={{
+                padding: '0.875rem 0',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                borderBottom: '1px solid var(--border-light)',
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 600 }}>
+                  <Package size={18} /> Catálogo
+                </span>
+                <ChevronRight size={16} color="var(--text-light)" />
+              </div>
+            </Link>
+            <Link href="/minorista/carrito" onClick={() => setMobileMenuOpen(false)}>
+              <div style={{
+                padding: '0.875rem 0',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 600 }}>
+                  <ShoppingCart size={18} /> Mi Pedido
+                  {cartCount > 0 && <span className="badge badge-blue">{cartCount}</span>}
+                </span>
+                <ChevronRight size={16} color="var(--text-light)" />
+              </div>
+            </Link>
+            <Link href="/minorista/como-comprar" onClick={() => setMobileMenuOpen(false)}>
+              <div style={{
+                padding: '0.875rem 0',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontWeight: 600 }}>
+                  <HelpCircle size={18} /> ¿Cómo comprar?
+                </span>
+                <ChevronRight size={16} color="var(--text-light)" />
+              </div>
+            </Link>
+          </div>
+        )}
+      </header>
+
+      {/* ===== MAIN CONTENT ===== */}
+      <main>
+        {children}
+      </main>
+
+      {/* ===== FOOTER ===== */}
+      <footer style={{
+        background: 'var(--bg-color)',
+        borderTop: '1px solid var(--border-color)',
+        padding: '2rem 1.5rem',
+        marginTop: '3rem',
+      }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+            <img src={identidad.logo_url} alt={identidad.nombre_marca} width={32} height={32} style={{ borderRadius: 6, objectFit: 'contain' }} />
+            <span style={{ fontWeight: 700, fontSize: '1rem' }}>{identidad.nombre_completo}</span>
+          </div>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
+            {footer.direccion}
+          </p>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+            {footer.telefono} &nbsp;·&nbsp; {footer.instagram}
+          </p>
+          <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--border-light)', fontSize: '0.75rem', color: 'var(--text-light)' }}>
+            {footer.texto_creditos ? (
+              <>
+                <a href={footer.url_creditos} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>{footer.texto_creditos}</a> · {new Date().getFullYear()}
+              </>
+            ) : (
+              <>Desarrollado por <a href="https://www.growlabs.lat" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>Grow Labs</a> · {new Date().getFullYear()}</>
+            )}
+          </div>
+        </div>
+      </footer>
+
+      {/* ===== RESPONSIVE STYLES ===== */}
+      <style jsx>{`
+        .desktop-nav {
+          display: none !important;
+        }
+        .mobile-only {
+          display: flex !important;
+        }
+        @media (min-width: 768px) {
+          .desktop-nav {
+            display: flex !important;
+          }
+          .mobile-only {
+            display: none !important;
+          }
+        }
+      `}</style>
+    </div>
+  );
+}

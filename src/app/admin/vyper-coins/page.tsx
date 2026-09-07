@@ -1,0 +1,568 @@
+
+'use client';
+
+import { useState, useEffect, useMemo } from 'react';
+import { Coins, Search, TrendingUp, Edit2, Trash2, History, ChevronLeft, ChevronRight, Filter } from 'lucide-react';
+import Link from 'next/link';
+import ConfirmDeleteModal from '@/components/ConfirmDeleteModal';
+import { TierBadge, TierProgressBar } from '@/utils/tiers';
+
+interface Client {
+    id: number;
+    name: string;
+    phone: string;
+    coin_balance: number;
+}
+
+interface CoinTransaction {
+    id: number;
+    client_id: number;
+    client_name: string;
+    amount: number;
+    coins_added: number;
+    date: string;
+    created_at: string;
+    notification_status?: 'sent' | 'error';
+    notification_error?: string;
+}
+
+export default function VyperCoinsPage() {
+    const [clients, setClients] = useState<Client[]>([]);
+    const [transactions, setTransactions] = useState<CoinTransaction[]>([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+    const [amount, setAmount] = useState<number>(0);
+    const [loading, setLoading] = useState(false);
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState('');
+    const [editingTransaction, setEditingTransaction] = useState<CoinTransaction | null>(null);
+    const [transactionToDelete, setTransactionToDelete] = useState<CoinTransaction | null>(null);
+    const [txnSearch, setTxnSearch] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const PAGE_SIZE = 50;
+
+    useEffect(() => {
+        fetchClients();
+        fetchTransactions();
+    }, []);
+
+    const fetchClients = async () => {
+        try {
+            const res = await fetch('/api/clients?limit=10000');
+            const data = await res.json();
+            setClients(data.clients || []);
+        } catch (err) {
+            console.error('Error fetching clients:', err);
+        }
+    };
+
+    const fetchTransactions = async () => {
+        try {
+            const res = await fetch('/api/coin-transactions?limit=10000');
+            const data = await res.json();
+            setTransactions(data.transactions || []);
+            setCurrentPage(1);
+        } catch (err) {
+            console.error('Error fetching transactions:', err);
+        }
+    };
+
+    // Filtered & paginated transactions
+    const filteredTransactions = useMemo(() => {
+        if (!txnSearch.trim()) return transactions;
+        const term = txnSearch.toLowerCase();
+        return transactions.filter(t =>
+            t.client_name?.toLowerCase().includes(term) ||
+            new Date(t.date || t.created_at).toLocaleDateString('es-AR').includes(term) ||
+            t.amount.toString().includes(term)
+        );
+    }, [transactions, txnSearch]);
+
+    const totalPages = Math.max(1, Math.ceil(filteredTransactions.length / PAGE_SIZE));
+    const paginatedTransactions = useMemo(() => {
+        const start = (currentPage - 1) * PAGE_SIZE;
+        return filteredTransactions.slice(start, start + PAGE_SIZE);
+    }, [filteredTransactions, currentPage]);
+
+    const filteredClients = clients.filter(c => {
+        const term = searchTerm.toLowerCase();
+        const nameMatch = c.name?.toLowerCase().includes(term);
+        const searchDigits = searchTerm.replace(/\D/g, '');
+        const phoneDigits = (c.phone || '').replace(/\D/g, '');
+        const phoneMatch = searchDigits.length > 0 && phoneDigits.includes(searchDigits);
+        return nameMatch || phoneMatch;
+    });
+
+    const coinsToAdd = Math.floor(amount / 1000);
+    const newBalance = (selectedClient?.coin_balance || 0) + coinsToAdd;
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!selectedClient) {
+            setError('Debes seleccionar un cliente');
+            return;
+        }
+
+        if (amount <= 0) {
+            setError('El importe debe ser mayor a 0');
+            return;
+        }
+
+        setLoading(true);
+        setError('');
+        setSuccess(false);
+
+        try {
+            // 1. Update client's coin balance
+            const updateRes = await fetch('/api/clients', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: selectedClient.id,
+                    coin_balance: newBalance
+                })
+            });
+
+            if (!updateRes.ok) throw new Error('Error al actualizar cliente');
+
+            // 2. Create transaction record
+            const transactionRes = await fetch('/api/coin-transactions', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    client_id: selectedClient.id,
+                    client_name: selectedClient.name,
+                    amount,
+                    coins_added: coinsToAdd
+                })
+            });
+
+            if (!transactionRes.ok) throw new Error('Error al registrar transacción');
+
+            setSuccess(true);
+            setAmount(0);
+            setSelectedClient(null);
+            setSearchTerm('');
+            fetchClients();
+            fetchTransactions();
+
+            setTimeout(() => setSuccess(false), 3000);
+        } catch (err: any) {
+            setError(err.message || 'Error de conexión');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleDeleteClick = (transaction: CoinTransaction) => {
+        console.log('Delete clicked for transaction:', transaction);
+        setTransactionToDelete(transaction);
+    };
+
+    const handleConfirmDelete = async () => {
+        if (!transactionToDelete) return;
+
+        console.log('Delete confirmed for:', transactionToDelete);
+
+        try {
+            // 1. Revert coins from client
+            const client = clients.find(c => c.id === transactionToDelete.client_id);
+            console.log('Found client:', client);
+
+            if (client) {
+                const newBalance = client.coin_balance - transactionToDelete.coins_added;
+                console.log(`Updating client balance from ${client.coin_balance} to ${newBalance}`);
+
+                const clientRes = await fetch('/api/clients', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: client.id,
+                        coin_balance: newBalance
+                    })
+                });
+
+                if (!clientRes.ok) {
+                    const error = await clientRes.json();
+                    console.error('Error updating client:', error);
+                    throw new Error('Error al actualizar cliente');
+                }
+            }
+
+            // 2. Delete transaction
+            console.log('Deleting transaction ID:', transactionToDelete.id);
+            const deleteRes = await fetch(`/api/coin-transactions?id=${transactionToDelete.id}`, {
+                method: 'DELETE'
+            });
+
+            if (!deleteRes.ok) {
+                const error = await deleteRes.json();
+                console.error('Error deleting transaction:', error);
+                throw new Error('Error al eliminar transacción');
+            }
+
+            console.log('Transaction deleted successfully');
+            setTransactionToDelete(null);
+            fetchClients();
+            fetchTransactions();
+        } catch (err: any) {
+            console.error('Delete transaction error:', err);
+            alert('Error al eliminar transacción: ' + (err.message || 'Error desconocido'));
+        }
+    };
+
+    const handleClientSelect = (client: Client) => {
+        setSelectedClient(client);
+        setSearchTerm('');
+    };
+
+    const today = new Date().toLocaleDateString('es-AR', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+
+    return (
+        <div className="page-container">
+            <header style={{ marginBottom: '2rem' }}>
+                <h1 style={{ fontSize: '1.75rem', fontWeight: 900, letterSpacing: '0.02em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+                    <Coins size={28} />
+                    VYPER COINS
+                </h1>
+                <p style={{ color: 'var(--text-muted)', marginTop: '0.25rem' }}>Sistema de Recompensas - $1000 = 1 Coin 🪙</p>
+            </header>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
+
+                {/* Form Section */}
+                <div className="glass-card">
+                    <h2 style={{ fontSize: '1.5rem', marginBottom: '2rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <TrendingUp size={24} color="#4ade80" />
+                        Registrar Venta
+                    </h2>
+
+                    <form onSubmit={handleSubmit}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', gap: '1.5rem' }}>
+
+                            {/* Fecha */}
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                                    FECHA
+                                </label>
+                                <input
+                                    type="text"
+                                    value={today}
+                                    disabled
+                                    style={{ width: '100%', background: 'rgba(255,255,255,0.05)', cursor: 'not-allowed', fontSize: '0.85rem' }}
+                                />
+                            </div>
+
+                            {/* Cliente Selector */}
+                            <div style={{ gridColumn: 'span 2' }}>
+                                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                                    CLIENTE *
+                                </label>
+
+                                {selectedClient ? (
+                                    <div style={{
+                                        padding: '0.75rem',
+                                        background: 'rgba(74, 222, 128, 0.1)',
+                                        border: '1px solid #4ade80',
+                                        borderRadius: '8px',
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        alignItems: 'center'
+                                    }}>
+                                        <div>
+                                            <p style={{ fontWeight: 'bold', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                {selectedClient.name} <TierBadge coins={selectedClient.coin_balance} size="sm" />
+                                            </p>
+                                            <p style={{ color: '#facc15', fontSize: '0.8rem' }}>
+                                                {selectedClient.coin_balance} 🪙
+                                            </p>
+                                        </div>
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedClient(null)}
+                                            className="secondary"
+                                            style={{ padding: '0.4rem 0.8rem', fontSize: '0.75rem' }}
+                                        >
+                                            Cambiar
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <>
+                                        <div style={{ position: 'relative' }}>
+                                            <Search size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
+                                            <input
+                                                type="text"
+                                                placeholder="Buscar cliente..."
+                                                value={searchTerm}
+                                                onChange={(e) => setSearchTerm(e.target.value)}
+                                                style={{ width: '100%', paddingLeft: '2.5rem' }}
+                                            />
+                                        </div>
+
+                                        {searchTerm && filteredClients.length > 0 && (
+                                            <div style={{
+                                                position: 'absolute',
+                                                zIndex: 100,
+                                                marginTop: '0.5rem',
+                                                maxHeight: '200px',
+                                                overflowY: 'auto',
+                                                border: '1px solid rgba(255,255,255,0.1)',
+                                                borderRadius: '8px',
+                                                background: '#000',
+                                                width: 'calc(50% - 1.5rem)'
+                                            }}>
+                                                {filteredClients.slice(0, 10).map(client => (
+                                                    <div
+                                                        key={client.id}
+                                                        onClick={() => handleClientSelect(client)}
+                                                        style={{
+                                                            padding: '0.75rem',
+                                                            cursor: 'pointer',
+                                                            borderBottom: '1px solid rgba(255,255,255,0.05)'
+                                                        }}
+                                                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.05)'}
+                                                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                                                    >
+                                                        <p style={{ fontWeight: 'bold', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                            {client.name} <TierBadge coins={client.coin_balance} size="sm" />
+                                                        </p>
+                                                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                                            {client.phone} • {client.coin_balance} 🪙
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
+                                )}
+                            </div>
+
+                            {/* Importe */}
+                            <div>
+                                <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: 'var(--text-muted)' }}>
+                                    IMPORTE ($) *
+                                </label>
+                                <input
+                                    type="number"
+                                    value={amount || ''}
+                                    onChange={(e) => setAmount(parseFloat(e.target.value) || 0)}
+                                    placeholder="0"
+                                    required
+                                    min="0"
+                                    step="0.01"
+                                    style={{ width: '100%', fontSize: '1rem', fontWeight: 'bold' }}
+                                />
+                            </div>
+
+                            {/* Coins Preview */}
+                            {amount > 0 && selectedClient && (
+                                <div style={{
+                                    gridColumn: 'span 4',
+                                    padding: '1rem',
+                                    background: 'linear-gradient(135deg, rgba(250, 204, 21, 0.1), rgba(251, 191, 36, 0.05))',
+                                    border: '2px solid #facc15',
+                                    borderRadius: '12px',
+                                    display: 'flex',
+                                    gap: '2rem',
+                                    justifyContent: 'center'
+                                }}>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>COINS A SUMAR</p>
+                                        <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#facc15' }}>+{coinsToAdd} 🪙</p>
+                                    </div>
+                                    <div style={{ textAlign: 'center' }}>
+                                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>NUEVO BALANCE</p>
+                                        <p style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#4ade80', marginBottom: '0.5rem' }}>{newBalance} 🪙</p>
+                                        <TierBadge coins={newBalance} size="md" />
+                                    </div>
+                                </div>
+                            )}
+
+                            {error && (
+                                <div style={{
+                                    gridColumn: 'span 4',
+                                    padding: '0.75rem',
+                                    background: 'rgba(239, 68, 68, 0.1)',
+                                    border: '1px solid #ef4444',
+                                    borderRadius: '8px',
+                                    color: '#ef4444',
+                                    fontSize: '0.9rem'
+                                }}>
+                                    {error}
+                                </div>
+                            )}
+
+                            {success && (
+                                <div style={{
+                                    gridColumn: 'span 4',
+                                    padding: '0.75rem',
+                                    background: 'rgba(74, 222, 128, 0.1)',
+                                    border: '1px solid #4ade80',
+                                    borderRadius: '8px',
+                                    color: '#4ade80',
+                                    fontSize: '0.9rem'
+                                }}>
+                                    ✅ ¡Vyper Coins agregadas exitosamente!
+                                </div>
+                            )}
+
+                            {/* Submit Button */}
+                            <button
+                                type="submit"
+                                disabled={loading || !selectedClient || amount <= 0}
+                                style={{
+                                    gridColumn: 'span 4',
+                                    padding: '0.75rem',
+                                    fontSize: '1rem',
+                                    fontWeight: 'bold',
+                                    background: loading || !selectedClient || amount <= 0 ? '#333' : '#facc15',
+                                    color: 'black',
+                                    cursor: loading || !selectedClient || amount <= 0 ? 'not-allowed' : 'pointer'
+                                }}
+                            >
+                                {loading ? 'PROCESANDO...' : '🪙 AGREGAR VYPER COINS'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {/* Transactions History */}
+                <div className="glass-card">
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', flexWrap: 'wrap', gap: '1rem' }}>
+                        <h2 style={{ fontSize: '1.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem', margin: 0 }}>
+                            <History size={24} color="#a5b4fc" />
+                            Historial de Transacciones ({filteredTransactions.length})
+                        </h2>
+                        <div style={{ position: 'relative', minWidth: '250px' }}>
+                            <Filter size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
+                            <input
+                                type="text"
+                                placeholder="Filtrar por cliente, fecha, importe..."
+                                value={txnSearch}
+                                onChange={(e) => { setTxnSearch(e.target.value); setCurrentPage(1); }}
+                                style={{ width: '100%', paddingLeft: '2.2rem', fontSize: '0.85rem', padding: '0.5rem 0.75rem 0.5rem 2.2rem' }}
+                            />
+                        </div>
+                    </div>
+
+                    <div style={{ overflowX: 'auto' }}>
+                        <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
+                            <thead>
+                                <tr style={{ textAlign: 'left', borderBottom: '2px solid rgba(255,255,255,0.1)' }}>
+                                    <th style={{ padding: '0.75rem 0.5rem' }}>FECHA</th>
+                                    <th style={{ padding: '0.75rem 0.5rem' }}>CLIENTE</th>
+                                    <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>IMPORTE</th>
+                                    <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right' }}>COINS</th>
+                                    <th style={{ padding: '0.75rem 0.5rem', textAlign: 'center' }}>NOTIF.</th>
+                                    <th style={{ padding: '0.75rem 0.5rem', textAlign: 'center' }}>ACCIONES</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {paginatedTransactions.map(t => (
+                                    <tr
+                                        key={t.id}
+                                        style={{
+                                            borderBottom: '1px solid rgba(255,255,255,0.05)',
+                                            transition: 'background 0.2s'
+                                        }}
+                                        onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.02)'}
+                                        onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                                    >
+                                        <td style={{ padding: '0.75rem 0.5rem', color: 'var(--text-muted)' }}>
+                                            {new Date(t.date || t.created_at).toLocaleDateString('es-AR')}
+                                        </td>
+                                        <td style={{ padding: '0.75rem 0.5rem' }}>{t.client_name}</td>
+                                        <td style={{ padding: '0.75rem 0.5rem', textAlign: 'right', fontWeight: 'bold' }}>
+                                            ${t.amount.toLocaleString()}
+                                        </td>
+                                        <td style={{ padding: '0.75rem 0.5rem', textAlign: 'right', color: '#facc15', fontWeight: 'bold' }}>
+                                            +{t.coins_added} 🪙
+                                        </td>
+                                        <td style={{ padding: '0.75rem 0.5rem', textAlign: 'center' }}>
+                                            {t.notification_status === 'sent' ? (
+                                                <span title="Mensaje enviado con éxito" style={{ color: '#4ade80', fontSize: '1.2rem' }}>🟢</span>
+                                            ) : t.notification_status === 'error' ? (
+                                                <span title={t.notification_error || "Error al enviar"} style={{ color: '#ef4444', fontSize: '1.2rem', cursor: 'help' }}>🔴</span>
+                                            ) : (
+                                                <span title="Pendiente o sin estado" style={{ color: '#666', fontSize: '1.2rem' }}>⚪</span>
+                                            )}
+                                        </td>
+                                        <td style={{ padding: '0.75rem 0.5rem', textAlign: 'center' }}>
+                                            <button
+                                                onClick={() => handleDeleteClick(t)}
+                                                className="secondary"
+                                                style={{
+                                                    padding: '0.4rem',
+                                                    width: '32px',
+                                                    height: '32px',
+                                                    borderColor: '#ef4444',
+                                                    color: '#ef4444'
+                                                }}
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+
+                        {filteredTransactions.length === 0 && (
+                            <div style={{ padding: '3rem', textAlign: 'center', color: '#666' }}>
+                                {txnSearch ? 'No se encontraron transacciones con ese filtro' : 'No hay transacciones registradas'}
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Pagination */}
+                    {totalPages > 1 && (
+                        <div style={{
+                            display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                            padding: '1rem 0.5rem 0', borderTop: '1px solid rgba(255,255,255,0.05)', marginTop: '0.5rem'
+                        }}>
+                            <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                Mostrando {((currentPage - 1) * PAGE_SIZE) + 1}–{Math.min(currentPage * PAGE_SIZE, filteredTransactions.length)} de {filteredTransactions.length}
+                            </span>
+                            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                                <button
+                                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                                    disabled={currentPage === 1}
+                                    className="secondary"
+                                    style={{ padding: '0.4rem 0.6rem', fontSize: '0.8rem', opacity: currentPage === 1 ? 0.4 : 1 }}
+                                >
+                                    <ChevronLeft size={14} />
+                                </button>
+                                <span style={{ fontSize: '0.85rem', fontWeight: 'bold', minWidth: '80px', textAlign: 'center' }}>
+                                    Pág {currentPage} / {totalPages}
+                                </span>
+                                <button
+                                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                                    disabled={currentPage === totalPages}
+                                    className="secondary"
+                                    style={{ padding: '0.4rem 0.6rem', fontSize: '0.8rem', opacity: currentPage === totalPages ? 0.4 : 1 }}
+                                >
+                                    <ChevronRight size={14} />
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Confirm Delete Modal */}
+            {transactionToDelete && (
+                <ConfirmDeleteModal
+                    title="Eliminar Transacción"
+                    message={`¿Estás seguro de eliminar esta transacción de ${transactionToDelete.client_name}? Se revertirán ${transactionToDelete.coins_added} coins del cliente.`}
+                    onConfirm={handleConfirmDelete}
+                    onCancel={() => setTransactionToDelete(null)}
+                />
+            )}
+        </div>
+    );
+}
