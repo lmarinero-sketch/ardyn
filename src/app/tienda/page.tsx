@@ -398,24 +398,26 @@ function TiendaPageContent() {
       {/* ===== HERO ===== */}
       <div style={{
         borderRadius: 16,
-        padding: '2.5rem 2rem',
+        padding: '3rem 2rem',
         marginBottom: '1.5rem',
         color: 'white',
         position: 'relative',
         overflow: 'hidden',
-        minHeight: '200px',
+        minHeight: '260px',
+        display: 'flex',
+        alignItems: 'center',
       }}>
         <Image
           src={heroConfig.imagen_fondo_url}
           alt="Ardyn Urban & Sportswear"
           fill
-          style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
+          style={{ objectFit: 'cover', objectPosition: 'right 15%' }}
           priority
         />
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.68) 50%, rgba(0,0,0,0.2) 100%)',
+          background: 'linear-gradient(90deg, rgba(0,0,0,0.96) 0%, rgba(0,0,0,0.82) 42%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.02) 100%)',
           zIndex: 1,
         }} />
         <div style={{ position: 'relative', zIndex: 2 }}>
