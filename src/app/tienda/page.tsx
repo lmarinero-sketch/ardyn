@@ -407,15 +407,15 @@ function TiendaPageContent() {
       }}>
         <Image
           src={heroConfig.imagen_fondo_url}
-          alt="Gym background"
+          alt="Ardyn Urban & Sportswear"
           fill
-          style={{ objectFit: 'cover', objectPosition: 'center', filter: 'grayscale(100%)' }}
+          style={{ objectFit: 'cover', objectPosition: 'center 20%' }}
           priority
         />
         <div style={{
           position: 'absolute',
           inset: 0,
-          background: 'linear-gradient(90deg, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.7) 45%, rgba(0,0,0,0.25) 100%)',
+          background: 'linear-gradient(90deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.68) 50%, rgba(0,0,0,0.2) 100%)',
           zIndex: 1,
         }} />
         <div style={{ position: 'relative', zIndex: 2 }}>
@@ -583,10 +583,11 @@ function TiendaPageContent() {
           {/* CTA to full catalog */}
           <div style={{
             textAlign: 'center',
-            padding: '2rem',
-            background: '#f9fafb',
-            borderRadius: 12,
-            border: '1px solid #e5e7eb',
+            padding: '2.5rem 2rem',
+            background: 'rgba(255, 255, 255, 0.03)',
+            borderRadius: 16,
+            border: '1px solid var(--border-color)',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
           }}>
             <p style={{ color: 'var(--text-muted)', marginBottom: '1rem', fontSize: '0.9375rem' }}>
               Explorá todos los productos disponibles
