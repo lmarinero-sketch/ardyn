@@ -4,6 +4,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { LayoutDashboard, TrendingUp, ShoppingCart, BarChart2, ShieldCheck, GraduationCap, BookOpen, ArrowRight } from 'lucide-react';
+import GrowLabsBadge from '@/components/GrowLabsBadge';
 
 export default function HomePage() {
   return (
@@ -129,6 +130,14 @@ export default function HomePage() {
             </div>
           </Link>
 
+        </div>
+
+        {/* Footer Grow Labs */}
+        <div style={{ marginTop: '4rem', paddingBottom: '2rem', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
+          <GrowLabsBadge />
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-light)' }}>
+            Tecnología, IA & Plataformas de Rendimiento
+          </p>
         </div>
 
       </main>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import DynamicThemeProvider from "@/components/DynamicThemeProvider";
 
 export const metadata: Metadata = {
   title: "Ardyn Labs",
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body suppressHydrationWarning>
+        <DynamicThemeProvider />
         {children}
       </body>
     </html>

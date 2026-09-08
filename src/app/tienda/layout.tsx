@@ -3,11 +3,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-import { ShoppingCart, Search, Menu, X, ChevronRight, Package, HelpCircle } from 'lucide-react';
+import { ShoppingCart, Search, Menu, X, ChevronRight, Package, HelpCircle, MapPin, Phone, Mail, Instagram } from 'lucide-react';
 import { useCart } from '@/lib/cart';
 import MarqueeBar from '@/components/tienda/MarqueeBar';
 import MegaMenu from '@/components/tienda/MegaMenu';
 import { useStoreConfig } from '@/hooks/useStoreConfig';
+import GrowLabsBadge from '@/components/GrowLabsBadge';
 
 export default function TiendaLayout({ children }: { children: React.ReactNode }) {
   const { getItemCount, isLoaded } = useCart();
@@ -61,8 +62,8 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
           {/* Left: Logo */}
           <Link href="/tienda" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
             <img
-              src="/logo-ardyn.png"
-              alt="Ardyn"
+              src={identidad.logo_url || "/logo-ardyn.png"}
+              alt={identidad.nombre_marca || "Ardyn"}
               width={42}
               height={42}
               style={{
@@ -197,39 +198,162 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
       <footer style={{
         background: 'var(--bg-color)',
         borderTop: '1px solid var(--border-color)',
-        padding: '2rem 1.5rem',
-        marginTop: '3rem',
+        padding: '3rem 1.5rem 2rem',
+        marginTop: '3.5rem',
       }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', textAlign: 'center' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-            <img
-              src="/logo-ardyn.png"
-              alt="Ardyn"
-              width={36}
-              height={36}
-              style={{
-                borderRadius: 8,
-                objectFit: 'contain',
-                background: '#000000',
-                border: '1px solid rgba(254, 166, 4, 0.3)',
-              }}
-            />
-            <span style={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF' }}>{identidad.nombre_completo}</span>
+        <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
+          {/* Main Footer Grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '2.5rem',
+            paddingBottom: '2.5rem',
+            borderBottom: '1px solid var(--border-light)',
+            textAlign: 'left',
+          }}>
+            {/* Column 1: Brand & Presentation */}
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
+                <img
+                  src={identidad.logo_url || "/logo-ardyn.png"}
+                  alt={identidad.nombre_marca || "Ardyn"}
+                  width={40}
+                  height={40}
+                  style={{
+                    borderRadius: 10,
+                    objectFit: 'contain',
+                    background: '#000000',
+                    border: '1px solid rgba(254, 166, 4, 0.35)',
+                    boxShadow: '0 0 12px rgba(254, 166, 4, 0.2)',
+                  }}
+                />
+                <div>
+                  <div style={{ fontWeight: 800, fontSize: '1.125rem', color: '#FFFFFF' }}>{identidad.nombre_marca}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--brand-gold)', fontWeight: 600 }}>{identidad.subtitulo_mayorista}</div>
+                </div>
+              </div>
+              <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1rem' }}>
+                {identidad.nombre_completo}. Indumentaria deportiva y urbana de alto rendimiento, suplementación y accesorios para atletas y revendedores.
+              </p>
+            </div>
+
+            {/* Column 2: Sucursales y Direcciones */}
+            <div>
+              <h4 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <MapPin size={16} style={{ color: 'var(--brand-gold)' }} /> Sucursales & Ubicación
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.85rem' }}>
+                <div>
+                  <div style={{ fontWeight: 600, color: '#FFFFFF' }}>Sucursal Central</div>
+                  <div style={{ color: 'var(--text-muted)' }}>{footer.direccion}</div>
+                  {whatsapp.url_sucursal && (
+                    <a href={whatsapp.url_sucursal} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', color: 'var(--brand-gold)', fontSize: '0.75rem', marginTop: '3px', textDecoration: 'none' }}>
+                      📍 Ver en Google Maps →
+                    </a>
+                  )}
+                </div>
+
+                {footer.direccion_secundaria && (
+                  <div>
+                    <div style={{ fontWeight: 600, color: '#FFFFFF' }}>Segunda Sucursal</div>
+                    <div style={{ color: 'var(--text-muted)' }}>{footer.direccion_secundaria}</div>
+                    {whatsapp.url_sucursal_rawson && (
+                      <a href={whatsapp.url_sucursal_rawson} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', color: 'var(--brand-gold)', fontSize: '0.75rem', marginTop: '3px', textDecoration: 'none' }}>
+                        📍 Ver en Google Maps →
+                      </a>
+                    )}
+                  </div>
+                )}
+
+                {footer.horarios && (
+                  <div>
+                    <div style={{ fontWeight: 600, color: '#FFFFFF' }}>Horarios de Atención</div>
+                    <div style={{ color: 'var(--text-muted)' }}>{footer.horarios}</div>
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Column 3: Contacto & Teléfonos */}
+            <div>
+              <h4 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <Phone size={16} style={{ color: 'var(--brand-gold)' }} /> Atención & Pedidos
+              </h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.85rem' }}>
+                <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#25D366', textDecoration: 'none', fontWeight: 600 }}>
+                  <span>💬 WhatsApp Mayorista:</span> {whatsapp.numero_mayorista}
+                </a>
+
+                {footer.telefono && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
+                    <Phone size={14} /> {footer.telefono}
+                  </div>
+                )}
+
+                {footer.telefono_fijo && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
+                    <span>☎️</span> {footer.telefono_fijo}
+                  </div>
+                )}
+
+                {footer.email_contacto && (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
+                    <Mail size={14} /> {footer.email_contacto}
+                  </div>
+                )}
+
+                {/* Redes Sociales */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+                  {footer.instagram && (
+                    <a href={`https://instagram.com/${footer.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                      padding: '0.35rem 0.65rem', borderRadius: '6px',
+                      background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                      color: 'var(--text-main)', fontSize: '0.75rem', textDecoration: 'none',
+                    }}>
+                      <Instagram size={13} /> {footer.instagram}
+                    </a>
+                  )}
+                  {footer.facebook && (
+                    <a href={footer.facebook.startsWith('http') ? footer.facebook : `https://facebook.com/${footer.facebook}`} target="_blank" rel="noopener noreferrer" style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                      padding: '0.35rem 0.65rem', borderRadius: '6px',
+                      background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                      color: 'var(--text-main)', fontSize: '0.75rem', textDecoration: 'none',
+                    }}>
+                      Facebook
+                    </a>
+                  )}
+                  {footer.tiktok && (
+                    <a href={footer.tiktok.startsWith('http') ? footer.tiktok : `https://tiktok.com/@${footer.tiktok.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{
+                      display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                      padding: '0.35rem 0.65rem', borderRadius: '6px',
+                      background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                      color: 'var(--text-main)', fontSize: '0.75rem', textDecoration: 'none',
+                    }}>
+                      TikTok
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
           </div>
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
-            {footer.direccion}
-          </p>
-          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-            {footer.telefono} &nbsp;·&nbsp; {footer.instagram}
-          </p>
-          <div style={{ marginTop: '1.5rem', paddingTop: '1rem', borderTop: '1px solid var(--border-light)', fontSize: '0.75rem', color: 'var(--text-light)' }}>
-            {footer.texto_creditos ? (
-              <>
-                <a href={footer.url_creditos} target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>{footer.texto_creditos}</a> · {new Date().getFullYear()}
-              </>
-            ) : (
-              <>Desarrollado por <a href="https://www.growlabs.lat" target="_blank" rel="noopener noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>Grow Labs</a> · {new Date().getFullYear()}</>
-            )}
+
+          {/* Bottom Bar: Copyright & GROW LABS BADGE */}
+          <div style={{
+            paddingTop: '1.75rem',
+            display: 'flex',
+            flexWrap: 'wrap',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            gap: '1rem',
+          }}>
+            <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+              © {new Date().getFullYear()} {identidad.nombre_marca} · Todos los derechos reservados.
+            </div>
+
+            {/* Grow Labs Credit Badge */}
+            <GrowLabsBadge />
           </div>
         </div>
       </footer>

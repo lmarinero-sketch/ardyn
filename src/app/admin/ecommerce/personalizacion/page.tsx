@@ -1,17 +1,18 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Store, Type, MessageCircle, MapPin, HelpCircle, Image as ImageIcon, Video, Save, RotateCcw, Check, Loader2, ChevronDown, Plus, Trash2, GripVertical, BookOpen, ChevronLeft, ChevronRight, X, Lightbulb, ExternalLink, Sparkles, Send, AlertTriangle } from 'lucide-react';
+import { Store, Type, MessageCircle, MapPin, HelpCircle, Image as ImageIcon, Video, Save, RotateCcw, Check, Loader2, ChevronDown, Plus, Trash2, GripVertical, BookOpen, ChevronLeft, ChevronRight, X, Lightbulb, ExternalLink, Sparkles, Send, AlertTriangle, Palette } from 'lucide-react';
 import { STORE_DEFAULTS, StoreConfigKey } from '@/hooks/useStoreConfig';
 
-type TabKey = 'identidad' | 'hero_mayorista' | 'hero_minorista' | 'footer' | 'whatsapp' | 'faqs_mayorista' | 'faqs_minorista';
+type TabKey = 'identidad' | 'colores' | 'hero_mayorista' | 'hero_minorista' | 'footer' | 'whatsapp' | 'faqs_mayorista' | 'faqs_minorista';
 
 const TABS: { key: TabKey; label: string; icon: React.ReactNode; configKey: StoreConfigKey }[] = [
   { key: 'identidad', label: 'Identidad', icon: <Store size={16} />, configKey: 'tienda_identidad' },
+  { key: 'colores', label: 'Colores & Estilo', icon: <Palette size={16} />, configKey: 'tienda_colores' },
   { key: 'hero_mayorista', label: 'Hero Mayorista', icon: <ImageIcon size={16} />, configKey: 'tienda_hero_mayorista' },
   { key: 'hero_minorista', label: 'Hero Minorista', icon: <ImageIcon size={16} />, configKey: 'tienda_hero_minorista' },
-  { key: 'footer', label: 'Footer', icon: <MapPin size={16} />, configKey: 'tienda_footer' },
-  { key: 'whatsapp', label: 'WhatsApp', icon: <MessageCircle size={16} />, configKey: 'tienda_whatsapp' },
+  { key: 'footer', label: 'Direcciones & Footer', icon: <MapPin size={16} />, configKey: 'tienda_footer' },
+  { key: 'whatsapp', label: 'WhatsApp & Teléfonos', icon: <MessageCircle size={16} />, configKey: 'tienda_whatsapp' },
   { key: 'faqs_mayorista', label: 'FAQs Mayorista', icon: <HelpCircle size={16} />, configKey: 'tienda_faqs_mayorista' },
   { key: 'faqs_minorista', label: 'FAQs Minorista', icon: <HelpCircle size={16} />, configKey: 'tienda_faqs_minorista' },
 ];
@@ -505,6 +506,84 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   );
 }
 
+function ColorPickerField({ label, value, onChange, description, presets }: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  description?: string;
+  presets?: string[];
+}) {
+  return (
+    <div style={{ marginBottom: '1.25rem' }}>
+      <label style={{ display: 'block', marginBottom: 4, fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+        {label}
+      </label>
+      {description && (
+        <p style={{ fontSize: '0.75rem', color: 'var(--text-light)', marginBottom: 8, lineHeight: 1.4 }}>{description}</p>
+      )}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{
+          position: 'relative',
+          width: 44,
+          height: 40,
+          borderRadius: 8,
+          border: '1px solid var(--border-color)',
+          overflow: 'hidden',
+          background: value || '#000000',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.3)',
+          cursor: 'pointer',
+          flexShrink: 0
+        }}>
+          <input
+            type="color"
+            value={value && value.startsWith('#') && value.length === 7 ? value : '#FEA604'}
+            onChange={e => onChange(e.target.value)}
+            style={{
+              position: 'absolute',
+              inset: -8,
+              width: 60,
+              height: 60,
+              opacity: 0,
+              cursor: 'pointer'
+            }}
+          />
+        </div>
+        <input
+          type="text"
+          value={value || ''}
+          onChange={e => onChange(e.target.value)}
+          placeholder="#FEA604"
+          style={{ flex: 1, fontFamily: 'var(--font-mono)', fontSize: '0.9rem' }}
+        />
+      </div>
+      {presets && presets.length > 0 && (
+        <div style={{ display: 'flex', gap: '0.375rem', marginTop: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+          <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>Sugerencias:</span>
+          {presets.map(c => (
+            <button
+              key={c}
+              type="button"
+              onClick={() => onChange(c)}
+              style={{
+                width: 22,
+                height: 22,
+                borderRadius: '50%',
+                background: c,
+                border: value === c ? '2px solid #FFFFFF' : '1px solid rgba(255,255,255,0.2)',
+                cursor: 'pointer',
+                padding: 0,
+                minHeight: 'auto',
+                boxShadow: value === c ? '0 0 8px ' + c : 'none'
+              }}
+              title={c}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function TextField({ label, value, onChange, placeholder, multiline }: {
   label: string; value: string; onChange: (v: string) => void; placeholder?: string; multiline?: boolean;
 }) {
@@ -793,13 +872,130 @@ export default function PersonalizacionPage() {
     );
   };
 
+  const renderColores = () => (
+    <>
+      <div style={{ background: 'rgba(254, 166, 4, 0.08)', border: '1px solid rgba(254, 166, 4, 0.25)', borderRadius: 12, padding: '1rem', marginBottom: '1.25rem' }}>
+        <p style={{ fontSize: '0.875rem', color: 'var(--brand-gold)', fontWeight: 600, margin: 0 }}>
+          🎨 Personalizá la paleta de colores de toda la tienda en tiempo real. Los cambios se aplicarán automáticamente a botones, acentos, encabezados y destacados.
+        </p>
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.25rem' }}>
+        <ColorPickerField
+          label="Color Primario (Acentos & Botones)"
+          value={currentConfig.color_primario || '#FEA604'}
+          onChange={v => updateField('color_primario', v)}
+          description="Color de botones principales, pestañas activas e indicadores."
+          presets={['#FEA604', '#FD8209', '#00FF88', '#3b82f6', '#ec4899', '#8b5cf6', '#ef4444']}
+        />
+
+        <ColorPickerField
+          label="Color Secundario (Gradientes)"
+          value={currentConfig.color_secundario || '#FD8209'}
+          onChange={v => updateField('color_secundario', v)}
+          description="Segundo tono para degradés en botones de compra y banners."
+          presets={['#FD8209', '#FEA604', '#f97316', '#06b6d4', '#f43f5e', '#a855f7']}
+        />
+
+        <ColorPickerField
+          label="Color de Éxito / Precios"
+          value={currentConfig.color_acento || '#00FF88'}
+          onChange={v => updateField('color_acento', v)}
+          description="Etiquetas de ahorro, badges de stock y precios de oferta."
+          presets={['#00FF88', '#10b981', '#22c55e', '#4ade80', '#14b8a6']}
+        />
+
+        <ColorPickerField
+          label="Color de Fondo Tienda"
+          value={currentConfig.color_fondo || '#000000'}
+          onChange={v => updateField('color_fondo', v)}
+          description="Fondo general de navegación de la tienda."
+          presets={['#000000', '#0a0a0c', '#0f172a', '#18181b', '#111827']}
+        />
+
+        <ColorPickerField
+          label="Color de Tarjetas"
+          value={currentConfig.color_tarjeta || '#0d0d0f'}
+          onChange={v => updateField('color_tarjeta', v)}
+          description="Superficie de las tarjetas de producto y paneles."
+          presets={['#0d0d0f', '#121216', '#1e293b', '#1f1f23', '#111827']}
+        />
+
+        <ColorPickerField
+          label="Color Texto Principal"
+          value={currentConfig.color_texto || '#FFFFFF'}
+          onChange={v => updateField('color_texto', v)}
+          description="Títulos principales y nombres de productos."
+          presets={['#FFFFFF', '#F4F4F5', '#FAFAFA', '#E2E8F0']}
+        />
+      </div>
+
+      {/* Vista previa en vivo del botón */}
+      <div style={{
+        marginTop: '1.5rem',
+        padding: '1.25rem',
+        borderRadius: 12,
+        background: currentConfig.color_tarjeta || '#0d0d0f',
+        border: '1px solid var(--border-color)',
+        textAlign: 'center'
+      }}>
+        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.75rem' }}>
+          VISTA PREVIA DEL BOTÓN PRINCIPAL
+        </span>
+        <button
+          type="button"
+          style={{
+            background: `linear-gradient(135deg, ${currentConfig.color_primario || '#FEA604'} 0%, ${currentConfig.color_secundario || '#FD8209'} 100%)`,
+            color: '#000000',
+            fontWeight: 800,
+            padding: '0.75rem 2rem',
+            borderRadius: 10,
+            border: 'none',
+            fontSize: '0.95rem',
+            boxShadow: `0 4px 16px ${(currentConfig.color_primario || '#FEA604')}44`,
+            cursor: 'default',
+          }}
+        >
+          Agregar al Carrito 🛒
+        </button>
+      </div>
+    </>
+  );
+
   const renderFooter = () => (
     <>
-      <TextField label="Dirección" value={currentConfig.direccion || ''} onChange={v => updateField('direccion', v)} placeholder="📍 Av. Libertador 4858 Oeste..." />
-      <TextField label="Teléfono" value={currentConfig.telefono || ''} onChange={v => updateField('telefono', v)} placeholder="📱 +54 9 264..." />
+      <div style={{ background: 'rgba(59, 130, 246, 0.08)', border: '1px solid rgba(59, 130, 246, 0.25)', borderRadius: 12, padding: '1rem', marginBottom: '1.25rem' }}>
+        <p style={{ fontSize: '0.875rem', color: '#60a5fa', fontWeight: 600, margin: 0 }}>
+          📍 Configuración completa de direcciones de locales, horarios y datos de contacto públicos que se muestran en el pie de página de ambas tiendas.
+        </p>
+      </div>
+
+      <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.75rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.35rem' }}>
+        📍 Direcciones de Sucursales
+      </div>
+      <TextField label="Dirección Principal (Sede Rivadavia)" value={currentConfig.direccion || ''} onChange={v => updateField('direccion', v)} placeholder="📍 Av. Libertador 4858 Oeste, Rivadavia, San Juan" />
+      <TextField label="Dirección Secundaria (Sede Rawson)" value={currentConfig.direccion_secundaria || ''} onChange={v => updateField('direccion_secundaria', v)} placeholder="📍 Sede Rawson: Mendoza Sur 582, Rawson, San Juan" />
+      <TextField label="Horarios de Atención" value={currentConfig.horarios || ''} onChange={v => updateField('horarios', v)} placeholder="🕒 Lun a Sáb: 9:00 - 13:00 y 17:30 - 21:30 hs" />
+
+      <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#FFFFFF', margin: '1.25rem 0 0.75rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.35rem' }}>
+        📞 Teléfonos y Contacto
+      </div>
+      <TextField label="Teléfono Celular / Llamadas" value={currentConfig.telefono || ''} onChange={v => updateField('telefono', v)} placeholder="📱 +54 9 264 679-6509" />
+      <TextField label="Teléfono Fijo (Opcional)" value={currentConfig.telefono_fijo || ''} onChange={v => updateField('telefono_fijo', v)} placeholder="☎️ (0264) 424-1234" />
+      <TextField label="Email de Contacto" value={currentConfig.email_contacto || ''} onChange={v => updateField('email_contacto', v)} placeholder="contacto@ardyn.com.ar" />
+
+      <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#FFFFFF', margin: '1.25rem 0 0.75rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.35rem' }}>
+        🌐 Redes Sociales
+      </div>
       <TextField label="Instagram" value={currentConfig.instagram || ''} onChange={v => updateField('instagram', v)} placeholder="@ardyn_suplementos" />
-      <TextField label="Texto de créditos" value={currentConfig.texto_creditos || ''} onChange={v => updateField('texto_creditos', v)} placeholder="Desarrollado por Grow Labs" />
-      <TextField label="URL de créditos" value={currentConfig.url_creditos || ''} onChange={v => updateField('url_creditos', v)} placeholder="https://www.growlabs.lat" />
+      <TextField label="Facebook" value={currentConfig.facebook || ''} onChange={v => updateField('facebook', v)} placeholder="Ardyn Suplementos" />
+      <TextField label="TikTok" value={currentConfig.tiktok || ''} onChange={v => updateField('tiktok', v)} placeholder="@ardyn_suplementos" />
+
+      <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#FFFFFF', margin: '1.25rem 0 0.75rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.35rem' }}>
+        ✨ Créditos & Marca del Creador
+      </div>
+      <TextField label="Texto de Créditos" value={currentConfig.texto_creditos || ''} onChange={v => updateField('texto_creditos', v)} placeholder="Hecho por Grow Labs" />
+      <TextField label="URL de Créditos" value={currentConfig.url_creditos || ''} onChange={v => updateField('url_creditos', v)} placeholder="https://www.growlabs.lat" />
     </>
   );
 
@@ -808,13 +1004,15 @@ export default function PersonalizacionPage() {
       <div style={{ background: 'var(--accent-green-light)', border: '1px solid rgba(16,185,129,0.2)', borderRadius: 12, padding: '1rem', marginBottom: '1rem' }}>
         <p style={{ fontSize: '0.875rem', color: 'var(--accent-green)', fontWeight: 600 }}>💬 Estos números y mensajes se usan en toda la tienda: header, botón flotante, checkout y como-comprar.</p>
       </div>
-      <TextField label="Número Mayorista" value={currentConfig.numero_mayorista || ''} onChange={v => updateField('numero_mayorista', v)} placeholder="5492644193032" />
-      <TextField label="Número Minorista" value={currentConfig.numero_minorista || ''} onChange={v => updateField('numero_minorista', v)} placeholder="5492646298880" />
+      <TextField label="Número WhatsApp Mayorista" value={currentConfig.numero_mayorista || ''} onChange={v => updateField('numero_mayorista', v)} placeholder="5492646796509" />
+      <TextField label="Número WhatsApp Minorista" value={currentConfig.numero_minorista || ''} onChange={v => updateField('numero_minorista', v)} placeholder="5492646796509" />
+      <TextField label="Número WhatsApp Consultas Generales" value={currentConfig.numero_consultas || ''} onChange={v => updateField('numero_consultas', v)} placeholder="5492646796509" />
       <TextField label="Mensaje pre-cargado Mayorista" value={currentConfig.mensaje_mayorista || ''} onChange={v => updateField('mensaje_mayorista', v)} multiline />
       <TextField label="Mensaje pre-cargado Minorista" value={currentConfig.mensaje_minorista || ''} onChange={v => updateField('mensaje_minorista', v)} multiline />
-      <TextField label="Mensaje de consulta" value={currentConfig.mensaje_consulta || ''} onChange={v => updateField('mensaje_consulta', v)} multiline />
+      <TextField label="Mensaje de consulta general" value={currentConfig.mensaje_consulta || ''} onChange={v => updateField('mensaje_consulta', v)} multiline />
       <ToggleField label="Botón flotante activo" value={currentConfig.boton_flotante_activo ?? true} onChange={v => updateField('boton_flotante_activo', v)} description="Mostrar el botón verde de WhatsApp en la tienda" />
-      <TextField label="URL Google Maps (Sucursal)" value={currentConfig.url_sucursal || ''} onChange={v => updateField('url_sucursal', v)} placeholder="https://www.google.com/maps/..." multiline />
+      <TextField label="URL Google Maps (Sucursal Rivadavia)" value={currentConfig.url_sucursal || ''} onChange={v => updateField('url_sucursal', v)} placeholder="https://www.google.com/maps/..." multiline />
+      <TextField label="URL Google Maps (Sucursal Rawson)" value={currentConfig.url_sucursal_rawson || ''} onChange={v => updateField('url_sucursal_rawson', v)} placeholder="https://www.google.com/maps/..." multiline />
     </>
   );
 
@@ -859,6 +1057,7 @@ export default function PersonalizacionPage() {
   const renderContent = () => {
     switch (activeTab) {
       case 'identidad': return renderIdentidad();
+      case 'colores': return renderColores();
       case 'hero_mayorista': return renderHero('tienda_hero_mayorista');
       case 'hero_minorista': return renderHero('tienda_hero_minorista');
       case 'footer': return renderFooter();

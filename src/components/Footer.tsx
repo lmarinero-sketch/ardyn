@@ -2,6 +2,7 @@
 'use client';
 
 import { Instagram, Linkedin, MessageCircle, Globe } from 'lucide-react';
+import GrowLabsBadge from '@/components/GrowLabsBadge';
 
 export default function Footer() {
     return (
@@ -133,9 +134,10 @@ export default function Footer() {
 
                 </div>
 
-                <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
-                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
-                        © 2025 Grow Labs - Tecnología, IA & Automatización
+                <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.75rem' }}>
+                    <GrowLabsBadge />
+                    <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
+                        © {new Date().getFullYear()} Grow Labs · Tecnología, IA & Automatización
                     </p>
                 </div>
             </div>
