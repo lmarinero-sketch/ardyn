@@ -54,6 +54,10 @@ function LoginForm() {
         width: '100%',
         maxWidth: '400px',
         padding: '2.5rem',
+        background: 'var(--card-bg)',
+        border: '1px solid var(--border-color)',
+        borderRadius: '20px',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.8)',
       }}>
         {/* Logo & Title */}
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
@@ -62,25 +66,25 @@ function LoginForm() {
             height: '72px',
             margin: '0 auto 1.25rem',
             borderRadius: '16px',
-            border: '1px solid #e5e7eb',
+            border: '1px solid rgba(255,255,255,0.12)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: '#fafafa',
+            background: 'rgba(255,255,255,0.06)',
           }}>
-            <Image src="/logovyper.png" alt="Vyper" width={44} height={44} style={{ objectFit: 'contain' }} />
+            <Image src="/logovyper.png" alt="Ardyn" width={44} height={44} style={{ objectFit: 'contain' }} />
           </div>
           <h1 style={{
-            color: '#111111',
+            color: '#FFFFFF',
             fontSize: '1.5rem',
             fontWeight: 800,
             letterSpacing: '-0.02em',
             marginBottom: '0.375rem',
           }}>
-            Vyper Labs
+            Ardyn Labs
           </h1>
           <p style={{
-            color: '#6b7280',
+            color: 'var(--text-muted)',
             fontSize: '0.875rem',
           }}>
             Ingresá con tu cuenta
@@ -94,11 +98,11 @@ function LoginForm() {
             alignItems: 'center',
             gap: '0.5rem',
             padding: '0.75rem 1rem',
-            background: '#fef2f2',
-            border: '1px solid #fecaca',
+            background: 'rgba(239, 68, 68, 0.15)',
+            border: '1px solid rgba(239, 68, 68, 0.3)',
             borderRadius: '10px',
             marginBottom: '1.25rem',
-            color: '#dc2626',
+            color: '#f87171',
             fontSize: '0.8125rem',
           }}>
             <AlertCircle size={16} />
@@ -112,7 +116,7 @@ function LoginForm() {
           <div style={{ marginBottom: '1rem' }}>
             <label style={{
               display: 'block',
-              color: '#111111',
+              color: 'var(--text-secondary)',
               fontSize: '0.8125rem',
               fontWeight: 600,
               marginBottom: '0.375rem',
@@ -125,7 +129,7 @@ function LoginForm() {
                 left: '12px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: '#9ca3af',
+                color: '#71717a',
               }} />
               <input
                 type="email"
@@ -137,16 +141,16 @@ function LoginForm() {
                 style={{
                   width: '100%',
                   padding: '0.75rem 0.75rem 0.75rem 2.5rem',
-                  background: '#ffffff',
-                  border: '1px solid #d1d5db',
+                  background: 'var(--bg-secondary)',
+                  border: '1px solid var(--border-color)',
                   borderRadius: '10px',
-                  color: '#111111',
+                  color: '#FFFFFF',
                   fontSize: '0.9375rem',
                   outline: 'none',
                   transition: 'border-color 0.2s',
                 }}
-                onFocus={e => e.target.style.borderColor = '#111111'}
-                onBlur={e => e.target.style.borderColor = '#d1d5db'}
+                onFocus={e => e.target.style.borderColor = '#FFFFFF'}
+                onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'}
               />
             </div>
           </div>
@@ -155,7 +159,7 @@ function LoginForm() {
           <div style={{ marginBottom: '1.5rem' }}>
             <label style={{
               display: 'block',
-              color: '#111111',
+              color: 'var(--text-secondary)',
               fontSize: '0.8125rem',
               fontWeight: 600,
               marginBottom: '0.375rem',
@@ -168,7 +172,7 @@ function LoginForm() {
                 left: '12px',
                 top: '50%',
                 transform: 'translateY(-50%)',
-                color: '#9ca3af',
+                color: '#71717a',
               }} />
               <input
                 type={showPassword ? 'text' : 'password'}
@@ -179,16 +183,16 @@ function LoginForm() {
                 style={{
                   width: '100%',
                   padding: '0.75rem 2.5rem 0.75rem 2.5rem',
-                  background: '#ffffff',
-                  border: '1px solid #d1d5db',
+                  background: 'var(--bg-secondary)',
+                  border: '1px solid var(--border-color)',
                   borderRadius: '10px',
-                  color: '#111111',
+                  color: '#FFFFFF',
                   fontSize: '0.9375rem',
                   outline: 'none',
                   transition: 'border-color 0.2s',
                 }}
-                onFocus={e => e.target.style.borderColor = '#111111'}
-                onBlur={e => e.target.style.borderColor = '#d1d5db'}
+                onFocus={e => e.target.style.borderColor = '#FFFFFF'}
+                onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,0.12)'}
               />
               <button
                 type="button"
@@ -200,7 +204,7 @@ function LoginForm() {
                   transform: 'translateY(-50%)',
                   background: 'none',
                   border: 'none',
-                  color: '#9ca3af',
+                  color: '#71717a',
                   cursor: 'pointer',
                   padding: '4px',
                   display: 'flex',
@@ -226,12 +230,12 @@ function LoginForm() {
             style={{
               width: '100%',
               padding: '0.875rem',
-              background: '#111111',
-              color: '#ffffff',
-              border: '1px solid #111111',
+              background: '#FFFFFF',
+              color: '#000000',
+              border: 'none',
               borderRadius: '10px',
               fontSize: '0.9375rem',
-              fontWeight: 600,
+              fontWeight: 700,
               cursor: loading ? 'wait' : 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -259,7 +263,7 @@ function LoginForm() {
           color: '#9ca3af',
           fontSize: '0.75rem',
         }}>
-          Acceso exclusivo para el equipo Vyper
+          Acceso exclusivo para el equipo Ardyn
         </p>
       </div>
     </div>

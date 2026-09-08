@@ -1,7 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-const envPath = path.resolve('.env');
+const envPath = fs.existsSync(path.resolve('.env.local')) 
+    ? path.resolve('.env.local') 
+    : path.resolve('.env');
 const envContent = fs.readFileSync(envPath, 'utf8');
 const envVars = Object.fromEntries(
     envContent.split('\n')

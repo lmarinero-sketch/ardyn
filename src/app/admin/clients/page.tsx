@@ -113,7 +113,7 @@ export default function ClientsPage() {
                         <div className="glass-card" style={{ padding: '1.5rem' }}>
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                                 <Trophy size={20} color="#facc15" />
-                                <h4 style={{ fontSize: '1rem', color: '#facc15' }}>Top Vyper Coins</h4>
+                                <h4 style={{ fontSize: '1rem', color: '#facc15' }}>Top Ardyn Coins</h4>
                             </div>
                             {topCoins.map((c, i) => (
                                 <div key={c.id} style={{
@@ -182,11 +182,11 @@ export default function ClientsPage() {
                         <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
                             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.9rem' }}>
                                 <thead>
-                                    <tr style={{ textAlign: 'left', borderBottom: '1px solid #e5e7eb', position: 'sticky', top: 0, background: '#ffffff', color: '#111' }}>
-                                        <th style={{ padding: '0.75rem 0.5rem', color: '#111' }}>Nombre</th>
-                                        <th style={{ padding: '0.75rem 0.5rem', color: '#111' }}>Teléfono</th>
-                                        <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right', color: '#111' }}>Coins</th>
-                                        <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right', color: '#111' }}>Deuda</th>
+                                    <tr style={{ textAlign: 'left', borderBottom: '1px solid var(--border-color)', position: 'sticky', top: 0, background: 'var(--card-bg)', color: 'var(--text-main)' }}>
+                                        <th style={{ padding: '0.75rem 0.5rem', color: 'var(--text-main)' }}>Nombre</th>
+                                        <th style={{ padding: '0.75rem 0.5rem', color: 'var(--text-main)' }}>Teléfono</th>
+                                        <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right', color: 'var(--text-main)' }}>Coins</th>
+                                        <th style={{ padding: '0.75rem 0.5rem', textAlign: 'right', color: 'var(--text-main)' }}>Deuda</th>
                                     </tr>
                                 </thead>
                                 <tbody>

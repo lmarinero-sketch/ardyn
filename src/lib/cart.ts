@@ -3,12 +3,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { CartItem } from '@/types/ecommerce';
 
-const CART_KEY = 'vyper_cart';
+const CART_KEY = 'ardyn_cart';
 
 function getStoredCart(): CartItem[] {
   if (typeof window === 'undefined') return [];
   try {
-    const stored = localStorage.getItem(CART_KEY);
+    const stored = localStorage.getItem(CART_KEY) || localStorage.getItem('vyper_cart');
     return stored ? JSON.parse(stored) : [];
   } catch {
     return [];

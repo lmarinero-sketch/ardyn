@@ -38,7 +38,7 @@ ${productLines}
 
 💰 *Total: ${formatCurrency(total)}*
 ━━━━━━━━━━━━━━━━
-${checkout.notas ? `📝 *Notas:* ${checkout.notas}\n` : ''}_Pedido generado desde Vyper Labs_`;
+${checkout.notas ? `📝 *Notas:* ${checkout.notas}\n` : ''}_Pedido generado desde Ardyn Labs_`;
 
   return message;
 }

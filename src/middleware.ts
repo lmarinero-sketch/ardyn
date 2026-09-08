@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { jwtVerify } from 'jose';
 
-const COOKIE_NAME = 'vyper-admin-token';
+const COOKIE_NAME = 'ardyn-admin-token';
+const LEGACY_COOKIE_NAME = 'vyper-admin-token';
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Only protect /admin routes (not /admin/login)
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
-    const token = request.cookies.get(COOKIE_NAME)?.value;
+    const token = request.cookies.get(COOKIE_NAME)?.value || request.cookies.get(LEGACY_COOKIE_NAME)?.value;
 
     if (!token) {
       const loginUrl = new URL('/admin/login', request.url);

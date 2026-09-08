@@ -28,7 +28,7 @@ interface CurrentUser {
 
 const navItems = [
     { href: '/admin', label: 'Inicio', icon: LayoutDashboard },
-    { href: '/admin/vyper-coins', label: 'Vyper Coins', icon: Coins },
+    { href: '/admin/vyper-coins', label: 'Ardyn Coins', icon: Coins },
     { href: '/admin/debt', label: 'Cta Corriente', icon: CreditCard },
     { href: '/admin/clients', label: 'Clientes', icon: Users },
     { href: '/admin/bi', label: 'Analytics', icon: BarChart3 },
@@ -94,10 +94,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Brand */}
                 <div className="sidebar-brand">
                     <div className="sidebar-brand-icon">
-                        <img src="/logovyper.png" alt="Vyper" width={28} height={28} style={{ borderRadius: '6px' }} />
+                        <img src="/logovyper.png" alt="Ardyn" width={28} height={28} style={{ borderRadius: '6px' }} />
                     </div>
                     <div>
-                        <span className="sidebar-brand-name">Vyper Labs</span>
+                        <span className="sidebar-brand-name">Ardyn Labs</span>
                         <span className="sidebar-brand-sub">Panel de gestión</span>
                     </div>
                 </div>
@@ -184,7 +184,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <header className="admin-topbar">
                     <div>
                         <h1 className="admin-topbar-title">
-                            Administración <span style={{ fontWeight: 800 }}>Vyper Labs</span>
+                            Administración <span style={{ fontWeight: 800 }}>Ardyn Labs</span>
                         </h1>
                         <p className="admin-topbar-sub">Sistema de gestión integral</p>
                     </div>

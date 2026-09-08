@@ -8,7 +8,7 @@ export const generateFinancialReport = async (data: any) => {
     const pageWidth = doc.internal.pageSize.getWidth();
     const pageHeight = doc.internal.pageSize.getHeight();
 
-    // --- ESTILOS DE MARCA (VYPER: Black & White) ---
+    // --- ESTILOS DE MARCA (ARDYN: Black & White) ---
     const primaryColor = [0, 0, 0];
     const secondaryColor = [40, 40, 40];
     const footerColor = [160, 160, 160];
@@ -40,7 +40,7 @@ export const generateFinancialReport = async (data: any) => {
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(40);
-    doc.text('VYPER', 15, 35);
+    doc.text('ARDYN', 15, 35);
 
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');
@@ -146,7 +146,7 @@ export const generateFinancialReport = async (data: any) => {
 
     doc.setTextColor(60, 60, 60);
     doc.setFontSize(9);
-    const predictiveInfo = `Basado en modelos de regresión lineal sobre el histórico de Vyper, se proyecta un volumen de facturación de $${projectedTotal.toLocaleString('es-AR')} para el próximo trimestre operativo.`;
+    const predictiveInfo = `Basado en modelos de regresión lineal sobre el histórico de Ardyn, se proyecta un volumen de facturación de $${projectedTotal.toLocaleString('es-AR')} para el próximo trimestre operativo.`;
     doc.text(doc.splitTextToSize(predictiveInfo, pageWidth - 30), 15, nextY + 10);
 
     const forecastChart = document.getElementById('chart-forecast');
@@ -161,7 +161,7 @@ export const generateFinancialReport = async (data: any) => {
 
     doc.setTextColor(60, 60, 60);
     doc.setFontSize(9);
-    const prescriptiveInfo = "A partir de los hallazgos previos, se definen las acciones estratégicas necesarias para maximizar la rentabilidad y asegurar el crecimiento sostenible de Vyper Labs.";
+    const prescriptiveInfo = "A partir de los hallazgos previos, se definen las acciones estratégicas necesarias para maximizar la rentabilidad y asegurar el crecimiento sostenible de Ardyn Labs.";
     doc.text(doc.splitTextToSize(prescriptiveInfo, pageWidth - 30), 15, 35);
 
     drawSubHeader('Hoja de Ruta Estratégica', 50);
@@ -183,7 +183,7 @@ export const generateFinancialReport = async (data: any) => {
     });
 
     // --- CIERRE ---
-    const finalNote = "Este reporte consolidado provee la visibilidad necesaria para la toma de decisiones basada en datos. Vyper Labs recomienda una revisión periódica mensual de estos indicadores.";
+    const finalNote = "Este reporte consolidado provee la visibilidad necesaria para la toma de decisiones basada en datos. Ardyn Labs recomienda una revisión periódica mensual de estos indicadores.";
     doc.setTextColor(120, 120, 120);
     doc.setFont('helvetica', 'italic');
     doc.text(doc.splitTextToSize(finalNote, pageWidth - 40), 20, (doc as any).lastAutoTable.finalY + 20);
@@ -198,9 +198,9 @@ export const generateFinancialReport = async (data: any) => {
 
         doc.setFontSize(8);
         doc.setTextColor(...footerColor as [number, number, number]);
-        doc.text(`CONFIDENCIAL - VYPER LABS BUSINESS INTELLIGENCE`, 15, pageHeight - 10);
+        doc.text(`CONFIDENCIAL - ARDYN LABS BUSINESS INTELLIGENCE`, 15, pageHeight - 10);
         doc.text(`PÁGINA ${i} DE ${totalPages}`, pageWidth - 15, pageHeight - 10, { align: 'right' });
     }
 
-    doc.save(`VYPER_STRATEGIC_REPORT_${new Date().getTime()}.pdf`);
+    doc.save(`ARDYN_STRATEGIC_REPORT_${new Date().getTime()}.pdf`);
 };

@@ -277,11 +277,11 @@ export default function EditClientModal({ client, onClose, onSuccess }: EditClie
                             />
                         </div>
 
-                        {/* Vyper Coins y Deuda */}
+                        {/* Ardyn Coins y Deuda */}
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                             <div>
                                 <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#facc15' }}>
-                                    Vyper Coins 🪙
+                                    Ardyn Coins 🪙
                                 </label>
                                 <input
                                     type="number"

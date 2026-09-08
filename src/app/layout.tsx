@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Vyper Labs",
+  title: "Ardyn Labs",
   description: "Retail & Loyalty Platform",
 };
 

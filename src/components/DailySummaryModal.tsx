@@ -279,7 +279,7 @@ export default function DailySummaryModal({ isOpen, onClose }: DailySummaryModal
                         {/* ═══ COINS & CTA CTE ═══ */}
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
                             <div>
-                                <SectionTitle icon={<Coins size={16} />} title="Vyper Coins" tooltip="Monedas de fidelización entregadas hoy. Cada $1.000 en compras = 1 Vyper Coin." />
+                                <SectionTitle icon={<Coins size={16} />} title="Ardyn Coins" tooltip="Monedas de fidelización entregadas hoy. Cada $1.000 en compras = 1 Ardyn Coin." />
                                 <MiniStat label="Entregadas hoy" value={`${data.totalCoinsGiven} 🪙`} />
                             </div>
                             <div>

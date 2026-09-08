@@ -41,7 +41,7 @@ export async function sendWhatsAppNotification(
         // Build message content
         const messageContent = `👋 Hola, ${clientName}
 Has realizado una compra por *${formattedAmount}* 💸
-¡Ya tenés *${totalCoins} Vyper Coins*! 🪙
+¡Ya tenés *${totalCoins} Ardyn Coins*! 🪙
 
 🏅 Tu nivel: *${tierText}*${tierProgress}
 

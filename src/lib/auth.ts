@@ -4,7 +4,7 @@ const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'fallback-secret-key'
 );
 
-const COOKIE_NAME = 'vyper-admin-token';
+const COOKIE_NAME = 'ardyn-admin-token';
 
 export type UserRole = 'superadmin' | 'administrador' | 'vendedor';
 

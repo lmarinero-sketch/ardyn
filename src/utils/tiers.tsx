@@ -1,4 +1,4 @@
-// Vyper Coins Tier System
+// Ardyn Coins Tier System
 // Bronce: 0-99 | Plata: 100-499 | Oro: 500-999 | Diamante: 1000+
 
 import React from 'react';

@@ -7,17 +7,17 @@ import { LayoutDashboard, TrendingUp, ShoppingCart, BarChart2, ShieldCheck, Grad
 
 export default function HomePage() {
   return (
-    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--bg-secondary)' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', background: 'var(--bg-color)' }}>
       <main className="page-container">
 
         {/* Header Hero */}
         <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
           <div className="animate-float" style={{ display: 'inline-block', marginBottom: '1.5rem' }}>
-            <Image src="/logovyper.png" alt="Vyper" width={72} height={72} style={{ borderRadius: 16 }} />
+            <Image src="/logovyper.png" alt="Ardyn" width={72} height={72} style={{ borderRadius: 16 }} />
           </div>
 
-          <h1 style={{ marginBottom: '0.5rem', fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-0.03em' }}>
-            VYPER LABS
+          <h1 style={{ marginBottom: '0.5rem', fontSize: '2.5rem', fontWeight: 800, letterSpacing: '-0.03em', color: 'var(--text-main)' }}>
+            ARDYN LABS
           </h1>
 
           <div style={{
@@ -39,12 +39,12 @@ export default function HomePage() {
           <Link href="/tienda">
             <div className="glass-card" style={{
               height: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2.5rem 2rem',
-              background: 'linear-gradient(135deg, #111111, #1a1a2e)',
-              color: 'white', border: 'none',
+              background: 'linear-gradient(135deg, #111113, #18181f)',
+              color: 'white', border: '1px solid var(--border-color)',
             }}>
               <div style={{
                 width: 56, height: 56, borderRadius: 14,
-                background: 'rgba(255,255,255,0.15)',
+                background: 'rgba(255,255,255,0.1)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 marginBottom: '1rem',
               }}>
@@ -55,8 +55,8 @@ export default function HomePage() {
                 Catálogo de productos con precios mayoristas. Armá tu pedido online.
               </p>
               <button style={{
-                width: '100%', background: 'rgba(255,255,255,0.15)', color: 'white',
-                border: '1px solid rgba(255,255,255,0.2)',
+                width: '100%', background: '#FFFFFF', color: '#000000', fontWeight: 700,
+                border: 'none',
               }}>
                 VER CATÁLOGO <ArrowRight size={16} />
               </button>

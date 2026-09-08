@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'API key de OpenAI no configurada' }, { status: 500 });
   }
 
-  const prompt = `Sos un copywriter experto en suplementos deportivos y productos fitness para un ecommerce B2B mayorista argentino llamado "Vyper Suplementos". 
+  const prompt = `Sos un copywriter experto en suplementos deportivos y productos fitness para un ecommerce B2B mayorista argentino llamado "Ardyn Suplementos". 
 
 Generá una descripción de producto atractiva, profesional y concisa (máximo 3 oraciones) para el siguiente producto:
 

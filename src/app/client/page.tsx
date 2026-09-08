@@ -38,7 +38,7 @@ export default function ClientPage() {
     if (!user) {
         return (
             <div style={{ maxWidth: '600px', margin: '4rem auto', padding: '2rem' }}>
-                <h1 style={{ textAlign: 'center', marginBottom: '2rem', fontWeight: 800 }}>Vyper Client Access</h1>
+                <h1 style={{ textAlign: 'center', marginBottom: '2rem', fontWeight: 800 }}>Ardyn Client Access</h1>
                 <form onSubmit={fetchUser}>
                     <input
                         type="text"
@@ -82,7 +82,7 @@ export default function ClientPage() {
 
             <div className="grid-layout" style={{ gap: '1rem', padding: 0 }}>
                 <div className="brutalist-card">
-                    <h3>Saldo Vyper Coins</h3>
+                    <h3>Saldo Ardyn Coins</h3>
                     <div className="big-stat">{user.coinBalance}</div>
                 </div>
 
@@ -103,12 +103,12 @@ export default function ClientPage() {
                 borderRadius: '12px',
             }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                    <h3 style={{ margin: 0, fontSize: '1rem' }}>Tu Nivel Vyper</h3>
+                    <h3 style={{ margin: 0, fontSize: '1rem' }}>Tu Nivel Ardyn</h3>
                     <TierBadge coins={user.coinBalance} size="md" />
                 </div>
                 <TierProgressBar coins={user.coinBalance} />
                 <div style={{ marginTop: '1rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                    🪙 {user.coinBalance} Vyper Coins acumuladas
+                    🪙 {user.coinBalance} Ardyn Coins acumuladas
                 </div>
             </div>
 
@@ -150,7 +150,7 @@ export default function ClientPage() {
                     {/* Mock Rewards */}
                     {[
                         { id: 1, name: 'Descuento 10%', cost: 100 },
-                        { id: 2, name: 'Gorra Vyper', cost: 500 },
+                        { id: 2, name: 'Gorra Ardyn', cost: 500 },
                         { id: 3, name: 'Entrada VIP', cost: 1000 },
                     ].map(r => (
                         <div key={r.id} className="brutalist-card" style={{ marginBottom: 0, textAlign: 'center' }}>

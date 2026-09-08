@@ -81,12 +81,12 @@ export default function NewClientForm({ onSuccess }: { onSuccess: () => void }) 
                     </label>
                     <div style={{
                         padding: '0.5rem 0.75rem',
-                        background: 'rgba(0, 0, 0, 0.04)',
-                        border: '1px solid rgba(0, 0, 0, 0.12)',
+                        background: 'rgba(255, 255, 255, 0.04)',
+                        border: '1px solid var(--border-color)',
                         borderRadius: '8px',
                         marginBottom: '0.5rem',
                         fontSize: '0.78rem',
-                        color: '#111111',
+                        color: 'var(--text-secondary)',
                         lineHeight: 1.4
                     }}>
                         📱 Ingresá solo el número local <strong>sin el +549</strong>.
@@ -119,7 +119,7 @@ export default function NewClientForm({ onSuccess }: { onSuccess: () => void }) 
 
                 <div className="grid-layout" style={{ gridTemplateColumns: '1fr 1fr' }}>
                     <div>
-                        <label>Vyper Coins</label>
+                        <label>Ardyn Coins</label>
                         <input
                             type="number"
                             min="0"

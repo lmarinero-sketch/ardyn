@@ -766,8 +766,8 @@ export default function PersonalizacionPage() {
 
   const renderIdentidad = () => (
     <>
-      <TextField label="Nombre de marca" value={currentConfig.nombre_marca || ''} onChange={v => updateField('nombre_marca', v)} placeholder="VYPER" />
-      <TextField label="Nombre completo (footer)" value={currentConfig.nombre_completo || ''} onChange={v => updateField('nombre_completo', v)} placeholder="VYPER SUPLEMENTOS" />
+      <TextField label="Nombre de marca" value={currentConfig.nombre_marca || ''} onChange={v => updateField('nombre_marca', v)} placeholder="ARDYN" />
+      <TextField label="Nombre completo (footer)" value={currentConfig.nombre_completo || ''} onChange={v => updateField('nombre_completo', v)} placeholder="ARDYN SUPLEMENTOS" />
       <TextField label="Subtítulo Mayorista" value={currentConfig.subtitulo_mayorista || ''} onChange={v => updateField('subtitulo_mayorista', v)} placeholder="Mayorista" />
       <TextField label="Subtítulo Minorista" value={currentConfig.subtitulo_minorista || ''} onChange={v => updateField('subtitulo_minorista', v)} placeholder="Tienda Oficial" />
       <ImageField label="Logo de la tienda" value={currentConfig.logo_url || ''} onChange={v => updateField('logo_url', v)} hint="Recomendado: formato cuadrado (200×200px)" onError={setErrorMessage} />
@@ -796,7 +796,7 @@ export default function PersonalizacionPage() {
     <>
       <TextField label="Dirección" value={currentConfig.direccion || ''} onChange={v => updateField('direccion', v)} placeholder="📍 Av. Libertador 4858 Oeste..." />
       <TextField label="Teléfono" value={currentConfig.telefono || ''} onChange={v => updateField('telefono', v)} placeholder="📱 +54 9 264..." />
-      <TextField label="Instagram" value={currentConfig.instagram || ''} onChange={v => updateField('instagram', v)} placeholder="@vyper_suplementos" />
+      <TextField label="Instagram" value={currentConfig.instagram || ''} onChange={v => updateField('instagram', v)} placeholder="@ardyn_suplementos" />
       <TextField label="Texto de créditos" value={currentConfig.texto_creditos || ''} onChange={v => updateField('texto_creditos', v)} placeholder="Desarrollado por Grow Labs" />
       <TextField label="URL de créditos" value={currentConfig.url_creditos || ''} onChange={v => updateField('url_creditos', v)} placeholder="https://www.growlabs.lat" />
     </>

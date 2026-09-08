@@ -33,8 +33,8 @@ export default function TutorialPage() {
       color: '#3b82f6',
       steps: [
         {
-          title: 'Bienvenido a Vyper Labs',
-          content: 'Vyper Labs es tu sistema integral de gestión empresarial. Incluye un panel administrativo completo, tienda mayorista online, sistema de fidelización y Business Intelligence.'
+          title: 'Bienvenido a Ardyn Labs',
+          content: 'Ardyn Labs es tu sistema integral de gestión empresarial. Incluye un panel administrativo completo, tienda mayorista online, sistema de fidelización y Business Intelligence.'
         },
         {
           title: 'Pantalla de Inicio',
@@ -42,7 +42,7 @@ export default function TutorialPage() {
         },
         {
           title: 'Panel Administrativo',
-          content: 'El sidebar izquierdo te da acceso a todos los módulos: Dashboard, BI Analytics, Clientes, Deudas, Vyper Coins, Competencia, Retención, Tienda Admin, y Ayuda.'
+          content: 'El sidebar izquierdo te da acceso a todos los módulos: Dashboard, BI Analytics, Clientes, Deudas, Ardyn Coins, Competencia, Retención, Tienda Admin, y Ayuda.'
         },
         {
           title: 'Roles de Usuario',
@@ -98,7 +98,7 @@ export default function TutorialPage() {
         },
         {
           title: 'Vista general',
-          content: 'Verás una tabla con todos tus clientes: nombre, teléfono, deuda actual y saldo de Vyper Coins.'
+          content: 'Verás una tabla con todos tus clientes: nombre, teléfono, deuda actual y saldo de Ardyn Coins.'
         },
         {
           title: 'Buscar clientes',
@@ -151,13 +151,13 @@ export default function TutorialPage() {
       ]
     },
     'vyper-coins': {
-      title: 'Vyper Coins',
+      title: 'Ardyn Coins',
       description: 'Sistema de fidelización y recompensas',
       icon: <Coins size={22} />,
       color: '#eab308',
       steps: [
         {
-          title: '¿Qué son los Vyper Coins?',
+          title: '¿Qué son los Ardyn Coins?',
           content: 'Es un programa de fidelización que premia a tus clientes frecuentes con puntos canjeables por descuentos o productos.'
         },
         {

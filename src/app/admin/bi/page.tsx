@@ -244,11 +244,11 @@ export default function BusinessIntelligence() {
                             tooltip="Cantidad total de clientes registrados en el sistema. Incluye todos los clientes con perfil creado."
                         />
                         <KPICard
-                            label="VYPER COINS CIRCULANDO"
+                            label="ARDYN COINS CIRCULANDO"
                             value={`${metrics.totalCoins.toLocaleString()} 🪙`}
                             color="#fbbf24"
                             icon={<Coins size={20} />}
-                            tooltip="Total de Vyper Coins acumuladas por todos los clientes. Representa el nivel de engagement del programa de fidelización."
+                            tooltip="Total de Ardyn Coins acumuladas por todos los clientes. Representa el nivel de engagement del programa de fidelización."
                         />
                     </div>
 
@@ -325,12 +325,12 @@ export default function BusinessIntelligence() {
                             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
                                 <Coins size={20} color="#fbbf24" />
                                 <h3 style={{ margin: 0 }}>DISTRIBUCIÓN DE NIVELES</h3>
-                                <span title="Cómo se distribuyen tus clientes entre los niveles del programa de fidelización Vyper Coins. Bronce: 0-99, Plata: 100-499, Oro: 500-999, Diamante: 1000+." style={{ cursor: 'help', opacity: 0.4 }}>
+                                <span title="Cómo se distribuyen tus clientes entre los niveles del programa de fidelización Ardyn Coins. Bronce: 0-99, Plata: 100-499, Oro: 500-999, Diamante: 1000+." style={{ cursor: 'help', opacity: 0.4 }}>
                                     <HelpCircle size={14} />
                                 </span>
                             </div>
                             <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-                                Segmentación de clientes por nivel de Vyper Coins
+                                Segmentación de clientes por nivel de Ardyn Coins
                             </p>
 
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

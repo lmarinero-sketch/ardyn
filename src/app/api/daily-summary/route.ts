@@ -139,7 +139,7 @@ export async function POST(request: Request) {
                 : `📊 *${weekComparison}%* vs mismo día semana pasada ⚠️`)
             : '📊 Sin datos de la semana pasada para comparar';
 
-        let message = `📋 *RESUMEN DEL DÍA — VYPER*
+        let message = `📋 *RESUMEN DEL DÍA — ARDYN*
 ${dayName} ${dateStr}
 
 ━━━━━━━━━━━━━━━━━━━━
@@ -178,7 +178,7 @@ ${comparisonStr}`;
             message += `
 
 ━━━━━━━━━━━━━━━━━━━━
-🪙 *VYPER COINS*
+🪙 *ARDYN COINS*
 ━━━━━━━━━━━━━━━━━━━━
 Coins entregados: *${totalCoinsGiven}*
 En compras por: *$${coinTransactionsAmount.toLocaleString('es-AR')}*`;

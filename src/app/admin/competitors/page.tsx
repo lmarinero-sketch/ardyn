@@ -105,12 +105,12 @@ const MARKET_DATA = [
     { name: 'Pirka', value: 15, color: '#444444' },
     { name: 'Kick', value: 12, color: '#666666' },
     { name: 'Strongman', value: 10, color: '#888888' },
-    { name: 'Vyper / Otros', value: 18, color: '#cccccc' },
+    { name: 'Ardyn / Otros', value: 18, color: '#cccccc' },
 ];
 
-const VYPER_STORES = [
-    { name: 'VYPER RIVADAVIA', coords: [-31.5312, -68.5910] as [number, number], color: '#000000' },
-    { name: 'VYPER RAWSON', coords: [-31.5835, -68.5280] as [number, number], color: '#000000' }
+const ARDYN_STORES = [
+    { name: 'ARDYN RIVADAVIA', coords: [-31.5312, -68.5910] as [number, number], color: '#000000' },
+    { name: 'ARDYN RAWSON', coords: [-31.5835, -68.5280] as [number, number], color: '#000000' }
 ];
 
 const EVENTS = [
@@ -123,8 +123,8 @@ const EVENTS = [
         organizer: 'Gob. Mendoza / Fed. Ciclismo',
         strategy: {
             warming: ["Publicar 'Guía de Hidratación para Fondos +100km'.", "Lanzar 'Pack Endurance': Geles + Sales + Isotónico.", "Ads geolocalizado a ciclistas de San Juan y Mendoza."],
-            sprint: ["Stand de hidratación y muestras en zona de largada.", "Vouchers de descuento exclusivos para ciclistas.", "Fotos con marca Vyper en zona de meta y premiación."],
-            recovery: ["Campaña 'Post-Fondo': 20% OFF en Colágeno y Magnesio.", "Sorteo entre ciclistas que suban foto con producto Vyper.", "Email a contactos nuevos: 'Tu recuperación empieza acá'."]
+            sprint: ["Stand de hidratación y muestras en zona de largada.", "Vouchers de descuento exclusivos para ciclistas.", "Fotos con marca Ardyn en zona de meta y premiación."],
+            recovery: ["Campaña 'Post-Fondo': 20% OFF en Colágeno y Magnesio.", "Sorteo entre ciclistas que suban foto con producto Ardyn.", "Email a contactos nuevos: 'Tu recuperación empieza acá'."]
         }
     },
     {
@@ -136,8 +136,8 @@ const EVENTS = [
         organizer: 'CrossFit Inc.',
         strategy: {
             warming: ["Tips de nutrición pre-WOD en Instagram Reels.", "Promo en pre-entreno y BCAA con código 'OPEN2026'.", "Challenge en stories: Mejor tiempo = descuento."],
-            sprint: ["Sponsorear boxes locales con banners Vyper.", "Kits de hidratación gratis en boxes de San Juan.", "Descuento cruzado con boxes: 15% en proteína."],
-            recovery: ["Campaña 'Post-Open': Pack Recuperación muscular.", "UGC: Compartí tu resultado y ganá Vyper Coins."]
+            sprint: ["Sponsorear boxes locales con banners Ardyn.", "Kits de hidratación gratis en boxes de San Juan.", "Descuento cruzado con boxes: 15% en proteína."],
+            recovery: ["Campaña 'Post-Open': Pack Recuperación muscular.", "UGC: Compartí tu resultado y ganá Ardyn Coins."]
         }
     },
     {
@@ -149,8 +149,8 @@ const EVENTS = [
         organizer: 'Adventure Pro',
         strategy: {
             warming: ["Tutorial: Suplementos para Ultra-Trail.", "Pack 100K: Geles + BCAA + Glucosamina.", "Publicidad en grupos de Trail Running."],
-            sprint: ["Punto de apoyo en Dique Punta Negra.", "Banner en zona de carpas/acampada.", "Kit de emergencia 'Vyper' (Sales/Geles)."],
-            recovery: ["Fisioterapia aliada: Descuento cruzado.", "Album de fotos Vyper del evento."]
+            sprint: ["Punto de apoyo en Dique Punta Negra.", "Banner en zona de carpas/acampada.", "Kit de emergencia 'Ardyn' (Sales/Geles)."],
+            recovery: ["Fisioterapia aliada: Descuento cruzado.", "Album de fotos Ardyn del evento."]
         }
     }
 ];
@@ -176,12 +176,12 @@ export default function CompetitorsPage() {
     const opportunities = [
         {
             title: "GAP de Publicidad en Rivadavia",
-            desc: "KICK Suplementos no tiene anuncios activos. Vyper puede dominar el feed local de Meta con una campaña geolocalizada a 3km del local de Libertador.",
+            desc: "KICK Suplementos no tiene anuncios activos. Ardyn puede dominar el feed local de Meta con una campaña geolocalizada a 3km del local de Libertador.",
             type: "Estratégica"
         },
         {
             title: "Fallo en Atención de Scimmia",
-            desc: "Usuarios reportan demoras en Rawson. Mejorar el sistema de pick-up en 5 min en Vyper Rawson capturará clientes insatisfechos.",
+            desc: "Usuarios reportan demoras en Rawson. Mejorar el sistema de pick-up en 5 min en Ardyn Rawson capturará clientes insatisfechos.",
             type: "Servicio"
         },
         {
@@ -273,7 +273,7 @@ export default function CompetitorsPage() {
                     </p>
                     <div style={{ display: 'flex', gap: '1rem', fontSize: '0.8rem' }}>
                         <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
-                            <div style={{ width: 10, height: 10, borderRadius: '50%', background: 'black' }}></div> Vyper
+                            <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#FFFFFF' }}></div> Ardyn
                         </span>
                         <span style={{ display: 'flex', alignItems: 'center', gap: '0.3rem' }}>
                             <div style={{ width: 10, height: 10, borderRadius: '50%', background: '#ef4444' }}></div> Competencia
@@ -285,11 +285,11 @@ export default function CompetitorsPage() {
                         <MapContainer center={[-31.55, -68.55]} zoom={12} style={{ height: '100%', width: '100%' }}>
                             <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-                            {/* VYPER STORES */}
-                            {VYPER_STORES.map((s, i) => (
+                            {/* ARDYN STORES */}
+                            {ARDYN_STORES.map((s, i) => (
                                 <div key={i}>
                                     <Marker position={s.coords}>
-                                        <Popup><b>{s.name}</b><br />Sede Central Vyper</Popup>
+                                        <Popup><b>{s.name}</b><br />Sede Central Ardyn</Popup>
                                     </Marker>
                                     <LCircle center={s.coords} radius={2500} pathOptions={{ color: 'black', fillColor: 'black', fillOpacity: 0.1 }} />
                                 </div>
