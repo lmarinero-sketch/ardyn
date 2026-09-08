@@ -68,8 +68,8 @@ export default function ExpensesForm({ onSuccess }: { onSuccess: () => void }) {
                             value={formData.branch}
                             onChange={e => setFormData({ ...formData, branch: e.target.value })}
                         >
-                            <option value="Rawson" style={{ color: 'black' }}>Rawson</option>
-                            <option value="Rivadavia" style={{ color: 'black' }}>Rivadavia</option>
+                            <option value="Rawson" style={{ background: '#18181c', color: '#ffffff' }}>Rawson</option>
+                            <option value="Rivadavia" style={{ background: '#18181c', color: '#ffffff' }}>Rivadavia</option>
                         </select>
                     </div>
                 </div>
@@ -81,7 +81,7 @@ export default function ExpensesForm({ onSuccess }: { onSuccess: () => void }) {
                         onChange={e => setFormData({ ...formData, category: e.target.value })}
                     >
                         {CATEGORIES.map(c => (
-                            <option key={c} value={c} style={{ color: 'black' }}>
+                            <option key={c} value={c} style={{ background: '#18181c', color: '#ffffff' }}>
                                 {c}
                             </option>
                         ))}

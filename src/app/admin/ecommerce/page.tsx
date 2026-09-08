@@ -87,10 +87,10 @@ export default function EcommerceAdminPage() {
     new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(price);
 
   const estadoConfig: Record<string, { color: string; bg: string; badge: string; icon: React.ReactNode }> = {
-    pendiente: { color: '#f59e0b', bg: '#fef3c7', badge: 'badge-amber', icon: <Clock size={14} /> },
-    procesando: { color: '#3b82f6', bg: '#dbeafe', badge: 'badge-blue', icon: <Zap size={14} /> },
-    completado: { color: '#10b981', bg: '#d1fae5', badge: 'badge-green', icon: <CheckCircle2 size={14} /> },
-    cancelado: { color: '#ef4444', bg: '#fee2e2', badge: 'badge-red', icon: <AlertCircle size={14} /> },
+    pendiente: { color: 'var(--brand-gold)', bg: 'rgba(254, 166, 4, 0.15)', badge: 'badge-amber', icon: <Clock size={14} /> },
+    procesando: { color: '#3b82f6', bg: 'rgba(59, 130, 246, 0.15)', badge: 'badge-blue', icon: <Zap size={14} /> },
+    completado: { color: '#10b981', bg: 'rgba(16, 185, 129, 0.15)', badge: 'badge-green', icon: <CheckCircle2 size={14} /> },
+    cancelado: { color: '#ef4444', bg: 'rgba(239, 68, 68, 0.15)', badge: 'badge-red', icon: <AlertCircle size={14} /> },
   };
 
   const modules = [

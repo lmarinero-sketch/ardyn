@@ -91,7 +91,7 @@ function ProductCard({ producto, formatPrice, onAdd, addedId }: {
       {/* Info */}
       <div style={{ padding: '0.875rem', flex: 1, display: 'flex', flexDirection: 'column' }}>
         {producto.marca && (
-          <span style={{ fontSize: '0.65rem', fontWeight: 600, color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '0.2rem' }}>
+          <span style={{ fontSize: '0.65rem', fontWeight: 600, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em', marginBottom: '0.2rem' }}>
             {producto.marca.nombre}
           </span>
         )}
@@ -106,7 +106,7 @@ function ProductCard({ producto, formatPrice, onAdd, addedId }: {
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
             cursor: 'pointer',
-            color: '#111',
+            color: 'var(--text-main)',
           }}>
             {producto.nombre}
           </h4>
@@ -114,7 +114,7 @@ function ProductCard({ producto, formatPrice, onAdd, addedId }: {
 
         <div style={{ marginTop: 'auto' }}>
           <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.375rem', marginBottom: '0.625rem' }}>
-            <span style={{ fontSize: '1.125rem', fontWeight: 800, color: '#111' }}>
+            <span style={{ fontSize: '1.125rem', fontWeight: 800, color: 'var(--text-main)' }}>
               {formatPrice(displayPrice)}
             </span>
             {isOnSale && (
@@ -128,13 +128,14 @@ function ProductCard({ producto, formatPrice, onAdd, addedId }: {
             style={{
               width: '100%',
               fontSize: '0.8125rem',
+              fontWeight: 600,
               padding: '0.5rem',
-              background: addedId === producto.id ? '#10b981' : '#111111',
-              color: '#fff',
-              border: 'none',
+              background: addedId === producto.id ? '#10b981' : 'var(--bg-tertiary)',
+              color: '#FFFFFF',
+              border: addedId === producto.id ? 'none' : '1px solid rgba(255, 255, 255, 0.12)',
               borderRadius: 8,
               cursor: 'pointer',
-              transition: 'background 0.2s',
+              transition: 'all 0.2s',
             }}
           >
             {addedId === producto.id ? (
@@ -180,12 +181,12 @@ function ProductSection({ title, icon, products, formatPrice, onAdd, addedId, ac
           }}>
             {icon}
           </span>
-          <h2 style={{ fontSize: '1.125rem', fontWeight: 700, color: '#111', margin: 0 }}>{title}</h2>
+          <h2 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-main)', margin: 0 }}>{title}</h2>
         </div>
         {seeAllHref && (
           <button
             className="btn-ghost"
-            style={{ fontSize: '0.8125rem', color: '#6b7280', display: 'flex', alignItems: 'center', gap: '0.25rem' }}
+            style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}
           >
             Ver todo <ArrowRight size={14} />
           </button>
@@ -474,11 +475,11 @@ function TiendaPageContent() {
               gap: '0.375rem',
               padding: '0.625rem 1rem',
               fontSize: '0.875rem',
-              fontWeight: activeSection === tab.key ? 600 : 400,
-              color: activeSection === tab.key ? '#111' : '#6b7280',
+              fontWeight: activeSection === tab.key ? 700 : 400,
+              color: activeSection === tab.key ? '#FFFFFF' : 'var(--text-muted)',
               background: 'none',
               border: 'none',
-              borderBottom: activeSection === tab.key ? '2px solid #111' : '2px solid transparent',
+              borderBottom: activeSection === tab.key ? '2px solid var(--brand-gold)' : '2px solid transparent',
               cursor: 'pointer',
               transition: 'all 0.2s',
               borderRadius: 0,
@@ -514,13 +515,13 @@ function TiendaPageContent() {
                e.target.value = ''; // Reset select text to default
              }}
              style={{
-               background: '#f9fafb',
-               border: '1px solid #e5e7eb',
+               background: 'var(--bg-secondary)',
+               border: '1px solid var(--border-color)',
                borderRadius: 20,
                padding: '0.375rem 2rem 0.375rem 1rem',
                fontSize: '0.8125rem',
                fontWeight: 600,
-               color: '#111',
+               color: 'var(--text-main)',
                cursor: 'pointer',
                outline: 'none',
                appearance: 'none',
@@ -587,19 +588,17 @@ function TiendaPageContent() {
             borderRadius: 12,
             border: '1px solid #e5e7eb',
           }}>
-            <p style={{ color: '#6b7280', marginBottom: '1rem', fontSize: '0.9375rem' }}>
+            <p style={{ color: 'var(--text-muted)', marginBottom: '1rem', fontSize: '0.9375rem' }}>
               Explorá todos los productos disponibles
             </p>
             <button
               onClick={switchToCatalog}
+              className="btn-brand"
               style={{
-                background: '#111',
-                color: '#fff',
-                border: 'none',
                 padding: '0.75rem 2rem',
                 borderRadius: 10,
                 fontSize: '0.9375rem',
-                fontWeight: 600,
+                fontWeight: 700,
                 cursor: 'pointer',
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -632,7 +631,7 @@ function TiendaPageContent() {
                 gap: '0.5rem',
                 padding: '0.625rem 1rem',
                 fontSize: '0.875rem',
-                borderColor: showFilters ? '#111' : undefined,
+                borderColor: showFilters ? 'var(--brand-gold)' : undefined,
               }}
             >
               <Filter size={16} />
@@ -646,7 +645,7 @@ function TiendaPageContent() {
               </button>
             )}
 
-            <div style={{ marginLeft: 'auto', fontSize: '0.8125rem', color: '#6b7280' }}>
+            <div style={{ marginLeft: 'auto', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
               {loading ? 'Cargando...' : `${productos.length} productos`}
             </div>
           </div>
@@ -704,7 +703,7 @@ function TiendaPageContent() {
             <div className="glass-card" style={{ textAlign: 'center', padding: '4rem 2rem' }}>
               <ShoppingCart size={48} style={{ color: '#d1d5db', marginBottom: '1rem' }} />
               <h3 style={{ marginBottom: '0.5rem' }}>No se encontraron productos</h3>
-              <p style={{ color: '#6b7280' }}>Probá ajustando los filtros o el término de búsqueda.</p>
+              <p style={{ color: 'var(--text-muted)' }}>Probá ajustando los filtros o el término de búsqueda.</p>
               {hasActiveFilters && (
                 <button className="secondary" onClick={clearFilters} style={{ marginTop: '1rem' }}>
                   Limpiar filtros
@@ -736,9 +735,10 @@ function TiendaPageContent() {
                         minWidth: 40,
                         padding: '0.5rem',
                         fontSize: '0.875rem',
-                        background: page === i + 1 ? '#111' : '#fff',
-                        color: page === i + 1 ? '#fff' : '#111',
-                        border: '1px solid #d1d5db',
+                        fontWeight: page === i + 1 ? 700 : 500,
+                        background: page === i + 1 ? 'var(--brand-gradient)' : 'rgba(255,255,255,0.06)',
+                        color: page === i + 1 ? '#000000' : '#FFFFFF',
+                        border: page === i + 1 ? 'none' : '1px solid rgba(255,255,255,0.15)',
                         borderRadius: 8,
                         cursor: 'pointer',
                       }}

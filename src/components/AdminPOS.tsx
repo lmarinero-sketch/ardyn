@@ -51,17 +51,17 @@ export default function AdminPOS() {
                     <label style={{ fontWeight: 'bold', display: 'block', marginBottom: '0.25rem' }}>WHATSAPP CLIENTE</label>
                     <div style={{
                         padding: '0.5rem 0.75rem',
-                        background: 'rgba(0, 0, 0, 0.04)',
-                        border: '1px solid rgba(0, 0, 0, 0.12)',
+                        background: 'rgba(254, 166, 4, 0.08)',
+                        border: '1px solid rgba(254, 166, 4, 0.3)',
                         borderRadius: '8px',
                         marginBottom: '0.5rem',
                         fontSize: '0.78rem',
-                        color: '#111111',
+                        color: 'var(--text-secondary)',
                         lineHeight: 1.4
                     }}>
-                        📱 Ingresá solo el número local <strong>sin el +549</strong>.
+                        📱 Ingresá solo el número local <strong style={{ color: 'var(--brand-gold)' }}>sin el +549</strong>.
                         <br />
-                        Ejemplo: <strong style={{ fontFamily: 'monospace' }}>2645438114</strong> → se guarda como <strong style={{ fontFamily: 'monospace' }}>+5492645438114</strong>
+                        Ejemplo: <strong style={{ fontFamily: 'monospace', color: '#FFFFFF' }}>2645438114</strong> → se guarda como <strong style={{ fontFamily: 'monospace', color: '#FFFFFF' }}>+5492645438114</strong>
                     </div>
                     <input
                         type="text"
@@ -122,7 +122,7 @@ export default function AdminPOS() {
                     </label>
                 </div>
 
-                <button type="submit" disabled={loading} style={{ background: 'white', color: 'black', padding: '1.5rem', fontSize: '1.5rem' }}>
+                <button type="submit" disabled={loading} className="btn-brand" style={{ padding: '1.25rem', fontSize: '1.3rem', width: '100%', fontWeight: 900 }}>
                     {loading ? 'PROCESANDO...' : 'CONFIRMAR VENTA'}
                 </button>
 

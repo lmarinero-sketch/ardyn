@@ -45,9 +45,9 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        background: 'rgba(255,255,255,0.95)',
-        backdropFilter: 'blur(12px)',
-        borderBottom: '1px solid var(--border-color)',
+        background: 'rgba(10, 10, 12, 0.92)',
+        backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
       }}>
         <div style={{
           maxWidth: '1280px',
@@ -60,34 +60,46 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
         }}>
           {/* Left: Logo */}
           <Link href="/tienda" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-            <img src={identidad.logo_url} alt={identidad.nombre_marca} width={40} height={40} style={{ borderRadius: 8, objectFit: 'contain' }} />
+            <img
+              src="/logo-ardyn.png"
+              alt="Ardyn"
+              width={42}
+              height={42}
+              style={{
+                borderRadius: 10,
+                objectFit: 'contain',
+                background: '#000000',
+                border: '1px solid rgba(254, 166, 4, 0.35)',
+                boxShadow: '0 0 12px rgba(254, 166, 4, 0.2)',
+              }}
+            />
             <div>
-              <div style={{ fontWeight: 800, fontSize: '1.125rem', lineHeight: 1.2, letterSpacing: '-0.02em' }}>{identidad.nombre_marca}</div>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 500 }}>{identidad.subtitulo_mayorista}</div>
+              <div style={{ fontWeight: 800, fontSize: '1.125rem', lineHeight: 1.2, letterSpacing: '-0.02em', color: '#FFFFFF' }}>{identidad.nombre_marca}</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--brand-gold)', fontWeight: 600, letterSpacing: '0.02em' }}>{identidad.subtitulo_mayorista}</div>
             </div>
           </Link>
 
           {/* Center: Desktop Nav */}
           <nav style={{ display: 'none', gap: '0.25rem', alignItems: 'center' }} className="desktop-nav">
             <Link href="/tienda">
-              <button className="btn-ghost" style={{ fontSize: '0.875rem' }}>Inicio</button>
+              <button className="btn-ghost" style={{ fontSize: '0.875rem', color: '#FFFFFF' }}>Inicio</button>
             </Link>
             <MegaMenu baseUrl="/tienda" />
             <a href={waLink} target="_blank" rel="noopener noreferrer">
-              <button className="btn-ghost" style={{ fontSize: '0.875rem' }}>Whatsapp</button>
+              <button className="btn-ghost" style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>Whatsapp</button>
             </a>
-            <a href={whatsapp.url_sucursal} target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ fontSize: '0.875rem', textDecoration: 'none' }}>
+            <a href={whatsapp.url_sucursal} target="_blank" rel="noopener noreferrer" className="btn-ghost" style={{ fontSize: '0.875rem', textDecoration: 'none', color: 'var(--text-secondary)' }}>
               Visita Nuestra Sucursal
             </a>
             <Link href="/tienda/como-comprar">
-              <button className="btn-ghost" style={{ fontSize: '0.875rem' }}>Como comprar?</button>
+              <button className="btn-ghost" style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>¿Cómo comprar?</button>
             </Link>
           </nav>
 
           {/* Right: Cart + Mobile menu */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Link href="/tienda/carrito">
-              <button className="btn-ghost" style={{ position: 'relative', padding: '0.625rem' }}>
+              <button className="btn-ghost" style={{ position: 'relative', padding: '0.625rem', color: '#FFFFFF' }}>
                 <ShoppingCart size={22} />
                 {cartCount > 0 && (
                   <span style={{
@@ -97,13 +109,14 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
                     width: 20,
                     height: 20,
                     borderRadius: '50%',
-                    background: 'var(--accent)',
-                    color: 'white',
+                    background: 'var(--brand-gradient)',
+                    color: '#000000',
                     fontSize: '0.6875rem',
-                    fontWeight: 700,
+                    fontWeight: 800,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
+                    boxShadow: '0 2px 8px rgba(254, 166, 4, 0.4)',
                   }}>
                     {cartCount}
                   </span>
@@ -189,8 +202,19 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
       }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', textAlign: 'center' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-            <img src={identidad.logo_url} alt={identidad.nombre_marca} width={32} height={32} style={{ borderRadius: 6, objectFit: 'contain' }} />
-            <span style={{ fontWeight: 700, fontSize: '1rem' }}>{identidad.nombre_completo}</span>
+            <img
+              src="/logo-ardyn.png"
+              alt="Ardyn"
+              width={36}
+              height={36}
+              style={{
+                borderRadius: 8,
+                objectFit: 'contain',
+                background: '#000000',
+                border: '1px solid rgba(254, 166, 4, 0.3)',
+              }}
+            />
+            <span style={{ fontWeight: 700, fontSize: '1rem', color: '#FFFFFF' }}>{identidad.nombre_completo}</span>
           </div>
           <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '0.5rem' }}>
             {footer.direccion}

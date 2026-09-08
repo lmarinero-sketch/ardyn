@@ -390,7 +390,16 @@ export default function EditClientModal({ client, onClose, onSuccess }: EditClie
                                             type="button"
                                             onClick={handleTransactionSubmit}
                                             disabled={transactionLoading || !transactionAmount}
-                                            style={{ flex: 1, background: '#fff', color: '#000', padding: '0.5rem' }}
+                                            style={{
+                                                flex: 1,
+                                                background: transactionLoading || !transactionAmount ? '#222226' : 'var(--brand-gradient)',
+                                                color: transactionLoading || !transactionAmount ? 'var(--text-muted)' : '#000000',
+                                                padding: '0.6rem',
+                                                fontWeight: 700,
+                                                border: transactionLoading || !transactionAmount ? '1px solid #333' : 'none',
+                                                borderRadius: '6px',
+                                                cursor: transactionLoading || !transactionAmount ? 'not-allowed' : 'pointer'
+                                            }}
                                         >
                                             {transactionLoading ? 'Procesando...' : 'Confirmar Transacción'}
                                         </button>

@@ -47,13 +47,17 @@ export default function MarqueeBar({ storeType = 'minorista' }: { storeType?: 'm
       <div className="marquee-content">
         {displayMessages.map((msg, idx) => (
           <span key={idx} style={{ 
-            padding: '0 2rem', 
+            padding: '0 1.5rem', 
             fontSize: '0.8125rem', 
             fontWeight: 600,
             whiteSpace: 'nowrap',
             letterSpacing: '0.02em',
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '1.5rem',
           }}>
-            {msg}
+            <span>{msg}</span>
+            <span style={{ color: 'var(--brand-gold)', fontSize: '0.75rem', opacity: 0.9 }}>◆</span>
           </span>
         ))}
       </div>

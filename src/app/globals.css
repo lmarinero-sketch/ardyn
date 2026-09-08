@@ -37,6 +37,13 @@
 
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-slow: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ====== ARDYN LOGO PALETTE TOKENS ====== */
+  --brand-gold: #FEA604;
+  --brand-orange: #FD8209;
+  --brand-gradient: linear-gradient(135deg, #FEA604 0%, #FD8209 100%);
+  --brand-glow: 0 0 20px rgba(254, 166, 4, 0.25);
+  --brand-subtle: rgba(254, 166, 4, 0.12);
 }
 
 * {
@@ -122,8 +129,8 @@ input, select, textarea {
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+  border-color: var(--brand-gold);
+  box-shadow: 0 0 0 3px rgba(254, 166, 4, 0.2);
 }
 
 input::placeholder, textarea::placeholder {
@@ -178,6 +185,20 @@ button.secondary:hover {
   background: var(--bg-tertiary);
   border-color: rgba(255, 255, 255, 0.3);
   box-shadow: none;
+}
+
+button.btn-brand {
+  background: var(--brand-gradient);
+  color: #000000;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(254, 166, 4, 0.35);
+  border: none;
+}
+
+button.btn-brand:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 22px rgba(254, 166, 4, 0.5);
+  filter: brightness(1.05);
 }
 
 button.btn-blue {
@@ -332,6 +353,12 @@ button:disabled {
 .badge-amber {
   background: var(--accent-amber-light);
   color: var(--accent-amber);
+}
+
+.badge-brand {
+  background: var(--brand-subtle);
+  color: var(--brand-gold);
+  border: 1px solid rgba(254, 166, 4, 0.3);
 }
 
 .badge-gray {
@@ -516,14 +543,17 @@ button:disabled {
 }
 
 .sidebar-brand-icon {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 10px;
-  background: #FFFFFF;
+  background: #000000;
+  border: 1px solid rgba(254, 166, 4, 0.35);
+  box-shadow: 0 0 14px rgba(254, 166, 4, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .sidebar-brand-name {
@@ -578,14 +608,17 @@ button:disabled {
 }
 
 .sidebar-nav-item.active {
-  background: #FFFFFF;
-  color: #000000;
+  background: rgba(254, 166, 4, 0.12);
+  color: #FFFFFF;
   font-weight: 600;
-  box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+  border-left: 3px solid var(--brand-gold);
+  border-radius: 0 10px 10px 0;
+  box-shadow: 0 0 16px rgba(254, 166, 4, 0.15);
 }
 
 .sidebar-nav-item.active:hover {
-  background: #f3f4f6;
+  background: rgba(254, 166, 4, 0.18);
+  color: #FFFFFF;
 }
 
 .sidebar-exit {

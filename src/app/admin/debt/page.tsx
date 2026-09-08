@@ -202,7 +202,7 @@ export default function DebtManagementPage() {
                                 ) : (
                                     <>
                                         <div style={{ position: 'relative' }}>
-                                            <Search size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
+                                            <Search size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                                             <input
                                                 type="text"
                                                 placeholder="Buscar cliente..."

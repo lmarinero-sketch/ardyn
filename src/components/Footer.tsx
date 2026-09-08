@@ -24,15 +24,15 @@ export default function Footer() {
                     <div style={{
                         padding: '1.5rem',
                         borderRadius: '12px',
-                        background: 'linear-gradient(to right, rgba(255,255,255,0.05), transparent)',
-                        borderLeft: '4px solid #ffffff'
+                        background: 'linear-gradient(to right, rgba(254, 166, 4, 0.08), transparent)',
+                        borderLeft: '4px solid var(--brand-gold)'
                     }}>
                         <h3 style={{ fontSize: '1.2rem', marginBottom: '0.5rem', color: 'white' }}>Plataforma Exclusiva</h3>
                         <p style={{ color: 'var(--text-muted)', marginBottom: '0.5rem', lineHeight: '1.5' }}>
                             Esta plataforma ha sido desarrollada única y exclusivamente para
-                            <span style={{ color: 'white', fontWeight: 'bold' }}> Ardyn Suplementos</span> y la gestión de sus sucursales.
+                            <span style={{ color: 'var(--brand-gold)', fontWeight: 'bold' }}> Ardyn Suplementos</span> y la gestión de sus sucursales.
                         </p>
-                        <p style={{ fontSize: '0.9rem', color: '#666', fontStyle: 'italic' }}>
+                        <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontStyle: 'italic' }}>
                             Optimización de rendimiento y gestión financiera.
                         </p>
                     </div>
@@ -134,7 +134,7 @@ export default function Footer() {
                 </div>
 
                 <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid rgba(255,255,255,0.05)', textAlign: 'center' }}>
-                    <p style={{ fontSize: '0.9rem', color: '#666' }}>
+                    <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
                         © 2025 Grow Labs - Tecnología, IA & Automatización
                     </p>
                 </div>

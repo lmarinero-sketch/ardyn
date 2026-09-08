@@ -122,7 +122,7 @@ export default function RecentTransactions({ type, refreshTrigger }: { type: Tra
                             hide={false}
                             axisLine={false}
                             tickLine={false}
-                            tick={{ fill: '#666', fontSize: 10 }}
+                            tick={{ fill: '#A1A1AA', fontSize: 10 }}
                             interval="preserveStartEnd"
                         />
                         <Tooltip
@@ -168,8 +168,8 @@ export default function RecentTransactions({ type, refreshTrigger }: { type: Tra
                                         <td><input type="date" value={editForm.date?.split('T')[0]} onChange={e => setEditForm({ ...editForm, date: e.target.value })} style={{ padding: '0.3rem', fontSize: '0.8rem' }} /></td>
                                         <td>
                                             <select value={editForm.branch} onChange={e => setEditForm({ ...editForm, branch: e.target.value })} style={{ padding: '0.3rem', fontSize: '0.8rem' }}>
-                                                <option value="Rawson" style={{ color: 'black' }}>Rawson</option>
-                                                <option value="Rivadavia" style={{ color: 'black' }}>Rivadavia</option>
+                                                <option value="Rawson" style={{ background: '#18181c', color: '#ffffff' }}>Rawson</option>
+                                                <option value="Rivadavia" style={{ background: '#18181c', color: '#ffffff' }}>Rivadavia</option>
                                             </select>
                                         </td>
                                         <td>
@@ -219,7 +219,7 @@ export default function RecentTransactions({ type, refreshTrigger }: { type: Tra
                         ))}
                     </tbody>
                 </table>
-                {transactions.length === 0 && <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>No hay movimientos recientes</div>}
+                {transactions.length === 0 && <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>No hay movimientos recientes</div>}
             </div>
         </div>
     );

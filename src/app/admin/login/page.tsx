@@ -62,17 +62,18 @@ function LoginForm() {
         {/* Logo & Title */}
         <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
           <div style={{
-            width: '72px',
-            height: '72px',
+            width: '80px',
+            height: '80px',
             margin: '0 auto 1.25rem',
-            borderRadius: '16px',
-            border: '1px solid rgba(255,255,255,0.12)',
+            borderRadius: '20px',
+            border: '1px solid rgba(254, 166, 4, 0.35)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            background: 'rgba(255,255,255,0.06)',
+            background: 'rgba(0, 0, 0, 0.9)',
+            boxShadow: '0 0 25px rgba(254, 166, 4, 0.2)',
           }}>
-            <Image src="/logovyper.png" alt="Ardyn" width={44} height={44} style={{ objectFit: 'contain' }} />
+            <Image src="/logo-ardyn.png" alt="Ardyn" width={60} height={60} style={{ objectFit: 'contain', borderRadius: 14 }} priority />
           </div>
           <h1 style={{
             color: '#FFFFFF',
@@ -230,19 +231,19 @@ function LoginForm() {
             style={{
               width: '100%',
               padding: '0.875rem',
-              background: '#FFFFFF',
-              color: '#000000',
+              background: (!email || !password) ? 'rgba(255,255,255,0.1)' : 'var(--brand-gradient)',
+              color: (!email || !password) ? 'var(--text-muted)' : '#000000',
               border: 'none',
-              borderRadius: '10px',
+              borderRadius: '12px',
               fontSize: '0.9375rem',
-              fontWeight: 700,
-              cursor: loading ? 'wait' : 'pointer',
+              fontWeight: 800,
+              cursor: loading ? 'wait' : (!email || !password) ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               gap: '0.5rem',
               transition: 'all 0.2s',
-              opacity: (!email || !password) ? 0.5 : 1,
+              boxShadow: (!email || !password) ? 'none' : '0 4px 18px rgba(254, 166, 4, 0.35)',
             }}
           >
             {loading ? (

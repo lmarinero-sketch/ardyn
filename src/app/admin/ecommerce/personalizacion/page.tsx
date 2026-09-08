@@ -139,17 +139,18 @@ function TutorialOverlay({ step, total, currentStep, onNext, onPrev, onClose }: 
         left: '50%',
         transform: 'translateX(-50%)',
         width: 'min(520px, calc(100vw - 2rem))',
-        background: '#fff',
+        background: '#121216',
         borderRadius: 16,
-        boxShadow: '0 20px 60px rgba(0,0,0,0.2), 0 0 0 1px rgba(0,0,0,0.05)',
+        border: '1px solid #27272a',
+        boxShadow: '0 20px 60px rgba(0,0,0,0.8), 0 0 20px rgba(254, 166, 4, 0.1)',
         zIndex: 9999,
         overflow: 'hidden',
         animation: 'tutorialSlideUp 0.3s ease-out',
       }}>
         {/* Progress bar */}
-        <div style={{ height: 3, background: '#f3f4f6' }}>
+        <div style={{ height: 3, background: '#27272a' }}>
           <div style={{
-            height: '100%', background: 'linear-gradient(90deg, #8b5cf6, #6366f1)',
+            height: '100%', background: 'var(--brand-gradient)',
             width: `${progress}%`, transition: 'width 0.4s ease',
             borderRadius: '0 2px 2px 0',
           }} />
@@ -160,19 +161,19 @@ function TutorialOverlay({ step, total, currentStep, onNext, onPrev, onClose }: 
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <div style={{
               width: 32, height: 32, borderRadius: 8,
-              background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+              background: 'var(--brand-gradient)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              color: '#fff', fontSize: '0.75rem', fontWeight: 800,
+              color: '#000', fontSize: '0.75rem', fontWeight: 800,
             }}>
               {currentStep + 1}
             </div>
-            <span style={{ fontSize: '0.6875rem', color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
               Paso {currentStep + 1} de {total}
             </span>
           </div>
           <button onClick={onClose} style={{
             background: 'none', border: 'none', cursor: 'pointer', padding: 4,
-            color: '#9ca3af', borderRadius: 6,
+            color: 'var(--text-muted)', borderRadius: 6,
           }}>
             <X size={18} />
           </button>
@@ -180,11 +181,11 @@ function TutorialOverlay({ step, total, currentStep, onNext, onPrev, onClose }: 
 
         {/* Content */}
         <div style={{ padding: '0.75rem 1.25rem 1rem' }}>
-          <h3 style={{ fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.5rem', color: '#111' }}>
+          <h3 style={{ fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.5rem', color: '#FFFFFF' }}>
             {step.title}
           </h3>
           <p
-            style={{ fontSize: '0.9rem', color: '#4b5563', lineHeight: 1.65, marginBottom: step.tip ? '0.75rem' : 0 }}
+            style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: 1.65, marginBottom: step.tip ? '0.75rem' : 0 }}
             dangerouslySetInnerHTML={{ __html: step.content }}
           />
 
@@ -192,10 +193,10 @@ function TutorialOverlay({ step, total, currentStep, onNext, onPrev, onClose }: 
           {step.tip && (
             <div style={{
               display: 'flex', gap: '0.625rem', padding: '0.75rem',
-              background: '#fefce8', border: '1px solid #fde68a',
-              borderRadius: 10, fontSize: '0.8125rem', color: '#92400e', lineHeight: 1.5,
+              background: 'rgba(254, 166, 4, 0.1)', border: '1px solid rgba(254, 166, 4, 0.25)',
+              borderRadius: 10, fontSize: '0.8125rem', color: '#fef08a', lineHeight: 1.5,
             }}>
-              <Lightbulb size={16} style={{ flexShrink: 0, marginTop: 2, color: '#f59e0b' }} />
+              <Lightbulb size={16} style={{ flexShrink: 0, marginTop: 2, color: 'var(--brand-gold)' }} />
               <span>{step.tip}</span>
             </div>
           )}
@@ -203,8 +204,8 @@ function TutorialOverlay({ step, total, currentStep, onNext, onPrev, onClose }: 
 
         {/* Navigation */}
         <div style={{
-          padding: '0.75rem 1.25rem', borderTop: '1px solid #f3f4f6',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fafafa',
+          padding: '0.75rem 1.25rem', borderTop: '1px solid #27272a',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#18181c',
         }}>
           <button
             onClick={onPrev}
@@ -212,8 +213,8 @@ function TutorialOverlay({ step, total, currentStep, onNext, onPrev, onClose }: 
             style={{
               display: 'flex', alignItems: 'center', gap: 4,
               padding: '0.5rem 0.875rem', borderRadius: 8,
-              background: '#fff', border: '1px solid #e5e7eb',
-              color: isFirst ? '#d1d5db' : '#374151',
+              background: '#27272a', border: '1px solid #3f3f46',
+              color: isFirst ? '#52525b' : '#f4f4f5',
               cursor: isFirst ? 'not-allowed' : 'pointer',
               fontSize: '0.8125rem', fontWeight: 500,
               minHeight: 'auto', boxShadow: 'none', letterSpacing: 'normal', textTransform: 'none' as const,
@@ -222,17 +223,17 @@ function TutorialOverlay({ step, total, currentStep, onNext, onPrev, onClose }: 
             <ChevronLeft size={14} /> Anterior
           </button>
 
-          <span style={{ fontSize: '0.6875rem', color: '#d1d5db' }}>← → o ESC</span>
+          <span style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>← → o ESC</span>
 
           <button
             onClick={onNext}
             style={{
               display: 'flex', alignItems: 'center', gap: 4,
               padding: '0.5rem 0.875rem', borderRadius: 8,
-              background: isLast ? '#10b981' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-              border: 'none', color: '#fff',
-              cursor: 'pointer', fontSize: '0.8125rem', fontWeight: 600,
-              minHeight: 'auto', boxShadow: '0 2px 8px rgba(99,102,241,0.3)', letterSpacing: 'normal', textTransform: 'none' as const,
+              background: isLast ? '#10b981' : 'var(--brand-gradient)',
+              border: 'none', color: isLast ? '#fff' : '#000',
+              cursor: 'pointer', fontSize: '0.8125rem', fontWeight: 700,
+              minHeight: 'auto', boxShadow: '0 2px 8px rgba(254,166,4,0.3)', letterSpacing: 'normal', textTransform: 'none' as const,
             }}
           >
             {isLast ? 'Completar ✓' : 'Siguiente'} <ChevronRight size={14} />
@@ -1009,18 +1010,18 @@ export default function PersonalizacionPage() {
           alignItems: 'center', justifyContent: 'center', zIndex: 9999, backdropFilter: 'blur(2px)'
         }}>
           <div style={{
-            background: '#fff', borderRadius: 16, padding: '2rem', width: 'min(400px, 90vw)',
-            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)', textAlign: 'center',
+            background: '#121216', borderRadius: 16, padding: '2rem', width: 'min(400px, 90vw)',
+            boxShadow: '0 20px 40px rgba(0, 0, 0, 0.7)', textAlign: 'center',
             border: '2px solid #ef4444'
           }}>
             <div style={{
-              width: 56, height: 56, borderRadius: '50%', background: '#fee2e2',
+              width: 56, height: 56, borderRadius: '50%', background: 'rgba(239, 68, 68, 0.15)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem'
             }}>
               <AlertTriangle size={32} color="#ef4444" />
             </div>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#111', marginBottom: '0.5rem' }}>Error</h3>
-            <p style={{ color: '#4b5563', fontSize: '0.9375rem', marginBottom: '2rem' }}>{errorMessage}</p>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.5rem' }}>Error</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9375rem', marginBottom: '2rem' }}>{errorMessage}</p>
             <button onClick={() => setErrorMessage(null)} style={{
               width: '100%', padding: '0.75rem', background: '#ef4444', color: '#fff',
               borderRadius: 8, fontWeight: 600, border: 'none', cursor: 'pointer',

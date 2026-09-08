@@ -145,7 +145,7 @@ export default function RetentionPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
                     <h2 style={{ fontSize: '1.2rem', margin: 0 }}>Acciones Pendientes</h2>
                     <div style={{ position: 'relative', width: '300px' }}>
-                        <Search size={16} style={{ position: 'absolute', left: '12px', top: '12px', color: '#666' }} />
+                        <Search size={16} style={{ position: 'absolute', left: '12px', top: '12px', color: 'var(--text-muted)' }} />
                         <input
                             type="text"
                             placeholder="Buscar cliente..."

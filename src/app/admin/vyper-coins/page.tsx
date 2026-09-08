@@ -294,7 +294,7 @@ export default function VyperCoinsPage() {
                                 ) : (
                                     <>
                                         <div style={{ position: 'relative' }}>
-                                            <Search size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
+                                            <Search size={16} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                                             <input
                                                 type="text"
                                                 placeholder="Buscar cliente..."
@@ -417,11 +417,14 @@ export default function VyperCoinsPage() {
                                 disabled={loading || !selectedClient || amount <= 0}
                                 style={{
                                     gridColumn: 'span 4',
-                                    padding: '0.75rem',
+                                    padding: '0.85rem',
                                     fontSize: '1rem',
                                     fontWeight: 'bold',
-                                    background: loading || !selectedClient || amount <= 0 ? '#333' : '#facc15',
-                                    color: 'black',
+                                    background: loading || !selectedClient || amount <= 0 ? '#1f1f24' : 'var(--brand-gradient)',
+                                    color: loading || !selectedClient || amount <= 0 ? 'var(--text-muted)' : '#000000',
+                                    border: loading || !selectedClient || amount <= 0 ? '1px solid #333338' : 'none',
+                                    borderRadius: '8px',
+                                    boxShadow: loading || !selectedClient || amount <= 0 ? 'none' : 'var(--brand-glow)',
                                     cursor: loading || !selectedClient || amount <= 0 ? 'not-allowed' : 'pointer'
                                 }}
                             >
@@ -439,7 +442,7 @@ export default function VyperCoinsPage() {
                             Historial de Transacciones ({filteredTransactions.length})
                         </h2>
                         <div style={{ position: 'relative', minWidth: '250px' }}>
-                            <Filter size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
+                            <Filter size={14} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                             <input
                                 type="text"
                                 placeholder="Filtrar por cliente, fecha, importe..."
@@ -513,7 +516,7 @@ export default function VyperCoinsPage() {
                         </table>
 
                         {filteredTransactions.length === 0 && (
-                            <div style={{ padding: '3rem', textAlign: 'center', color: '#666' }}>
+                            <div style={{ padding: '3rem', textAlign: 'center', color: 'var(--text-muted)' }}>
                                 {txnSearch ? 'No se encontraron transacciones con ese filtro' : 'No hay transacciones registradas'}
                             </div>
                         )}

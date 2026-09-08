@@ -101,16 +101,16 @@ const COMPETITORS = [
 ];
 
 const MARKET_DATA = [
-    { name: 'Scimmia', value: 45, color: '#000000' },
-    { name: 'Pirka', value: 15, color: '#444444' },
-    { name: 'Kick', value: 12, color: '#666666' },
-    { name: 'Strongman', value: 10, color: '#888888' },
-    { name: 'Ardyn / Otros', value: 18, color: '#cccccc' },
+    { name: 'Scimmia', value: 45, color: '#3f3f46' },
+    { name: 'Pirka', value: 15, color: '#52525b' },
+    { name: 'Kick', value: 12, color: '#71717a' },
+    { name: 'Strongman', value: 10, color: '#a1a1aa' },
+    { name: 'Ardyn (Nuestra Marca)', value: 18, color: '#FEA604' },
 ];
 
 const ARDYN_STORES = [
-    { name: 'ARDYN RIVADAVIA', coords: [-31.5312, -68.5910] as [number, number], color: '#000000' },
-    { name: 'ARDYN RAWSON', coords: [-31.5835, -68.5280] as [number, number], color: '#000000' }
+    { name: 'ARDYN RIVADAVIA', coords: [-31.5312, -68.5910] as [number, number], color: '#FEA604' },
+    { name: 'ARDYN RAWSON', coords: [-31.5835, -68.5280] as [number, number], color: '#FD8209' }
 ];
 
 const EVENTS = [
@@ -291,7 +291,7 @@ export default function CompetitorsPage() {
                                     <Marker position={s.coords}>
                                         <Popup><b>{s.name}</b><br />Sede Central Ardyn</Popup>
                                     </Marker>
-                                    <LCircle center={s.coords} radius={2500} pathOptions={{ color: 'black', fillColor: 'black', fillOpacity: 0.1 }} />
+                                    <LCircle center={s.coords} radius={2500} pathOptions={{ color: '#FEA604', fillColor: '#FEA604', fillOpacity: 0.2 }} />
                                 </div>
                             ))}
 

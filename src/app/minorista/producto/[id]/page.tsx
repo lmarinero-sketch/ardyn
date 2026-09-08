@@ -334,7 +334,7 @@ export default function ProductoPage() {
                           key={tier.id}
                           onClick={() => setCantidad(tier.qty)}
                           style={{
-                            background: isMet ? '#111' : 'transparent',
+                            background: isMet ? 'rgba(0, 255, 136, 0.08)' : 'rgba(255, 255, 255, 0.03)',
                             border: isMet ? '2px solid var(--accent-green)' : '1px solid var(--border-color)',
                             borderRadius: 12,
                             padding: '1rem 0.5rem',

@@ -128,7 +128,7 @@ export default function ClientsPage() {
                                     <span style={{ fontWeight: 'bold', color: '#facc15' }}>{c.coin_balance} 🪙</span>
                                 </div>
                             ))}
-                            {topCoins.length === 0 && <p style={{ color: '#666', fontSize: '0.9rem' }}>Sin datos</p>}
+                            {topCoins.length === 0 && <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Sin datos</p>}
                         </div>
 
                         {/* Top Debt */}
@@ -148,7 +148,7 @@ export default function ClientsPage() {
                                     <span style={{ fontWeight: 'bold', color: '#ef4444' }}>${c.debt_balance.toLocaleString()}</span>
                                 </div>
                             ))}
-                            {topDebt.length === 0 && <p style={{ color: '#666', fontSize: '0.9rem' }}>Sin datos</p>}
+                            {topDebt.length === 0 && <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>Sin datos</p>}
                         </div>
                     </div>
 
@@ -160,7 +160,7 @@ export default function ClientsPage() {
                                 <h4 style={{ fontSize: '1rem' }}>Todos los clientes ({filteredClients.length})</h4>
                             </div>
                             <div style={{ position: 'relative', width: '250px' }}>
-                                <Search size={18} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#666' }} />
+                                <Search size={18} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
                                 <input
                                     type="text"
                                     placeholder="Buscar por nombre o teléfono..."
@@ -175,7 +175,7 @@ export default function ClientsPage() {
                                 />
                             </div>
                         </div>
-                        <p style={{ fontSize: '0.75rem', color: '#666', marginBottom: '1rem', fontStyle: 'italic' }}>
+                        <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '1rem', fontStyle: 'italic' }}>
                             💡 Haz clic en cualquier cliente para editar o eliminar
                         </p>
 
@@ -215,7 +215,7 @@ export default function ClientsPage() {
                                 </tbody>
                             </table>
                             {filteredClients.length === 0 && (
-                                <div style={{ padding: '2rem', textAlign: 'center', color: '#666' }}>
+                                <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
                                     {searchTerm ? 'No se encontraron resultados' : 'No hay clientes registrados'}
                                 </div>
                             )}

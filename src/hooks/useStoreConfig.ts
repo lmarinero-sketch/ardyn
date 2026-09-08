@@ -12,8 +12,8 @@ export const STORE_DEFAULTS = {
     nombre_marca: 'ARDYN',
     subtitulo_mayorista: 'Mayorista',
     subtitulo_minorista: 'Tienda Oficial',
-    nombre_completo: 'ARDYN SUPLEMENTOS',
-    logo_url: '/logovyper.png',
+    nombre_completo: 'ARDYN INDUMENTARIA & SUPLEMENTOS',
+    logo_url: '/logo-ardyn.png',
   },
   tienda_hero_mayorista: {
     titulo: 'Catálogo Mayorista 🛒',

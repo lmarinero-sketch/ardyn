@@ -382,7 +382,7 @@ export default function TutorialPage() {
           </div>
           <h1 style={{ margin: 0 }}>Centro de Ayuda</h1>
         </div>
-        <p style={{ color: '#6b7280', fontSize: '0.9375rem', marginTop: '0.5rem' }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.9375rem', marginTop: '0.5rem' }}>
           Tutoriales paso a paso para dominar cada módulo del sistema
         </p>
       </div>
@@ -426,16 +426,16 @@ export default function TutorialPage() {
                 }}>
                   {tut.icon}
                 </div>
-                <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.375rem', color: '#111' }}>
+                <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.375rem', color: 'var(--text-main)' }}>
                   {tut.title}
                 </h3>
-                <p style={{ fontSize: '0.8125rem', color: '#6b7280', lineHeight: 1.5, marginBottom: '0.75rem' }}>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '0.75rem' }}>
                   {tut.description}
                 </p>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                   <span style={{
                     fontSize: '0.6875rem', fontWeight: 600,
-                    color: tut.color, background: `${tut.color}10`,
+                    color: tut.color, background: `${tut.color}15`,
                     padding: '0.2rem 0.5rem', borderRadius: 100,
                   }}>
                     {tut.steps.length} pasos
@@ -450,8 +450,8 @@ export default function TutorialPage() {
 
           {/* Quick Links */}
           <div className="glass-card" style={{ padding: '1.25rem' }}>
-            <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <HelpCircle size={16} /> Enlaces rápidos
+            <h3 style={{ fontSize: '0.9375rem', fontWeight: 700, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-main)' }}>
+              <HelpCircle size={16} style={{ color: 'var(--brand-gold)' }} /> Enlaces rápidos
             </h3>
             <div style={{
               display: 'grid',
@@ -460,8 +460,8 @@ export default function TutorialPage() {
             }}>
               {[
                 { href: '/admin', label: 'Panel Admin', emoji: '📊' },
-                { href: '/tienda', label: 'Tienda', emoji: '🛒' },
-                { href: '/tienda/como-comprar', label: 'Cómo comprar', emoji: '❓' },
+                { href: '/tienda', label: 'Tienda Mayorista', emoji: '📦' },
+                { href: '/minorista', label: 'Tienda Minorista', emoji: '🛒' },
                 { href: '/', label: 'Inicio', emoji: '🏠' },
               ].map(link => (
                 <Link
@@ -472,21 +472,21 @@ export default function TutorialPage() {
                     alignItems: 'center',
                     gap: '0.625rem',
                     padding: '0.75rem',
-                    background: '#f9fafb',
-                    border: '1px solid #e5e7eb',
+                    background: 'var(--bg-secondary)',
+                    border: '1px solid var(--border-color)',
                     borderRadius: 10,
                     textDecoration: 'none',
-                    color: '#111',
+                    color: 'var(--text-main)',
                     fontSize: '0.875rem',
                     fontWeight: 500,
                     transition: 'all 0.2s',
                   }}
                   onMouseEnter={e => {
-                    (e.currentTarget).style.borderColor = '#111';
+                    (e.currentTarget).style.borderColor = 'var(--brand-gold)';
                     (e.currentTarget).style.transform = 'translateY(-2px)';
                   }}
                   onMouseLeave={e => {
-                    (e.currentTarget).style.borderColor = '#e5e7eb';
+                    (e.currentTarget).style.borderColor = 'var(--border-color)';
                     (e.currentTarget).style.transform = 'translateY(0)';
                   }}
                 >
@@ -508,7 +508,7 @@ export default function TutorialPage() {
             className="btn-ghost"
             style={{
               display: 'flex', alignItems: 'center', gap: '0.375rem',
-              marginBottom: '1.25rem', fontSize: '0.875rem', color: '#6b7280',
+              marginBottom: '1.25rem', fontSize: '0.875rem', color: 'var(--text-muted)',
             }}
           >
             <ArrowLeft size={16} /> Volver a tutoriales
@@ -526,7 +526,7 @@ export default function TutorialPage() {
               </div>
               <div>
                 <h2 style={{ fontSize: '1.25rem', fontWeight: 700, margin: 0 }}>{tutorial.title}</h2>
-                <p style={{ fontSize: '0.8125rem', color: '#6b7280', margin: 0 }}>{tutorial.description}</p>
+                <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', margin: 0 }}>{tutorial.description}</p>
               </div>
             </div>
 
@@ -551,14 +551,15 @@ export default function TutorialPage() {
             {/* Current Step */}
             <div style={{
               padding: '1.5rem',
-              background: '#f9fafb',
+              background: 'var(--bg-secondary)',
               borderRadius: 12,
-              borderLeft: `3px solid ${tutorial.color}`,
+              border: '1px solid var(--border-color)',
+              borderLeft: `4px solid ${tutorial.color}`,
               marginBottom: '1.5rem',
             }}>
               <h3 style={{
                 fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.625rem',
-                color: '#111', display: 'flex', alignItems: 'center', gap: '0.5rem',
+                color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.5rem',
               }}>
                 <span style={{
                   width: 28, height: 28, borderRadius: '50%',
@@ -571,7 +572,7 @@ export default function TutorialPage() {
                 {tutorial.steps[currentStep].title}
               </h3>
               <p
-                style={{ fontSize: '0.9375rem', color: '#4b5563', lineHeight: 1.7, margin: 0 }}
+                style={{ fontSize: '0.9375rem', color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0 }}
                 dangerouslySetInnerHTML={{ __html: tutorial.steps[currentStep].content }}
               />
             </div>
@@ -608,8 +609,9 @@ export default function TutorialPage() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: '0.375rem',
                   padding: '0.625rem 1rem', borderRadius: 8,
-                  background: '#fff', border: '1px solid #d1d5db',
-                  color: currentStep === 0 ? '#d1d5db' : '#111',
+                  background: currentStep === 0 ? 'rgba(255,255,255,0.03)' : 'rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  color: currentStep === 0 ? 'var(--text-muted)' : '#FFFFFF',
                   cursor: currentStep === 0 ? 'not-allowed' : 'pointer',
                   fontSize: '0.875rem', fontWeight: 500,
                   minHeight: 'auto', boxShadow: 'none', letterSpacing: 'normal',

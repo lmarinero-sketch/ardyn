@@ -94,7 +94,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Brand */}
                 <div className="sidebar-brand">
                     <div className="sidebar-brand-icon">
-                        <img src="/logovyper.png" alt="Ardyn" width={28} height={28} style={{ borderRadius: '6px' }} />
+                        <img src="/logo-ardyn.png" alt="Ardyn" width={32} height={32} style={{ borderRadius: '6px', objectFit: 'contain' }} />
                     </div>
                     <div>
                         <span className="sidebar-brand-name">Ardyn Labs</span>

@@ -62,16 +62,16 @@ export default function ComoComprarPage() {
       <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
         <div style={{
           width: 56, height: 56, borderRadius: 14,
-          background: '#f0f9ff', color: '#3b82f6',
+          background: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           margin: '0 auto 1rem',
         }}>
           <Package size={28} />
         </div>
-        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem', color: '#111' }}>
+        <h1 style={{ fontSize: '1.75rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-main)' }}>
           ¿Cómo comprar?
         </h1>
-        <p style={{ color: '#6b7280', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.6 }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.6 }}>
           Comprar en {identidad.nombre_marca} es fácil y rápido. Seguí estos pasos y armá tu pedido en minutos.
         </p>
       </div>
@@ -85,25 +85,25 @@ export default function ComoComprarPage() {
               display: 'flex',
               gap: '1.25rem',
               padding: '1.5rem',
-              background: '#fff',
+              background: 'var(--card-bg)',
               borderRadius: 14,
-              border: '1px solid #e5e7eb',
+              border: 'var(--card-border)',
               transition: 'border-color 0.2s, box-shadow 0.2s',
               position: 'relative',
             }}
             onMouseEnter={e => {
               (e.currentTarget).style.borderColor = step.color;
-              (e.currentTarget).style.boxShadow = `0 4px 16px ${step.color}15`;
+              (e.currentTarget).style.boxShadow = `0 4px 16px ${step.color}25`;
             }}
             onMouseLeave={e => {
-              (e.currentTarget).style.borderColor = '#e5e7eb';
+              (e.currentTarget).style.borderColor = 'rgba(255, 255, 255, 0.12)';
               (e.currentTarget).style.boxShadow = 'none';
             }}
           >
             {/* Step icon */}
             <div style={{
               width: 52, height: 52, borderRadius: 12, flexShrink: 0,
-              background: `${step.color}10`, color: step.color,
+              background: `${step.color}15`, color: step.color,
               display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}>
               {step.icon}
@@ -113,16 +113,16 @@ export default function ComoComprarPage() {
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.375rem' }}>
                 <span style={{
                   fontSize: '0.6875rem', fontWeight: 700,
-                  color: step.color, background: `${step.color}12`,
+                  color: step.color, background: `${step.color}18`,
                   padding: '0.125rem 0.5rem', borderRadius: 100,
                 }}>
                   PASO {step.number}
                 </span>
               </div>
-              <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.375rem', color: '#111' }}>
+              <h3 style={{ fontSize: '1.0625rem', fontWeight: 700, marginBottom: '0.375rem', color: 'var(--text-main)' }}>
                 {step.title}
               </h3>
-              <p style={{ fontSize: '0.875rem', color: '#6b7280', lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
                 {step.description}
               </p>
             </div>
@@ -135,7 +135,7 @@ export default function ComoComprarPage() {
                 left: 44.5,
                 width: 2,
                 height: 24,
-                background: '#e5e7eb',
+                background: 'rgba(255, 255, 255, 0.12)',
                 zIndex: 1,
               }} />
             )}
@@ -146,17 +146,17 @@ export default function ComoComprarPage() {
       {/* FAQ — Dinámico desde configuraciones */}
       {faqsConfig.preguntas && faqsConfig.preguntas.length > 0 && (
         <div style={{ marginBottom: '3rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem', color: '#111', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-            <MessageCircle size={20} /> Preguntas frecuentes
+          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '1rem', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <MessageCircle size={20} style={{ color: 'var(--brand-gold)' }} /> Preguntas frecuentes
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {faqsConfig.preguntas.map((faq: { pregunta: string; respuesta: string }, i: number) => (
               <details
                 key={i}
                 style={{
-                  background: '#fff',
-                  border: '1px solid #e5e7eb',
-                  borderRadius: 10,
+                  background: 'var(--card-bg)',
+                  border: 'var(--card-border)',
+                  borderRadius: 12,
                   overflow: 'hidden',
                 }}
               >
@@ -165,19 +165,19 @@ export default function ComoComprarPage() {
                   cursor: 'pointer',
                   fontWeight: 600,
                   fontSize: '0.9375rem',
-                  color: '#111',
+                  color: 'var(--text-main)',
                   listStyle: 'none',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
                 }}>
                   {faq.pregunta}
-                  <ArrowRight size={16} style={{ color: '#9ca3af', transition: '0.2s', flexShrink: 0 }} />
+                  <ArrowRight size={16} style={{ color: 'var(--text-muted)', transition: '0.2s', flexShrink: 0 }} />
                 </summary>
                 <div style={{
                   padding: '0 1.25rem 1rem',
                   fontSize: '0.875rem',
-                  color: '#6b7280',
+                  color: 'var(--text-muted)',
                   lineHeight: 1.6,
                 }}>
                   {faq.respuesta}
@@ -191,26 +191,22 @@ export default function ComoComprarPage() {
       {/* CTA */}
       <div style={{
         textAlign: 'center',
-        padding: '2rem',
-        background: '#f9fafb',
-        borderRadius: 14,
-        border: '1px solid #e5e7eb',
+        padding: '2.5rem 2rem',
+        background: 'var(--card-bg)',
+        borderRadius: 16,
+        border: '1px solid rgba(254, 166, 4, 0.25)',
+        boxShadow: '0 0 30px rgba(254, 166, 4, 0.08)',
       }}>
-        <h3 style={{ fontSize: '1.125rem', fontWeight: 700, marginBottom: '0.5rem', color: '#111' }}>
+        <h3 style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: '0.5rem', color: 'var(--text-main)' }}>
           ¿Listo para armar tu pedido?
         </h3>
-        <p style={{ color: '#6b7280', marginBottom: '1.25rem', fontSize: '0.9375rem' }}>
-          Explorá nuestro catálogo de suplementos, indumentaria y accesorios.
+        <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', fontSize: '0.9375rem' }}>
+          Explorá nuestra tienda oficial de indumentaria, suplementos y accesorios.
         </p>
         <div style={{ display: 'flex', gap: '0.75rem', justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link href="/minorista">
-            <button style={{
-              background: '#111', color: '#fff', border: 'none',
-              padding: '0.75rem 1.5rem', borderRadius: 10,
-              fontSize: '0.9375rem', fontWeight: 600, cursor: 'pointer',
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-            }}>
-              <ShoppingCart size={18} /> Ir al catálogo
+            <button className="btn-brand">
+              <ShoppingCart size={18} /> Ir a la tienda
             </button>
           </Link>
           <a
@@ -218,14 +214,8 @@ export default function ComoComprarPage() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <button style={{
-              background: '#fff', color: '#111',
-              border: '1px solid #d1d5db',
-              padding: '0.75rem 1.5rem', borderRadius: 10,
-              fontSize: '0.9375rem', fontWeight: 600, cursor: 'pointer',
-              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-            }}>
-              <MessageCircle size={18} /> Consultar por WhatsApp
+            <button className="secondary">
+              <MessageCircle size={18} style={{ color: '#25D366' }} /> Consultar por WhatsApp
             </button>
           </a>
         </div>
