@@ -1,5 +1,5 @@
 // ============================================
-// VYPER ECOMMERCE B2B — TYPES
+// ARDYN ECOMMERCE B2B — TYPES
 // ============================================
 
 export interface Rubro {

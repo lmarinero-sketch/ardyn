@@ -8,11 +8,11 @@ INSERT INTO public.configuraciones (clave, valor, descripcion)
 VALUES (
     'tienda_identidad',
     '{
-      "nombre_marca": "VYPER",
+      "nombre_marca": "ARDYN",
       "subtitulo_mayorista": "Mayorista",
       "subtitulo_minorista": "Tienda Oficial",
-      "nombre_completo": "VYPER SUPLEMENTOS",
-      "logo_url": "/logovyper.png"
+      "nombre_completo": "ARDYN SUPLEMENTOS",
+      "logo_url": "/logo-ardyn.png"
     }'::jsonb,
     'Identidad visual de la marca: logo, nombre y subtítulos'
 ) ON CONFLICT (clave) DO NOTHING;
@@ -54,7 +54,7 @@ VALUES (
     '{
       "direccion": "📍 Av. Libertador 4858 Oeste, Rivadavia, San Juan",
       "telefono": "📱 +54 9 264 679-6509",
-      "instagram": "@vyper_suplementos",
+      "instagram": "@ardyn_suplementos",
       "texto_creditos": "Desarrollado por Grow Labs",
       "url_creditos": "https://www.growlabs.lat"
     }'::jsonb,
@@ -68,9 +68,9 @@ VALUES (
     '{
       "numero_mayorista": "5492646796509",
       "numero_minorista": "5492646796509",
-      "mensaje_mayorista": "Hola Vyper! Quiero hacer un pedido mayorista 🛒",
-      "mensaje_minorista": "Hola Vyper!",
-      "mensaje_consulta": "Hola Vyper! Tengo una consulta",
+      "mensaje_mayorista": "Hola Ardyn! Quiero hacer un pedido mayorista 🛒",
+      "mensaje_minorista": "Hola Ardyn!",
+      "mensaje_consulta": "Hola Ardyn! Tengo una consulta",
       "boton_flotante_activo": true,
       "url_sucursal": "https://www.google.com/maps/search/?api=1&query=Av.+Libertador+4858+Oeste,+Rivadavia,+San+Juan"
     }'::jsonb,

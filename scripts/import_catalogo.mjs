@@ -1,6 +1,6 @@
 /**
  * ═══════════════════════════════════════════════════════
- *  VYPER LABS — CSV Catalog Import Script
+ *  ARDYN LABS — CSV Catalog Import Script
  *  Imports products from catalogo.csv directly to Supabase
  *  
  *  Usage: node scripts/import_catalogo.mjs
@@ -166,7 +166,7 @@ function parseCSV(filepath) {
 // ── Main Import ─────────────────────────────────────────
 async function main() {
   console.log('═══════════════════════════════════════════');
-  console.log('  VYPER LABS — Importación de Catálogo CSV');
+  console.log('  ARDYN LABS — Importación de Catálogo CSV');
   console.log('═══════════════════════════════════════════');
   if (DRY_RUN) console.log('  ⚠️  DRY RUN — No se escribirá en la DB\n');
 
@@ -329,7 +329,7 @@ async function main() {
       const productData = {
         nombre: row.nombre,
         descripcion: row.opcion ? `Opción: ${row.opcion}` : null,
-        sku: `VYP-${row.codigo || Date.now().toString(36).toUpperCase().slice(-5)}`,
+        sku: `ARD-${row.codigo || Date.now().toString(36).toUpperCase().slice(-5)}`,
         external_id: row.codigo || null,
         precio_costo: row.precio_costo,
         precio_mayorista: 0, // Will be set by price lists

@@ -418,7 +418,7 @@ export default function ProductoPage() {
                           position: 'relative', overflow: 'hidden', flexShrink: 0
                         }}>
                           <Image
-                            src={variant.imagen || producto.imagenes?.[0] || '/logovyper.png'}
+                            src={variant.imagen || producto.imagenes?.[0] || '/logo-ardyn.png'}
                             alt={variant.nombre}
                             fill
                             style={{ objectFit: 'contain' }}
@@ -428,7 +428,7 @@ export default function ProductoPage() {
                         <div style={{ overflow: 'hidden' }}>
                           {variant.sku && (
                             <div style={{ fontSize: '0.75rem', color: 'var(--text-light)', fontFamily: 'var(--font-mono)' }}>
-                              {variant.sku.replace('VYP-', '')}
+                              {variant.sku.replace(/^(ARD|VYP)-/, '')}
                             </div>
                           )}
                           <div style={{ fontWeight: 700, fontSize: '0.9375rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>

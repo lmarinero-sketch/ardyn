@@ -1,5 +1,5 @@
 -- ============================================
--- VYPER ECOMMERCE B2B — SCHEMA
+-- ARDYN ECOMMERCE B2B — SCHEMA
 -- Tablas nuevas para el módulo ecommerce
 -- No modifica tablas existentes
 -- ============================================

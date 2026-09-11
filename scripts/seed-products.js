@@ -50,7 +50,7 @@ async function seed() {
     { nombre: 'ENA' },
     { nombre: 'Gentech' },
     { nombre: 'Xtrenght' },
-    { nombre: 'Vyper Gear' },
+    { nombre: 'Ardyn Gear' },
   ];
   const { data: marcaData } = await supabase.from('marcas').upsert(marcas, { onConflict: 'nombre' }).select();
   const marcaMap = {};
@@ -163,7 +163,7 @@ async function seed() {
       stock: 80,
       cantidad_minima: 10,
       categoria_id: catMap['Botellas y Shakers'],
-      marca_id: marcaMap['Vyper Gear'],
+      marca_id: marcaMap['Ardyn Gear'],
       imagenes: ['/productos/shaker.png'],
       destacado: false,
       en_oferta: false,
@@ -193,7 +193,7 @@ async function seed() {
       stock: 55,
       cantidad_minima: 5,
       categoria_id: catMap['Remeras'],
-      marca_id: marcaMap['Vyper Gear'],
+      marca_id: marcaMap['Ardyn Gear'],
       imagenes: ['/productos/camiseta.png'],
       destacado: false,
       en_oferta: true,
@@ -262,13 +262,13 @@ async function seed() {
     },
     {
       nombre: 'Toalla Microfibra Gym',
-      descripcion: 'Toalla de microfibra ultra absorbente. Secado rápido. Compacta y liviana. Ideal para el gimnasio. 80x40cm. Logo Vyper bordado.',
+      descripcion: 'Toalla de microfibra ultra absorbente. Secado rápido. Compacta y liviana. Ideal para el gimnasio. 80x40cm. Logo Ardyn bordado.',
       precio_mayorista: 4800,
       precio_unitario: 7000,
       stock: 70,
       cantidad_minima: 10,
       categoria_id: catMap['Toallas'],
-      marca_id: marcaMap['Vyper Gear'],
+      marca_id: marcaMap['Ardyn Gear'],
       imagenes: ['/productos/toalla.png'],
       destacado: false,
       en_oferta: false,

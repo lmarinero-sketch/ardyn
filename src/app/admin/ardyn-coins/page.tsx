@@ -26,7 +26,7 @@ interface CoinTransaction {
     notification_error?: string;
 }
 
-export default function VyperCoinsPage() {
+export default function ArdynCoinsPage() {
     const [clients, setClients] = useState<Client[]>([]);
     const [transactions, setTransactions] = useState<CoinTransaction[]>([]);
     const [searchTerm, setSearchTerm] = useState('');

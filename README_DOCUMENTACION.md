@@ -1,6 +1,6 @@
-# 📚 Documentación Vyper Labs System
+# 📚 Documentación Ardyn Labs System
 
-Bienvenido a la documentación completa del sistema Vyper Labs. Aquí encontrarás todos los recursos necesarios para aprender a usar el sistema de manera efectiva.
+Bienvenido a la documentación completa del sistema Ardyn Labs. Aquí encontrarás todos los recursos necesarios para aprender a usar el sistema de manera efectiva.
 
 ## 📖 Recursos Disponibles
 
@@ -14,7 +14,7 @@ Manual profesional y exhaustivo que cubre todas las funcionalidades del sistema:
 - ✅ Gestión de ventas y egresos
 - ✅ Administración de clientes
 - ✅ Sistema de cuenta corriente
-- ✅ Programa Vyper Coins
+- ✅ Programa Ardyn Coins
 - ✅ Business Intelligence y Analytics
 - ✅ Tips, trucos y mejores prácticas
 - ✅ Preguntas frecuentes
@@ -56,7 +56,7 @@ Tutorial paso a paso con guías visuales interactivas:
    - Registrar compras a crédito
    - Gestionar pagos de clientes
 
-5. 🪙 **Vyper Coins** (5 min, 6 pasos)
+5. 🪙 **Ardyn Coins** (5 min, 6 pasos)
    - Programa de fidelización
    - Agregar y canjear puntos
 
@@ -97,7 +97,7 @@ Tutorial paso a paso con guías visuales interactivas:
 ## 📂 Estructura de Archivos
 
 ```
-vyper-labs/
+ardyn/
 ├── MANUAL_DE_USUARIO.html      # Manual completo del sistema
 ├── TUTORIAL_INTERACTIVO.html   # Tutoriales paso a paso
 ├── README_DOCUMENTACION.md      # Este archivo
@@ -142,7 +142,7 @@ vyper-labs/
 - **Pagos**: Gestión de cobros y saldos
 - **Notificaciones**: WhatsApp automático
 
-### Vyper Coins
+### Ardyn Coins
 - **Fidelización**: Sistema de puntos
 - **Canjes**: Descuentos y recompensas
 - **Historial**: Seguimiento de movimientos
@@ -157,7 +157,7 @@ vyper-labs/
 ## 📞 Soporte
 
 ### Canales de Ayuda:
-- 📧 **Email**: soporte@vyperlabs.com
+- 📧 **Email**: soporte@ardynlabs.com
 - 💬 **WhatsApp**: +54 9 11 XXXX-XXXX
 - 📚 **Documentación**: Este manual
 - 🎥 **Videos**: Próximamente
@@ -175,7 +175,7 @@ vyper-labs/
 ### Últimas Mejoras:
 - ✅ Filtrado de transacciones por mes actual
 - ✅ Notificaciones automáticas de WhatsApp
-- ✅ Sistema de Vyper Coins mejorado
+- ✅ Sistema de Ardyn Coins mejorado
 - ✅ Analytics con gráficos interactivos
 - ✅ Importación masiva desde Excel
 
@@ -213,12 +213,12 @@ Al completar todos los tutoriales interactivos, estarás capacitado para:
 
 ## 📄 Licencia
 
-© 2025 Vyper Labs. Todos los derechos reservados.
+© 2025 Ardyn Labs. Todos los derechos reservados.
 
-Esta documentación es propiedad de Vyper Labs y está destinada exclusivamente para usuarios autorizados del sistema.
+Esta documentación es propiedad de Ardyn Labs y está destinada exclusivamente para usuarios autorizados del sistema.
 
 ---
 
-**¡Gracias por usar Vyper Labs System!** 🚀
+**¡Gracias por usar Ardyn Labs System!** 🚀
 
 Para comenzar, abre `TUTORIAL_INTERACTIVO.html` en tu navegador.

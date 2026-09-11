@@ -24,7 +24,7 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
     if (isLoaded) setCartCount(getItemCount());
 
     const handler = () => {
-      const stored = localStorage.getItem('ardyn_cart') || localStorage.getItem('vyper_cart');
+      const stored = localStorage.getItem('ardyn_cart');
       if (stored) {
         const items = JSON.parse(stored);
         setCartCount(items.reduce((s: number, i: { cantidad: number }) => s + i.cantidad, 0));

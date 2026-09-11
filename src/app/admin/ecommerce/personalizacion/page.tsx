@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Store, Type, MessageCircle, MapPin, HelpCircle, Image as ImageIcon, Video, Save, RotateCcw, Check, Loader2, ChevronDown, Plus, Trash2, GripVertical, BookOpen, ChevronLeft, ChevronRight, X, Lightbulb, ExternalLink, Sparkles, Send, AlertTriangle, Palette } from 'lucide-react';
+import { Store, Type, MessageCircle, MapPin, HelpCircle, Image as ImageIcon, Video, Save, RotateCcw, Check, Loader2, ChevronDown, Plus, Trash2, GripVertical, BookOpen, ChevronLeft, ChevronRight, X, Lightbulb, ExternalLink, Sparkles, Send, AlertTriangle, Palette, LayoutGrid } from 'lucide-react';
 import { STORE_DEFAULTS, StoreConfigKey } from '@/hooks/useStoreConfig';
 
-type TabKey = 'identidad' | 'colores' | 'hero_mayorista' | 'hero_minorista' | 'footer' | 'whatsapp' | 'faqs_mayorista' | 'faqs_minorista';
+type TabKey = 'plantilla' | 'identidad' | 'colores' | 'hero_mayorista' | 'hero_minorista' | 'footer' | 'whatsapp' | 'faqs_mayorista' | 'faqs_minorista';
 
 const TABS: { key: TabKey; label: string; icon: React.ReactNode; configKey: StoreConfigKey }[] = [
+  { key: 'plantilla', label: 'Plantilla / Diseño', icon: <LayoutGrid size={16} />, configKey: 'tienda_plantilla' },
   { key: 'identidad', label: 'Identidad', icon: <Store size={16} />, configKey: 'tienda_identidad' },
   { key: 'colores', label: 'Colores & Estilo', icon: <Palette size={16} />, configKey: 'tienda_colores' },
   { key: 'hero_mayorista', label: 'Hero Mayorista', icon: <ImageIcon size={16} />, configKey: 'tienda_hero_mayorista' },
@@ -736,7 +737,7 @@ function ToggleField({ label, value, onChange, description }: {
 }
 
 export default function PersonalizacionPage() {
-  const [activeTab, setActiveTab] = useState<TabKey>('identidad');
+  const [activeTab, setActiveTab] = useState<TabKey>('plantilla');
   const [configs, setConfigs] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -843,6 +844,211 @@ export default function PersonalizacionPage() {
       </div>
     );
   }
+
+  const renderPlantilla = () => {
+    const activeModelId = currentConfig.tema_activo || '5';
+
+    const TEMPLATES = [
+      {
+        id: '1',
+        name: 'Modelo 1: Cyber Athletic',
+        subtitle: 'Hardcore Pro Fitness & Rendimiento',
+        font: 'Bebas Neue + Inter',
+        tag: 'Dark High-Impact',
+        color: '#FEA604',
+        bg: '#08090C',
+        description: 'Estética agresiva y oscura con tipografía condensada gigante Bebas Neue, selector rápido de sabores, Ardyn Coins integradas y barra de envío gratis.',
+        previewUrl: '/bocetos/modelo-1',
+      },
+      {
+        id: '2',
+        name: 'Modelo 2: Pure Clinical Health',
+        subtitle: 'Nutrición Médica, Longevidad & Farmacia',
+        font: 'Plus Jakarta Sans',
+        tag: 'Clean Clinical QOAG',
+        color: '#0284C7',
+        bg: '#FFFFFF',
+        description: 'Interfaz luminosa y médica con sellos de trazabilidad ANMAT, modal de tabla nutricional, sin TACC y consulta directa a profesionales.',
+        previewUrl: '/bocetos/modelo-2',
+      },
+      {
+        id: '3',
+        name: 'Modelo 3: Urban Luxury Activewear',
+        subtitle: 'Streetwear Deportivo, Drops & High-End',
+        font: 'Syne / Luxe',
+        tag: 'Noir Minimalist',
+        color: '#FEA604',
+        bg: '#0E0F12',
+        description: 'Lookbook de moda deportiva de alta gama con tipografía Syne, selector de talles, swatches de colores y bundle "Completá tu outfit".',
+        previewUrl: '/bocetos/modelo-3',
+      },
+      {
+        id: '4',
+        name: 'Modelo 4: Neo-Retail Pro',
+        subtitle: 'Ecommerce Minorista Oficial de Alta Conversión',
+        font: 'Outfit / Sora',
+        tag: 'Retail Evolucionado',
+        color: '#FD8209',
+        bg: '#0A0A0C',
+        description: 'La evolución directa de la tienda actual. Cinta superior de promociones, navegación rápida por rubros con stock y checkout rápido.',
+        previewUrl: '/bocetos/modelo-4',
+      },
+      {
+        id: '5',
+        name: 'Modelo 5: Ardyn Classic (Original con Video)',
+        subtitle: 'Diseño Original Solicitado con Video Superior',
+        font: 'Inter / Classic',
+        tag: 'Classic Video + Atletas',
+        color: '#FEA604',
+        bg: '#0A0A0C',
+        description: 'El diseño original de la marca con reproductor de video 16:9 en cabecera, hero banner con atletas duales y catálogo estándar.',
+        previewUrl: '/bocetos/modelo-5',
+      },
+    ];
+
+    return (
+      <>
+        <div style={{
+          background: 'linear-gradient(135deg, rgba(254, 166, 4, 0.12), rgba(253, 130, 9, 0.08))',
+          border: '1px solid rgba(254, 166, 4, 0.3)',
+          borderRadius: 12,
+          padding: '1.25rem',
+          marginBottom: '1.5rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.4rem' }}>
+            <Sparkles size={18} color="#FEA604" />
+            <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 800, color: '#FFFFFF' }}>
+              Arquitectura de Plantillas Estandarizada (Estilo Tiendanube)
+            </h4>
+          </div>
+          <p style={{ fontSize: '0.85rem', color: '#D4D4D8', lineHeight: 1.55, margin: 0 }}>
+            Elegí qué plantilla utilizará tu tienda minorista. <strong>Todos los campos de personalización</strong> (Identidad, Colores oficiales, Hero/Video, WhatsApp y Footer) están estandarizados y aplican automáticamente sobre la plantilla que elijas.
+          </p>
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          {TEMPLATES.map((tmpl) => {
+            const isSelected = activeModelId === tmpl.id;
+            return (
+              <div
+                key={tmpl.id}
+                style={{
+                  background: isSelected ? 'rgba(254, 166, 4, 0.06)' : 'var(--bg-secondary)',
+                  border: isSelected ? '2px solid #FEA604' : '1px solid var(--border-color)',
+                  borderRadius: 14,
+                  padding: '1.25rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  flexWrap: 'wrap',
+                  gap: '1rem',
+                  boxShadow: isSelected ? '0 4px 20px rgba(254, 166, 4, 0.18)' : 'none',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <div style={{ flex: 1, minWidth: '260px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '0.35rem' }}>
+                    <h4 style={{ fontSize: '1.05rem', fontWeight: 800, color: '#FFFFFF', margin: 0 }}>
+                      {tmpl.name}
+                    </h4>
+                    <span
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.08)',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                        padding: '0.15rem 0.5rem',
+                        borderRadius: 100,
+                        fontSize: '0.6875rem',
+                        fontWeight: 700,
+                        color: '#A1A1AA',
+                      }}
+                    >
+                      Tipografía: {tmpl.font}
+                    </span>
+                    <span
+                      style={{
+                        background: 'rgba(254, 166, 4, 0.15)',
+                        padding: '0.15rem 0.5rem',
+                        borderRadius: 100,
+                        fontSize: '0.6875rem',
+                        fontWeight: 800,
+                        color: '#FEA604',
+                      }}
+                    >
+                      {tmpl.tag}
+                    </span>
+                    {isSelected && (
+                      <span
+                        style={{
+                          background: '#10B981',
+                          color: '#FFFFFF',
+                          padding: '0.2rem 0.6rem',
+                          borderRadius: 100,
+                          fontSize: '0.72rem',
+                          fontWeight: 900,
+                          display: 'inline-flex',
+                          alignItems: 'center',
+                          gap: 3,
+                        }}
+                      >
+                        ✓ ACTIVA EN TIENDA
+                      </span>
+                    )}
+                  </div>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', margin: '0 0 0.4rem', lineHeight: 1.45 }}>
+                    {tmpl.description}
+                  </p>
+                  <div style={{ fontSize: '0.72rem', color: '#71717A' }}>
+                    Acento principal: <span style={{ color: tmpl.color, fontWeight: 700 }}>{tmpl.color}</span> • Fondo: <span style={{ color: '#A1A1AA', fontWeight: 600 }}>{tmpl.bg}</span>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                  <a
+                    href={tmpl.previewUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-ghost"
+                    style={{
+                      fontSize: '0.8125rem',
+                      padding: '0.55rem 0.85rem',
+                      textDecoration: 'none',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.35rem',
+                    }}
+                  >
+                    Ver boceto <ExternalLink size={13} />
+                  </a>
+
+                  <button
+                    onClick={() => updateField('tema_activo', tmpl.id)}
+                    style={{
+                      padding: '0.55rem 1rem',
+                      borderRadius: 8,
+                      fontSize: '0.8125rem',
+                      fontWeight: 800,
+                      cursor: isSelected ? 'default' : 'pointer',
+                      background: isSelected
+                        ? '#10B981'
+                        : 'linear-gradient(135deg, #FEA604 0%, #FD8209 100%)',
+                      color: isSelected ? '#FFFFFF' : '#000000',
+                      border: 'none',
+                      boxShadow: isSelected ? 'none' : '0 2px 8px rgba(254, 166, 4, 0.3)',
+                      minHeight: 'auto',
+                      letterSpacing: 'normal',
+                      textTransform: 'none' as const,
+                    }}
+                  >
+                    {isSelected ? '✓ Seleccionada' : 'Activar Plantilla'}
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </>
+    );
+  };
 
   const renderIdentidad = () => (
     <>
@@ -1056,6 +1262,7 @@ export default function PersonalizacionPage() {
 
   const renderContent = () => {
     switch (activeTab) {
+      case 'plantilla': return renderPlantilla();
       case 'identidad': return renderIdentidad();
       case 'colores': return renderColores();
       case 'hero_mayorista': return renderHero('tienda_hero_mayorista');

@@ -150,7 +150,7 @@ export default function TutorialPage() {
         }
       ]
     },
-    'vyper-coins': {
+    'ardyn-coins': {
       title: 'Ardyn Coins',
       description: 'Sistema de fidelización y recompensas',
       icon: <Coins size={22} />,

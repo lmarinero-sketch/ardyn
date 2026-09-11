@@ -9,7 +9,7 @@ const supabase = createClient(
 
 async function main() {
   // Hash password for superadmin
-  const hash = await bcrypt.hash('Vyper2026!', 10);
+  const hash = await bcrypt.hash('Ardyn2026!', 10);
   console.log('Password hash generated');
 
   const { error } = await supabase

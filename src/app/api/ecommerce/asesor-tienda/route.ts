@@ -12,7 +12,7 @@ El editor está en /admin/ecommerce/personalizacion y tiene 7 secciones configur
 - **Nombre completo**: Aparece en el footer (ej: "ARDYN SUPLEMENTOS")
 - **Subtítulo Mayorista**: Texto pequeño debajo del logo en tienda mayorista (ej: "Mayorista")
 - **Subtítulo Minorista**: Texto pequeño debajo del logo en tienda minorista (ej: "Tienda Oficial")
-- **URL del Logo**: Ruta de la imagen del logo. Puede ser relativa (/logovyper.png) o absoluta (https://...)
+- **URL del Logo**: Ruta de la imagen del logo. Puede ser relativa (/logo-ardyn.png) o absoluta (https://...)
 - TIP: El logo se recomienda en formato cuadrado, mínimo 200x200px
 
 ### 2. HERO MAYORISTA (Banner principal de /tienda)
@@ -31,7 +31,7 @@ El editor está en /admin/ecommerce/personalizacion y tiene 7 secciones configur
 ### 4. FOOTER (Pie de página — compartido)
 - **Dirección**: Con emoji recomendado (ej: "📍 Av. Libertador 4858 Oeste, Rivadavia, San Juan")
 - **Teléfono**: Con emoji (ej: "📱 +54 9 264 679-6509")
-- **Instagram**: Handle con @ (ej: "@vyper_suplementos")
+- **Instagram**: Handle con @ (ej: "@ardyn_suplementos")
 - **Texto de créditos**: Texto del desarrollador (ej: "Desarrollado por Grow Labs")
 - **URL de créditos**: Link del desarrollador
 

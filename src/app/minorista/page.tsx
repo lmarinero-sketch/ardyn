@@ -8,6 +8,11 @@ import { Search, Filter, X, ShoppingCart, Plus, Star, ChevronDown, Flame, Sparkl
 import { Producto, Rubro, Categoria, Marca } from '@/types/ecommerce';
 import { useCart } from '@/lib/cart';
 import { useStoreConfig } from '@/hooks/useStoreConfig';
+import ModelSwitcher from '@/components/bocetos/ModelSwitcher';
+import Modelo1Page from '@/app/bocetos/modelo-1/page';
+import Modelo2Page from '@/app/bocetos/modelo-2/page';
+import Modelo3Page from '@/app/bocetos/modelo-3/page';
+import Modelo4Page from '@/app/bocetos/modelo-4/page';
 
 // ═════ Product Card Component ═════
 function ProductCard({ producto, formatPrice, onAdd, addedId }: {
@@ -236,8 +241,12 @@ function TiendaPageContent() {
   const [addedId, setAddedId] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<'home' | 'catalog'>(initRubro || initCategoria || initMarca ? 'catalog' : 'home');
   const { addItem, items } = useCart();
+  const { config: plantillaConfig } = useStoreConfig('tienda_plantilla');
   const { config: heroConfig } = useStoreConfig('tienda_hero_minorista');
   const { config: whatsapp } = useStoreConfig('tienda_whatsapp');
+
+  const paramTema = searchParams.get('tema');
+  const activeTheme = paramTema || plantillaConfig.tema_activo || '5';
 
   useEffect(() => {
     const r = searchParams.get('rubro') || '';
@@ -370,8 +379,15 @@ function TiendaPageContent() {
     setLoading(true);
   };
 
+  if (activeTheme === '1') return <Modelo1Page />;
+  if (activeTheme === '2') return <Modelo2Page />;
+  if (activeTheme === '3') return <Modelo3Page />;
+  if (activeTheme === '4') return <Modelo4Page />;
+
   return (
-    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '1rem 1.5rem 3rem' }}>
+    <>
+      <ModelSwitcher current="5" />
+      <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '1rem 1.5rem 3rem' }}>
 
       {/* ===== VIDEO DE PORTADA ===== */}
       {/* ===== VIDEO DE PORTADA ===== */}
@@ -795,6 +811,7 @@ function TiendaPageContent() {
         </svg>
       </a>
     </div>
+    </>
   );
 }
 

@@ -8,7 +8,7 @@ const CART_KEY = 'ardyn_cart';
 function getStoredCart(): CartItem[] {
   if (typeof window === 'undefined') return [];
   try {
-    const stored = localStorage.getItem(CART_KEY) || localStorage.getItem('vyper_cart');
+    const stored = localStorage.getItem(CART_KEY);
     return stored ? JSON.parse(stored) : [];
   } catch {
     return [];

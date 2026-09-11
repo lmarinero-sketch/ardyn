@@ -8,6 +8,9 @@ import { useState, useEffect } from 'react';
 // ═══════════════════════════════════════════════
 
 export const STORE_DEFAULTS = {
+  tienda_plantilla: {
+    tema_activo: '5' as '1' | '2' | '3' | '4' | '5',
+  },
   tienda_identidad: {
     nombre_marca: 'ARDYN',
     subtitulo_mayorista: 'Mayorista',

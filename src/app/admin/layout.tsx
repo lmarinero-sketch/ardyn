@@ -28,7 +28,7 @@ interface CurrentUser {
 
 const navItems = [
     { href: '/admin', label: 'Inicio', icon: LayoutDashboard },
-    { href: '/admin/vyper-coins', label: 'Ardyn Coins', icon: Coins },
+    { href: '/admin/ardyn-coins', label: 'Ardyn Coins', icon: Coins },
     { href: '/admin/debt', label: 'Cta Corriente', icon: CreditCard },
     { href: '/admin/clients', label: 'Clientes', icon: Users },
     { href: '/admin/bi', label: 'Analytics', icon: BarChart3 },

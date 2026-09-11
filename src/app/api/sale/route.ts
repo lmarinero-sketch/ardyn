@@ -96,7 +96,7 @@ export async function POST(request: Request) {
 
         if (txnError) console.error('Transaction log error:', txnError);
 
-        // WhatsApp notification disabled — se envía desde Vyper Coins
+        // WhatsApp notification disabled — se envía desde Ardyn Coins
 
         return NextResponse.json({
             success: true,
