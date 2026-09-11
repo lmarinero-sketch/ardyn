@@ -27,93 +27,93 @@ export default function BocetosHubPage() {
     {
       id: '1',
       title: 'Modelo 1: Dark Cyber Performance',
-      badge: 'Hardcore Athletic & Pro Fitness',
+      badge: 'Streetwear Pesado & Hardcore Athletic',
       theme: 'Dark Mode High Impact',
       fontTitle: 'Bebas Neue',
       fontDesc: 'Display condensado, agresivo y de máxima escala',
       palette: ['#08090C', '#FEA604', '#FD8209', '#00FF88'],
       description:
-        'Diseñado para culturistas, crossfitters y atletas de fuerza. Enfatiza récords personales, dosis de cafeína, asimilación veloz y estética de alto impacto visual.',
+        'Diseñado para atletas y amantes del streetwear pesado. Enfatiza cortes boxy fit, gramaje de 260 a 460 GSM, calzas compresivas y estética nocturna de alto impacto.',
       highlights: [
         'Tipografía titular Bebas Neue de gran impacto',
-        'Badges dinámicos de "Fuego" (Top Seller) y "+Coins"',
-        'Selector de sabores instantáneo sin salir de la tarjeta',
-        'Barra de progreso de envío gratis con cálculo de Ardyn Coins',
+        'Badges dinámicos de "Top Seller", "Calza Interna" y "+Coins"',
+        'Selector de talles instantáneo (S, M, L, XL, XXL) sin salir de la tarjeta',
+        'Filtro rápido: Toda la Ropa, Hombre / Men, Mujer / Women y Streetwear',
         'Paleta Ardyn Gold (#FEA604) sobre carbón profundo (#08090C)',
       ],
       link: '/bocetos/modelo-1',
       accentColor: '#FEA604',
       icon: <Zap size={24} color="#FEA604" />,
-      heroImage: '/productos/whey-protein.png',
+      heroImage: '/productos/hoodie-oversize.jpg',
       ctaText: 'Ver Modelo 1',
     },
     {
       id: '2',
       title: 'Modelo 2: Pure Clinical Health',
-      badge: 'Nutrición Médica & Longevidad',
+      badge: 'Ropa Deportiva Ergonómica & Recuperación',
       theme: 'Clínica Limpia QOAG / Sanatorio',
       fontTitle: 'Plus Jakarta Sans',
       fontDesc: 'Geométrica humanista, pureza y rigor científico',
       palette: ['#FFFFFF', '#F8FAFC', '#FEA604', '#0284C7'],
       description:
-        'Alineado a las directrices de Sanatorio Argentino y Grow Labs. Una interfaz clínica y luminosa con sellos de trazabilidad, aprobación ANMAT y asesoría farmacéutica.',
+        'Alineado al estándar de salud y biomecánica de Sanatorio Argentino y Grow Labs. Indumentaria con compresión graduada 20-30 mmHg, soporte postural lumbar y microfibras antibacteriales.',
       highlights: [
         'Tipografía limpia Plus Jakarta Sans de lectura óptima',
         'Acentos dorados oficiales Ardyn (#FEA604) combinados con azul clínico',
-        'Sellos visibles: Aprobado ANMAT, Sin TACC, Libre de Azúcar',
-        'Modal con Ficha Técnica y Tabla Nutricional completa',
-        'Botón de consulta médica y pedido directo a farmacia/depósito',
+        'Sellos visibles: Norma ISO 9001, Cero Fricción Flatlock, Filtro UV 50+',
+        'Modal con Ficha Técnica Textil y Biomecánica completa',
+        'Prendas ergonómicas de alto rendimiento para hombres y mujeres',
       ],
       link: '/bocetos/modelo-2',
       accentColor: '#FEA604',
       icon: <HeartPulse size={24} color="#FEA604" />,
-      heroImage: '/productos/omega3.png',
+      heroImage: '/productos/calza-seamless.jpg',
       ctaText: 'Ver Modelo 2',
     },
     {
       id: '3',
       title: 'Modelo 3: Urban Luxury Activewear',
-      badge: 'Lifestyle & High-End Apparel',
+      badge: 'Lifestyle & High-End Streetwear',
       theme: 'Minimalismo Editorial & Streetwear',
       fontTitle: 'Syne',
       fontDesc: 'Tipografía de moda de vanguardia con tracking espaciado',
       palette: ['#0E0F12', '#181920', '#FEA604', '#F4F4F5'],
       description:
-        'Inspirado en marcas internacionales de lujo deportivo (Alo Yoga, Represent 247). Enfatiza la indumentaria deportiva de autor, cortes boxy fit y lookbooks de temporada.',
+        'Inspirado en marcas internacionales de lujo deportivo (Alo Yoga, Represent 247). Enfatiza la indumentaria deportiva de autor, cortes boxy fit, swatches de color y lookbooks de temporada.',
       highlights: [
         'Tipografía titular Syne con identidad de alta costura',
         'Paleta Noir Mate con detalles en oro champagne Ardyn (#FEA604)',
         'Selector visual de paleta de colores (swatches interactivos)',
-        'Selector de talles (S, M, L, XL, XXL) para indumentaria',
+        'Selector de talles (S, M, L, XL, XXL) para remeras, calzas, buzos y joggers',
         'Módulo "Completá tu outfit" (Bundle con 20% de ahorro)',
       ],
       link: '/bocetos/modelo-3',
       accentColor: '#FEA604',
       icon: <Sparkles size={24} color="#FEA604" />,
-      heroImage: '/productos/camiseta.png',
+      heroImage: '/productos/remera-oversize.jpg',
       ctaText: 'Ver Modelo 3',
     },
     {
       id: '4',
       title: 'Modelo 4: Ardyn Neo-Retail (Actual Evolucionado)',
-      badge: 'Ecommerce Minorista Oficial',
+      badge: 'Ecommerce Minorista de Ropa Oficial',
       theme: 'Retail Moderno de Alta Conversión',
       fontTitle: 'Outfit / Sora',
       fontDesc: 'Moderna, comercial, contundente y amigable',
       palette: ['#0A0A0C', '#FEA604', '#FD8209', '#34D399'],
       description:
-        'La evolución directa de la tienda actual de Ardyn llevada al estándar visual más alto. Navegación fluida por rubros (Suplementos, Indumentaria, Accesorios), ofertas y checkout rápido.',
+        'La evolución directa de la tienda actual de Ardyn llevada al estándar visual más alto. Navegación fluida por rubros de indumentaria (Hombre, Mujer, Streetwear), ofertas y checkout rápido.',
       highlights: [
         'Tipografía comercial moderna Outfit & Sora',
         'Identidad 100% fiel al logo oficial de Ardyn (#FEA604 • #FD8209)',
-        'Navegación rápida por rubros con conteo de stock disponible',
+        'Navegación rápida por rubros de ropa con conteo de stock disponible',
         'Badges dobles: "Oferta", "Destacado" y "+Coins Ganadas"',
         'Checkout conversacional directo a WhatsApp con carrito desplegable',
       ],
       link: '/bocetos/modelo-4',
       accentColor: '#FD8209',
       icon: <Store size={24} color="#FD8209" />,
-      heroImage: '/productos/creatina.png',
+      heroImage: '/productos/top-deportivo.jpg',
       ctaText: 'Ver Modelo 4 (Actual)',
     },
     {
@@ -125,18 +125,18 @@ export default function BocetosHubPage() {
       fontDesc: 'Limpia, equilibrada y probada en producción',
       palette: ['#0A0A0C', '#FEA604', '#FD8209', '#25D366'],
       description:
-        'La interfaz histórica y original solicitada por la marca. Cuenta con cabecera de video 16:9 en loop, hero banner con imagen de atletas duales y catálogo directo.',
+        'La interfaz histórica y original solicitada por la marca. Cuenta con cabecera de video 16:9 en loop, hero banner con atletas en acción y catálogo de indumentaria deportiva y urbana.',
       highlights: [
         'Reproductor de video 16:9 embebido superior con autoplay',
         'Hero banner con background oficial hero-sportswear-v2.webp',
-        'Navegación institucional completa (Sucursales, FAQs, WhatsApp)',
+        'Navegación por rubros de indumentaria (Hombre, Mujer, Streetwear)',
         'Barra de búsqueda integrada sobre el degradado del Hero',
         'Checkout conversacional directo a WhatsApp con modal interactivo',
       ],
       link: '/bocetos/modelo-5',
       accentColor: '#FEA604',
       icon: <Video size={24} color="#FEA604" />,
-      heroImage: '/productos/whey-protein.png',
+      heroImage: '/productos/jogger-cargo.jpg',
       ctaText: 'Ver Modelo 5 (Classic)',
     },
   ];
@@ -201,7 +201,7 @@ export default function BocetosHubPage() {
             marginBottom: '1.25rem',
           }}
         >
-          5 Visiones de Ecommerce para <span style={{ color: '#FEA604' }}>ARDYN Minorista</span>
+          5 Visiones de Ecommerce para <span style={{ color: '#FEA604' }}>ARDYN Ropa & Streetwear</span>
         </h1>
 
         <p
@@ -213,7 +213,7 @@ export default function BocetosHubPage() {
             lineHeight: 1.6,
           }}
         >
-          Cada propuesta cuenta con su propia <strong>personalidad tipográfica</strong>, enfoque de público y experiencia de compra, compartiendo la <strong>identidad cromática oficial de Ardyn (#FEA604 • #FD8209)</strong>.
+          Colecciones de <strong>indumentaria deportiva y urbana para hombres y mujeres</strong>. Cada propuesta cuenta con su propia personalidad tipográfica, calces y experiencia de compra bajo la <strong>identidad oficial de Ardyn (#FEA604 • #FD8209)</strong>.
         </p>
       </section>
 

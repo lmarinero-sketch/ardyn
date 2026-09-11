@@ -33,129 +33,131 @@ interface MockProduct {
   rating: number;
   reviews: number;
   image: string;
-  flavors?: string[];
+  sizes: string[];
   coins: number;
-  goal: 'masa' | 'pre' | 'recuperacion' | 'accesorios';
+  gender: 'hombre' | 'mujer' | 'unisex';
 }
 
 const PRODUCTS: MockProduct[] = [
   {
     id: '1',
-    name: 'ARDYN Whey Isolate 100% 2KG',
-    category: 'Proteínas Puras',
+    name: 'Remera Oversize Heavyweight Noir (Hombre)',
+    category: 'Hombre / Streetwear',
     tag: '🔥 TOP SELLER',
-    price: 34900,
-    oldPrice: 42000,
+    price: 28900,
+    oldPrice: 34900,
     rating: 4.9,
     reviews: 142,
-    image: '/productos/whey-protein.png',
-    flavors: ['Doble Chocolate', 'Vainilla Cream', 'Cookies'],
-    coins: 350,
-    goal: 'masa',
+    image: '/productos/remera-oversize.jpg',
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    coins: 290,
+    gender: 'hombre',
   },
   {
     id: '2',
-    name: 'ARDYN Creatine Creapure 300g',
-    category: 'Fuerza & Potencia',
-    tag: '⚡ ABSORCIÓN RÁPIDA',
-    price: 24500,
-    oldPrice: 28900,
+    name: 'Calza High-Waist Seamless Pro (Mujer)',
+    category: 'Mujer / Activewear',
+    tag: '⚡ COMPRESIÓN TOTAL',
+    price: 38500,
+    oldPrice: 44000,
     rating: 5.0,
-    reviews: 98,
-    image: '/productos/creatina.png',
-    flavors: ['Sin Sabor (Pura)', 'Fruit Punch'],
-    coins: 240,
-    goal: 'masa',
+    reviews: 118,
+    image: '/productos/calza-seamless.jpg',
+    sizes: ['XS', 'S', 'M', 'L'],
+    coins: 385,
+    gender: 'mujer',
   },
   {
     id: '3',
-    name: 'ARDYN Psycho Pre-Workout 30 Serv',
-    category: 'Energía Extrema',
-    tag: '⚡ 350MG CAFEÍNA',
-    price: 22800,
-    rating: 4.8,
-    reviews: 64,
-    image: '/productos/preworkout.png',
-    flavors: ['Blue Raspberry', 'Sour Apple', 'Watermelon'],
-    coins: 220,
-    goal: 'pre',
+    name: 'Hoodie Oversize Heavy Fleece Unisex',
+    category: 'Unisex / Streetwear',
+    tag: '🔥 BOX FIT 420G',
+    price: 56900,
+    rating: 4.9,
+    reviews: 87,
+    image: '/productos/hoodie-oversize.jpg',
+    sizes: ['S', 'M', 'L', 'XL'],
+    coins: 570,
+    gender: 'unisex',
   },
   {
     id: '4',
-    name: 'ARDYN BCAA 8:1:1 + Glutamina 500g',
-    category: 'Anti-Catabólico',
-    tag: '🛡️ RECUPERACIÓN',
-    price: 19800,
-    oldPrice: 23500,
-    rating: 4.7,
-    reviews: 51,
-    image: '/productos/bcaa.png',
-    flavors: ['Limonada Glacial', 'Orange Blast'],
-    coins: 190,
-    goal: 'recuperacion',
+    name: 'Top Deportivo High-Impact Racerback (Mujer)',
+    category: 'Mujer / Fitness',
+    tag: '🛡️ SOPORTE MÁXIMO',
+    price: 24900,
+    oldPrice: 29900,
+    rating: 4.8,
+    reviews: 74,
+    image: '/productos/top-deportivo.jpg',
+    sizes: ['S', 'M', 'L'],
+    coins: 250,
+    gender: 'mujer',
   },
   {
     id: '5',
-    name: 'ARDYN Mass Gainer Extreme 3KG',
-    category: 'Hipercalórico Pro',
-    tag: '💪 +1100 KCAL',
-    price: 31200,
+    name: 'Short 2-in-1 Training Liner Pro (Hombre)',
+    category: 'Hombre / Training',
+    tag: '⚡ CALZA INTERNA',
+    price: 32500,
     rating: 4.9,
-    reviews: 83,
-    image: '/productos/mass-gainer.png',
-    flavors: ['Dulce de Leche', 'Chocolate Suizo'],
-    coins: 310,
-    goal: 'masa',
+    reviews: 63,
+    image: '/productos/short-pro.jpg',
+    sizes: ['S', 'M', 'L', 'XL'],
+    coins: 325,
+    gender: 'hombre',
   },
   {
     id: '6',
-    name: 'Cinturón Powerlifting Ardyn Pro',
-    category: 'Accesorios Hardcore',
-    tag: '🔒 10MM CUERO',
-    price: 38900,
-    oldPrice: 45000,
-    rating: 5.0,
-    reviews: 37,
-    image: '/productos/cinturon.png',
-    coins: 380,
-    goal: 'accesorios',
+    name: 'Jogger Tech Cargo Tactical Unisex',
+    category: 'Unisex / Techwear',
+    tag: '🔒 TECH FABRIC',
+    price: 49900,
+    oldPrice: 58000,
+    rating: 4.9,
+    reviews: 52,
+    image: '/productos/jogger-cargo.jpg',
+    sizes: ['S', 'M', 'L', 'XL'],
+    coins: 500,
+    gender: 'unisex',
   },
 ];
 
 export default function Modelo1Page() {
   const { config: identidad } = useStoreConfig('tienda_identidad');
   const { config: footer } = useStoreConfig('tienda_footer');
-  const [selectedGoal, setSelectedGoal] = useState<string>('todos');
-  const [selectedFlavors, setSelectedFlavors] = useState<Record<string, string>>({
-    '1': 'Doble Chocolate',
-    '2': 'Sin Sabor (Pura)',
-    '3': 'Blue Raspberry',
-    '4': 'Limonada Glacial',
-    '5': 'Dulce de Leche',
+  const [selectedGender, setSelectedGender] = useState<string>('todos');
+  const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({
+    '1': 'L',
+    '2': 'M',
+    '3': 'L',
+    '4': 'M',
+    '5': 'L',
+    '6': 'L',
   });
-  const [cart, setCart] = useState<{ product: MockProduct; flavor: string; qty: number }[]>([]);
+  const [cart, setCart] = useState<{ product: MockProduct; size: string; qty: number }[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [notification, setNotification] = useState<string | null>(null);
 
-  const filtered = selectedGoal === 'todos'
+  const filtered = selectedGender === 'todos'
     ? PRODUCTS
-    : PRODUCTS.filter((p) => p.goal === selectedGoal);
+    : PRODUCTS.filter((p) => p.gender === selectedGender);
 
   const addToCart = (product: MockProduct) => {
-    const flavor = selectedFlavors[product.id] || 'Estándar';
+    const size = selectedSizes[product.id] || product.sizes[0] || 'L';
     setCart((prev) => {
-      const existing = prev.find((item) => item.product.id === product.id && item.flavor === flavor);
+      const existing = prev.find((item) => item.product.id === product.id && item.size === size);
       if (existing) {
         return prev.map((item) =>
-          item.product.id === product.id && item.flavor === flavor
+          item.product.id === product.id && item.size === size
             ? { ...item, qty: item.qty + 1 }
             : item
         );
       }
-      return [...prev, { product, flavor, qty: 1 }];
+      return [...prev, { product, size, qty: 1 }];
     });
 
-    setNotification(`¡${product.name} agregado al carrito!`);
+    setNotification(`¡${product.name} (Talle ${size}) agregado al carrito!`);
     setTimeout(() => setNotification(null), 2500);
   };
 
@@ -354,7 +356,7 @@ export default function Modelo1Page() {
             }}
           >
             <Flame size={14} />
-            <span>Fórmula de Alto Rendimiento 2026</span>
+            <span>Colección Activewear & Streetwear 2026</span>
           </div>
 
           <h1
@@ -368,12 +370,12 @@ export default function Modelo1Page() {
               marginBottom: '1.25rem',
             }}
           >
-            MÁXIMA <span style={{ color: '#FEA604', textShadow: '0 0 30px rgba(254, 166, 4, 0.4)' }}>POTENCIA</span>.<br />
-            CERO EXCUSAS.
+            ALTO <span style={{ color: '#FEA604', textShadow: '0 0 30px rgba(254, 166, 4, 0.4)' }}>RENDIMIENTO</span>.<br />
+            ESTILO URBANO.
           </h1>
 
           <p style={{ fontSize: '1.1rem', color: '#A1A1AA', lineHeight: 1.6, marginBottom: '2rem', maxWidth: '520px' }}>
-            Suplementación de pureza militar y accesorios pesados diseñados para atletas que no se conforman con el promedio.
+            Indumentaria deportiva técnica y streetwear pesado de corte boxy fit para hombres y mujeres que no se conforman con el promedio.
           </p>
 
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem' }}>
@@ -442,17 +444,17 @@ export default function Modelo1Page() {
             }}
           >
             <Image
-              src="/productos/whey-protein.png"
-              alt="ARDYN Whey"
+              src="/productos/hoodie-oversize.jpg"
+              alt="ARDYN Hoodie Streetwear"
               fill
-              style={{ objectFit: 'contain' }}
+              style={{ objectFit: 'contain', borderRadius: '16px' }}
               priority
             />
           </div>
         </div>
       </section>
 
-      {/* Goal Filters Filter Bar */}
+      {/* Gender & Category Filters Filter Bar */}
       <section
         id="catalogo"
         style={{
@@ -469,26 +471,25 @@ export default function Modelo1Page() {
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
           <span style={{ fontSize: '0.8rem', color: '#71717A', fontWeight: 700, marginRight: '0.5rem' }}>
-            FILTRAR POR OBJETIVO:
+            FILTRAR POR COLECCIÓN:
           </span>
           {[
-            { id: 'todos', label: '⚡ Todos los Productos' },
-            { id: 'masa', label: '💪 Masa Muscular & Volumen' },
-            { id: 'pre', label: '🔥 Pre-Workout & Energía' },
-            { id: 'recuperacion', label: '🏃 Recuperación & BCAA' },
-            { id: 'accesorios', label: '🏋️ Accesorios Pro' },
+            { id: 'todos', label: '⚡ Toda la Ropa' },
+            { id: 'hombre', label: '💪 Hombre / Men' },
+            { id: 'mujer', label: '✨ Mujer / Women' },
+            { id: 'unisex', label: '🖤 Streetwear Unisex' },
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setSelectedGoal(tab.id)}
+              onClick={() => setSelectedGender(tab.id)}
               style={{
-                background: selectedGoal === tab.id ? '#FEA604' : '#13151D',
-                color: selectedGoal === tab.id ? '#000000' : '#A1A1AA',
-                border: selectedGoal === tab.id ? '1px solid #FEA604' : '1px solid rgba(255, 255, 255, 0.08)',
+                background: selectedGender === tab.id ? '#FEA604' : '#13151D',
+                color: selectedGender === tab.id ? '#000000' : '#A1A1AA',
+                border: selectedGender === tab.id ? '1px solid #FEA604' : '1px solid rgba(255, 255, 255, 0.08)',
                 padding: '0.5rem 0.9rem',
                 borderRadius: '8px',
                 fontSize: '0.8rem',
-                fontWeight: selectedGoal === tab.id ? 800 : 500,
+                fontWeight: selectedGender === tab.id ? 800 : 500,
                 cursor: 'pointer',
                 transition: 'all 0.15s',
               }}
@@ -499,7 +500,7 @@ export default function Modelo1Page() {
         </div>
 
         <div style={{ fontSize: '0.85rem', color: '#71717A' }}>
-          Mostrando <strong>{filtered.length}</strong> suplementos
+          Mostrando <strong>{filtered.length}</strong> prendas
         </div>
       </section>
 
@@ -515,7 +516,7 @@ export default function Modelo1Page() {
         }}
       >
         {filtered.map((product) => {
-          const activeFlavor = selectedFlavors[product.id] || (product.flavors ? product.flavors[0] : '');
+          const activeSize = selectedSizes[product.id] || product.sizes[0] || 'L';
 
           return (
             <div
@@ -604,7 +605,7 @@ export default function Modelo1Page() {
                     src={product.image}
                     alt={product.name}
                     fill
-                    style={{ objectFit: 'contain' }}
+                    style={{ objectFit: 'contain', borderRadius: '8px' }}
                   />
                 </div>
               </div>
@@ -626,29 +627,29 @@ export default function Modelo1Page() {
                   <span style={{ color: '#71717A' }}>({product.reviews} opiniones)</span>
                 </div>
 
-                {/* Flavor Selector Chips */}
-                {product.flavors && product.flavors.length > 0 && (
+                {/* Size Selector Chips */}
+                {product.sizes && product.sizes.length > 0 && (
                   <div style={{ marginTop: '0.25rem' }}>
                     <div style={{ fontSize: '0.7rem', color: '#A1A1AA', marginBottom: '0.3rem' }}>
-                      SABOR: <strong style={{ color: '#FEA604' }}>{activeFlavor}</strong>
+                      TALLE DISPONIBLE: <strong style={{ color: '#FEA604' }}>{activeSize}</strong>
                     </div>
                     <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
-                      {product.flavors.map((flavor) => (
+                      {product.sizes.map((size) => (
                         <button
-                          key={flavor}
-                          onClick={() => setSelectedFlavors((prev) => ({ ...prev, [product.id]: flavor }))}
+                          key={size}
+                          onClick={() => setSelectedSizes((prev) => ({ ...prev, [product.id]: size }))}
                           style={{
-                            background: activeFlavor === flavor ? '#FEA604' : '#181b24',
-                            color: activeFlavor === flavor ? '#000000' : '#A1A1AA',
-                            border: activeFlavor === flavor ? '1px solid #FEA604' : '1px solid rgba(255, 255, 255, 0.08)',
-                            padding: '0.25rem 0.5rem',
+                            background: activeSize === size ? '#FEA604' : '#181b24',
+                            color: activeSize === size ? '#000000' : '#A1A1AA',
+                            border: activeSize === size ? '1px solid #FEA604' : '1px solid rgba(255, 255, 255, 0.08)',
+                            padding: '0.25rem 0.6rem',
                             borderRadius: '5px',
                             fontSize: '0.68rem',
-                            fontWeight: activeFlavor === flavor ? 800 : 500,
+                            fontWeight: activeSize === size ? 800 : 500,
                             cursor: 'pointer',
                           }}
                         >
-                          {flavor}
+                          {size}
                         </button>
                       ))}
                     </div>
@@ -873,7 +874,7 @@ export default function Modelo1Page() {
                       fontSize: '0.85rem',
                     }}
                   >
-                    Ver Suplementos
+                    Ver Colección de Ropa
                   </button>
                 </div>
               ) : (
@@ -890,11 +891,11 @@ export default function Modelo1Page() {
                     }}
                   >
                     <div style={{ width: 50, height: 50, position: 'relative', flexShrink: 0 }}>
-                      <Image src={item.product.image} alt={item.product.name} fill style={{ objectFit: 'contain' }} />
+                      <Image src={item.product.image} alt={item.product.name} fill style={{ objectFit: 'contain', borderRadius: '4px' }} />
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 700, fontSize: '0.85rem' }}>{item.product.name}</div>
-                      <div style={{ fontSize: '0.75rem', color: '#FEA604' }}>{item.flavor}</div>
+                      <div style={{ fontSize: '0.75rem', color: '#FEA604' }}>Talle: {item.size}</div>
                       <div style={{ fontWeight: 800, marginTop: '0.25rem', fontSize: '0.9rem' }}>
                         ${(item.product.price * item.qty).toLocaleString('es-AR')}
                       </div>
@@ -917,8 +918,8 @@ export default function Modelo1Page() {
 
                 <a
                   href={`https://wa.me/5492646796509?text=${encodeURIComponent(
-                    `Hola Ardyn! Quiero confirmar este pedido minorista (Boceto 1):\n${cart
-                      .map((i) => `• ${i.qty}x ${i.product.name} (${i.flavor})`)
+                    `Hola Ardyn! Quiero confirmar este pedido de ropa (Boceto 1 - Cyber Athletic):\n${cart
+                      .map((i) => `• ${i.qty}x ${i.product.name} [Talle: ${i.size}]`)
                       .join('\n')}\nTotal: $${totalPrice.toLocaleString('es-AR')}`
                   )}`}
                   target="_blank"

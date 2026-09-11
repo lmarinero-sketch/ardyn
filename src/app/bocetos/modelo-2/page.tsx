@@ -41,92 +41,140 @@ interface ClinicalProduct {
 const CLINICAL_PRODUCTS: ClinicalProduct[] = [
   {
     id: 'c1',
-    name: 'ARDYN Omega 3 Ultra Pure 1000mg',
-    category: 'Salud Cardiovascular & Cerebral',
-    scientificName: 'Concentrado de Ácidos Grasos EPA 400mg / DHA 300mg',
-    seal: '100% Grado Farmacéutico',
-    price: 18500,
-    image: '/productos/omega3.png',
-    dosage: '2 cápsulas blandas al día con las comidas principales',
-    servingSize: '2 cápsulas (2000mg)',
+    name: 'Calza Compresión Graduada 20-30 mmHg (Mujer)',
+    category: 'Mujer / Recuperación & Circulación',
+    scientificName: 'Tejido Biomecánico Seamless con Gradiente Zonal',
+    seal: '100% Grado Ergonómico',
+    price: 39500,
+    image: '/productos/calza-seamless.jpg',
+    dosage: 'Uso recomendado durante y post-entrenamiento de alta carga',
+    servingSize: 'Talle S, M, L (Compresión Médica)',
     keyBenefits: [
-      'Apoyo a la salud cardiovascular y reducción de triglicéridos',
-      'Función cognitiva óptima y neuroprotección',
-      'Destilado molecularmente libre de metales pesados',
+      'Favorece el retorno venoso y reduce la acumulación de ácido láctico',
+      'Soporte lumbar anatómico para prevención de sobrecargas',
+      'Microfibra hipoalergénica con control térmico activo',
     ],
-    anmatCode: 'RNPA: 02-589312',
+    anmatCode: 'Norma Textil IRAM-ISO 9001',
     nutritionFacts: [
-      { component: 'Aceite de Pescado Salvaje', perServing: '2000 mg', dailyValue: '-' },
-      { component: 'EPA (Ácido Eicosapentaenoico)', perServing: '800 mg', dailyValue: '-' },
-      { component: 'DHA (Ácido Docosahexaenoico)', perServing: '600 mg', dailyValue: '-' },
-      { component: 'Vitamina E Natural', perServing: '10 mg', dailyValue: '100%' },
+      { component: 'Poliamida Terapéutica 6.6', perServing: '78%', dailyValue: 'Resistencia' },
+      { component: 'Elastano de Compresión Pro', perServing: '22%', dailyValue: 'Elongación' },
+      { component: 'Presión Zonal Gemelo', perServing: '25 mmHg', dailyValue: 'Óptima' },
+      { component: 'Protección UV 50+', perServing: 'Certificada', dailyValue: '100%' },
     ],
   },
   {
     id: 'c2',
-    name: 'ARDYN Multivitamínico Mineral Complex',
-    category: 'Inmunidad & Vitalidad Celular',
-    scientificName: 'Fórmula Balanceada con 24 Micronutrientes Quelatados',
-    seal: 'Biodisponibilidad Máxima',
-    price: 16900,
-    image: '/productos/multivitaminico.png',
-    dosage: '1 comprimido diario por la mañana con abundante agua',
-    servingSize: '1 comprimido recubierto',
+    name: 'Remera Postural Ergo-Fit Dry (Hombre)',
+    category: 'Hombre / Corrección Postural & Performance',
+    scientificName: 'Estructura X-Dorsal con Paneles Elásticos de Soporte',
+    seal: 'Alineación Biomecánica',
+    price: 29900,
+    image: '/productos/remera-oversize.jpg',
+    dosage: 'Apta para entrenamientos de fuerza, running y uso diario activo',
+    servingSize: 'Talle S, M, L, XL, XXL',
     keyBenefits: [
-      'Refuerzo integral del sistema inmunitario',
-      'Metabolismo energético normal sin estimulantes',
-      'Minerales en forma de quelato para absorción sin malestar gástrico',
+      'Banda elástica en X posterior que estimula la apertura torácica',
+      'Tejido hidrofílico de secado acelerado anti-fricción',
+      'Reduce la fatiga escapular y cervical en sesiones prolongadas',
     ],
-    anmatCode: 'RNPA: 02-612409',
+    anmatCode: 'Certificación Bio-Ergonómica QOAG',
     nutritionFacts: [
-      { component: 'Vitamina C (Ácido Ascórbico)', perServing: '250 mg', dailyValue: '555%' },
-      { component: 'Vitamina D3 (Colecalciferol)', perServing: '2000 UI', dailyValue: '500%' },
-      { component: 'Zinc Quelatado (Bisglicinato)', perServing: '15 mg', dailyValue: '214%' },
-      { component: 'Magnesio Citrato', perServing: '100 mg', dailyValue: '38%' },
+      { component: 'Microfibra Dry-Tech', perServing: '85%', dailyValue: 'Transpirable' },
+      { component: 'Spandex Bi-Direccional', perServing: '15%', dailyValue: 'Flexibilidad' },
+      { component: 'Tratamiento Antibacteriano', perServing: 'Iones Plata', dailyValue: '99.9%' },
+      { component: 'Costuras Planas Flatlock', perServing: '100%', dailyValue: 'Cero Roce' },
     ],
   },
   {
     id: 'c3',
-    name: 'ARDYN L-Glutamina Pura 100% 300g',
-    category: 'Integridad Intestinal & Recuperación',
-    scientificName: 'L-Glutamina Fermentada de Origen Vegetal (Kyowa Quality)',
-    seal: 'Pureza Analítica 99.8%',
-    price: 21900,
-    image: '/productos/glutamina.png',
-    dosage: '5g diarios disueltos en 200ml de agua o infusión tibia',
-    servingSize: '1 scoop (5g)',
+    name: 'Top Deportivo Anatómico High-Support (Mujer)',
+    category: 'Mujer / Soporte Mamario & Impacto Cero',
+    scientificName: 'Copa Encapsulada con Banda Submamaria de Amortiguación',
+    seal: 'Reducción de Impacto 85%',
+    price: 26800,
+    image: '/productos/top-deportivo.jpg',
+    dosage: 'Ideal para crossfit, running, salto e impacto articular',
+    servingSize: 'Talle S, M, L (Copas A-D)',
     keyBenefits: [
-      'Reparación y mantenimiento de la barrera mucosa intestinal',
-      'Recuperación muscular en periodos de alto estrés metabólico',
-      'Micronizada para disolución instantánea sin saborizantes',
+      'Distribución uniforme del peso sin presión en trapecios',
+      'Espalda deportiva ergonómica con ventilación laminar continua',
+      'Copas removibles con memoria viscoelástica respirable',
     ],
-    anmatCode: 'RNPA: 02-710423',
+    anmatCode: 'Test Biomecánico de Rebote Superado',
     nutritionFacts: [
-      { component: 'L-Glutamina Ultra-Pura', perServing: '5000 mg', dailyValue: '-' },
-      { component: 'Azúcares Añadidos', perServing: '0 g', dailyValue: '0%' },
-      { component: 'Sodio', perServing: '0 mg', dailyValue: '0%' },
+      { component: 'Fibra Técnica de Alto Módulo', perServing: '80%', dailyValue: 'Soporte' },
+      { component: 'Elastómero Confort', perServing: '20%', dailyValue: 'Ajuste' },
+      { component: 'Banda Elástica Acolchada', perServing: '40mm', dailyValue: 'Firmeza' },
+      { component: 'Transpirabilidad Activa', perServing: 'Nivel 5/5', dailyValue: '100%' },
     ],
   },
   {
     id: 'c4',
-    name: 'ARDYN Proteína Vegetal Clean 1KG',
-    category: 'Nutrición Basada en Plantas',
-    scientificName: 'Aislado de Proteína de Arveja & Arroz Integral Orgánico',
-    seal: 'Sin TACC // 100% Vegana',
-    price: 29500,
-    image: '/productos/proteina-vegana.png',
-    dosage: '1 porción (30g) post-actividad o en desayunos',
-    servingSize: '1 scoop colmado (30g)',
+    name: 'Short 2-in-1 Ergonómico Anti-Roce (Hombre)',
+    category: 'Hombre / Prevención de Lesiones por Fricción',
+    scientificName: 'Doble Capa con Calza Compresiva Interna Seamless',
+    seal: 'Anti-Chafing Clínico',
+    price: 33500,
+    image: '/productos/short-pro.jpg',
+    dosage: 'Recomendado para largas distancias, senderismo y entrenamientos',
+    servingSize: 'Talle S, M, L, XL',
     keyBenefits: [
-      'Perfil completo de aminoácidos con 24g de proteína neta',
-      'Digestión ultraligera, libre de lactosa y alérgenos comunes',
-      'Enriquecida con enzimas digestivas y Vitamina B12 activa',
+      'Calza interior de compresión suave que elimina 100% el roce inguinal',
+      'Cintura ergonómica con cordón plano interno que no irrita',
+      'Bolsillo térmico hermético para dispositivo o llaves',
     ],
-    anmatCode: 'RNPA: 02-832104',
+    anmatCode: 'Certificación Dermatológica Anti-Dermatitis',
     nutritionFacts: [
-      { component: 'Proteína Neta', perServing: '24 g', dailyValue: '48%' },
-      { component: 'Carbohidratos Netos', perServing: '1.5 g', dailyValue: '1%' },
-      { component: 'Vitamina B12 (Metilcobalamina)', perServing: '5 mcg', dailyValue: '208%' },
+      { component: 'Exterior Micro-Ripstop', perServing: '100%', dailyValue: 'Ultraligero' },
+      { component: 'Liner Interior Compresivo', perServing: 'Spandex 18%', dailyValue: 'Confort' },
+      { component: 'Secado Rápido QuickDry', perServing: '< 15 min', dailyValue: 'Eficiente' },
+      { component: 'Reflectivos de Seguridad 360°', perServing: 'Grado 3M', dailyValue: 'Alta Vis.' },
+    ],
+  },
+  {
+    id: 'c5',
+    name: 'Hoodie Térmico Recuperación Muscular (Unisex)',
+    category: 'Unisex / Termorregulación Post-Esfuerzo',
+    scientificName: 'Fleece Alveolar con Retención del Calor Endógeno',
+    seal: 'Confort Térmico Grado Hospitalario',
+    price: 58900,
+    image: '/productos/hoodie-oversize.jpg',
+    dosage: 'Inmediatamente posterior al entrenamiento para evitar enfriamientos',
+    servingSize: 'Talle S, M, L, XL',
+    keyBenefits: [
+      'Mantiene la temperatura muscular para optimizar el flujo sanguíneo de regeneración',
+      'Capucha anatómica con forro de algodón puro y cuello alto protector',
+      'Bolsillo frontal tipo canguro con costuras reforzadas',
+    ],
+    anmatCode: 'Norma Confort Térmico ISO 11092',
+    nutritionFacts: [
+      { component: 'Algodón Rústico Premium', perServing: '88%', dailyValue: 'Natural' },
+      { component: 'Poliéster Reciclado Alveolar', perServing: '12%', dailyValue: 'Aislamiento' },
+      { component: 'Gramaje Pesado', perServing: '400 GSM', dailyValue: 'Estructura' },
+      { component: 'Tejido Pre-Encogido', perServing: '0% Pérdida', dailyValue: 'Estable' },
+    ],
+  },
+  {
+    id: 'c6',
+    name: 'Conjunto Seamless Termorregulador 2 Piezas (Mujer)',
+    category: 'Mujer / Set Ergonómico Top + Biker',
+    scientificName: 'Construcción Tubular Continua sin Costuras Laterales',
+    seal: 'Cero Puntos de Fricción',
+    price: 52000,
+    image: '/productos/conjunto-seamless.jpg',
+    dosage: 'Para prácticas de yoga, pilates, entrenamiento funcional y kinesiología',
+    servingSize: 'Talle S, M, L',
+    keyBenefits: [
+      'Elimina todo tipo de costuras irritantes en zonas de flexión articular',
+      'Cintura acanalada de compresión graduada anti-deslizamiento',
+      'Tejido elástico en 4 direcciones que acompaña la biomecánica corporal',
+    ],
+    anmatCode: 'Certificación Oeko-Tex Standard 100',
+    nutritionFacts: [
+      { component: 'Microfibra Acanalada Seamless', perServing: '90%', dailyValue: 'Suavidad' },
+      { component: 'Spandex Elastomérico', perServing: '10%', dailyValue: 'Retracción' },
+      { component: 'Cintura Alta de Soporte', perServing: '12 cm', dailyValue: 'Contención' },
+      { component: 'Test de Transparencia Squat-Proof', perServing: 'Aprobado', dailyValue: '100%' },
     ],
   },
 ];
@@ -356,7 +404,7 @@ export default function Modelo2Page() {
               }}
             >
               <ShieldCheck size={14} />
-              <span>Desarrollado con Criterio Farmacéutico</span>
+              <span>Ingeniería Textil Médica & Ergonómica</span>
             </div>
 
             <h1
@@ -368,18 +416,18 @@ export default function Modelo2Page() {
                 marginBottom: '1.25rem',
               }}
             >
-              Nutrición de Precisión para la <span style={{ color: '#FEA604' }}>Salud y Longevidad</span>
+              Ropa Ergonómica para la <span style={{ color: '#FEA604' }}>Salud & Rendimiento</span>
             </h1>
 
             <p style={{ fontSize: '1.05rem', color: '#475569', lineHeight: 1.6, marginBottom: '2rem', maxWidth: '560px' }}>
-              Suplementos puros formulados para respaldar la función celular, desinflamación y rendimiento biológico. Fórmulas limpias, sin rellenos innecesarios ni azúcares ocultos.
+              Prendas deportivas técnicas con soporte postural, compresión graduada y microfibras termorreguladoras diseñadas para hombres y mujeres activos.
             </p>
 
             <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap' }}>
               {[
-                { label: 'Aprobación Sanitaria', val: 'ANMAT Vigente' },
-                { label: 'Pureza Garantizada', val: 'Control de Lote' },
-                { label: 'Asesoría Clínica', val: 'Sin Costo Adicional' },
+                { label: 'Trazabilidad Textil', val: 'Norma ISO 9001' },
+                { label: 'Cero Fricción', val: 'Flatlock Seamless' },
+                { label: 'Protección Solar', val: 'Filtro UV 50+' },
               ].map((pill, i) => (
                 <div key={i} style={{ borderLeft: '3px solid #0284C7', paddingLeft: '0.75rem' }}>
                   <div style={{ fontSize: '0.75rem', color: '#64748B' }}>{pill.label}</div>
@@ -407,7 +455,7 @@ export default function Modelo2Page() {
                 justifyContent: 'center',
               }}
             >
-              <Image src="/productos/omega3.png" alt="Clinical Nutrition" fill style={{ objectFit: 'contain' }} priority />
+              <Image src="/productos/calza-seamless.jpg" alt="Ergonomic Activewear" fill style={{ objectFit: 'contain', borderRadius: '16px' }} priority />
             </div>
           </div>
         </div>
@@ -418,15 +466,15 @@ export default function Modelo2Page() {
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
           <div>
             <span style={{ fontSize: '0.8rem', fontWeight: 800, color: '#0284C7', letterSpacing: '0.05em' }}>
-              CATÁLOGO TERAPÉUTICO
+              LÍNEA BIOMECÁNICA & ERGONOMÍA
             </span>
             <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#0F172A' }}>
-              Fórmulas y Principios Activos
+              Prendas Ergonómicas & Deportivas
             </h2>
           </div>
 
           <div style={{ fontSize: '0.85rem', color: '#64748B' }}>
-            {filtered.length} principios disponibles
+            {filtered.length} prendas disponibles
           </div>
         </div>
 
@@ -606,9 +654,9 @@ export default function Modelo2Page() {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.25rem' }}>
               <div>
-                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0284C7' }}>FICHA TÉCNICA CLÍNICA</span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#0284C7' }}>FICHA TÉCNICA TEXTIL & ERGONÓMICA</span>
                 <h3 style={{ fontSize: '1.3rem', fontWeight: 800, color: '#0F172A' }}>{selectedProduct.name}</h3>
-                <div style={{ fontSize: '0.85rem', color: '#64748B' }}>Porción de referencia: {selectedProduct.servingSize}</div>
+                <div style={{ fontSize: '0.85rem', color: '#64748B' }}>Talle & Calce: {selectedProduct.servingSize}</div>
               </div>
               <button
                 onClick={() => setSelectedProduct(null)}
@@ -618,13 +666,13 @@ export default function Modelo2Page() {
               </button>
             </div>
 
-            {/* Nutrition Table */}
+            {/* Nutrition / Textile Table */}
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
               <thead>
                 <tr style={{ background: '#F8FAFC', borderBottom: '2px solid #E2E8F0', color: '#334155', textAlign: 'left' }}>
-                  <th style={{ padding: '0.6rem' }}>Componente Activo</th>
-                  <th style={{ padding: '0.6rem' }}>Por Porción</th>
-                  <th style={{ padding: '0.6rem' }}>% VD*</th>
+                  <th style={{ padding: '0.6rem' }}>Parámetro Técnico</th>
+                  <th style={{ padding: '0.6rem' }}>Composición / Valor</th>
+                  <th style={{ padding: '0.6rem' }}>Propiedad</th>
                 </tr>
               </thead>
               <tbody>
@@ -639,7 +687,7 @@ export default function Modelo2Page() {
             </table>
 
             <div style={{ background: '#F0F9FF', padding: '1rem', borderRadius: '10px', fontSize: '0.8rem', color: '#0369A1', marginBottom: '1.5rem' }}>
-              <strong>Recomendación Profesional:</strong> Mantener en lugar fresco y seco, lejos del alcance de los niños. Suplemento dietario que no reemplaza una alimentación equilibrada.
+              <strong>Cuidado y Mantenimiento:</strong> Lavar en ciclo delicado con agua fría. No planchar sobre las zonas compresivas para preservar la memoria elástica del tejido.
             </div>
 
             <button
@@ -760,13 +808,13 @@ export default function Modelo2Page() {
               {cart.length === 0 ? (
                 <div style={{ textAlign: 'center', padding: '3rem 1rem', color: '#94A3B8' }}>
                   <HeartPulse size={40} style={{ margin: '0 auto 1rem', opacity: 0.3 }} />
-                  <p>No has agregado fórmulas a tu pedido.</p>
+                  <p>No has agregado prendas a tu pedido.</p>
                 </div>
               ) : (
                 cart.map((item, idx) => (
                   <div key={idx} style={{ display: 'flex', gap: '0.75rem', padding: '0.75rem', background: '#F8FAFC', borderRadius: '10px', border: '1px solid #E2E8F0' }}>
                     <div style={{ width: 50, height: 50, position: 'relative', flexShrink: 0 }}>
-                      <Image src={item.product.image} alt={item.product.name} fill style={{ objectFit: 'contain' }} />
+                      <Image src={item.product.image} alt={item.product.name} fill style={{ objectFit: 'contain', borderRadius: '4px' }} />
                     </div>
                     <div style={{ flex: 1 }}>
                       <div style={{ fontWeight: 700, fontSize: '0.85rem', color: '#0F172A' }}>{item.product.name}</div>
@@ -789,7 +837,7 @@ export default function Modelo2Page() {
 
                 <a
                   href={`https://wa.me/5492646796509?text=${encodeURIComponent(
-                    `Hola Ardyn Clinical! Deseo realizar este pedido terapéutico (Boceto 2):\n${cart
+                    `Hola Ardyn! Deseo confirmar este pedido de ropa ergonómica y deportiva (Boceto 2 - Clinical):\n${cart
                       .map((i) => `• ${i.qty}x ${i.product.name}`)
                       .join('\n')}\nTotal: $${totalPrice.toLocaleString('es-AR')}`
                   )}`}
@@ -811,7 +859,7 @@ export default function Modelo2Page() {
                   }}
                 >
                   <Send size={18} />
-                  <span>Enviar Pedido a Farmacia / Depósito</span>
+                  <span>Confirmar Pedido por WhatsApp</span>
                 </a>
               </div>
             )}

@@ -31,7 +31,7 @@ import { useStoreConfig } from '@/hooks/useStoreConfig';
 interface ProductItem {
   id: string;
   name: string;
-  rubro: 'Suplementos' | 'Indumentaria' | 'Accesorios';
+  rubro: 'Hombre' | 'Mujer' | 'Streetwear';
   category: string;
   price: number;
   oldPrice?: number;
@@ -47,109 +47,114 @@ interface ProductItem {
 const PRODUCTS_DATA: ProductItem[] = [
   {
     id: 'm4-1',
-    name: 'ARDYN Whey Protein 100% Ultrafiltrada 1KG',
-    rubro: 'Suplementos',
-    category: 'Proteínas',
-    price: 32000,
-    oldPrice: 38500,
+    name: 'Remera Oversize Heavyweight Noir (Hombre)',
+    rubro: 'Hombre',
+    category: 'Remeras & Tees',
+    price: 28900,
+    oldPrice: 34900,
     rating: 4.9,
-    reviews: 124,
-    image: '/productos/whey-protein.png',
+    reviews: 142,
+    image: '/productos/remera-oversize.jpg',
     isOffer: true,
     isFeatured: true,
-    coinsEarned: 320,
+    coinsEarned: 290,
     stock: 45,
   },
   {
     id: 'm4-2',
-    name: 'ARDYN Creatina Micronizada 100% Pura 300g',
-    rubro: 'Suplementos',
-    category: 'Fuerza',
-    price: 24500,
-    oldPrice: 29000,
+    name: 'Calza High-Waist Seamless Pro (Mujer)',
+    rubro: 'Mujer',
+    category: 'Calzas & Leggings',
+    price: 38500,
+    oldPrice: 44000,
     rating: 5.0,
-    reviews: 89,
-    image: '/productos/creatina.png',
+    reviews: 118,
+    image: '/productos/calza-seamless.jpg',
     isOffer: true,
-    coinsEarned: 245,
-    stock: 28,
+    isFeatured: true,
+    coinsEarned: 385,
+    stock: 35,
   },
   {
     id: 'm4-3',
-    name: 'Remera Dry-Fit Training Pro Black',
-    rubro: 'Indumentaria',
-    category: 'Remeras',
-    price: 12500,
-    rating: 4.8,
-    reviews: 56,
-    image: '/productos/camiseta.png',
+    name: 'Hoodie Oversize Heavy Fleece 460G (Unisex)',
+    rubro: 'Streetwear',
+    category: 'Buzos & Hoodies',
+    price: 56900,
+    oldPrice: 65000,
+    rating: 4.9,
+    reviews: 95,
+    image: '/productos/hoodie-oversize.jpg',
     isFeatured: true,
-    coinsEarned: 125,
-    stock: 60,
+    coinsEarned: 570,
+    stock: 28,
   },
   {
     id: 'm4-4',
-    name: 'ARDYN Pre-Workout Nitro Shock 30 Serv',
-    rubro: 'Suplementos',
-    category: 'Energía',
-    price: 21900,
-    oldPrice: 25500,
-    rating: 4.7,
-    reviews: 42,
-    image: '/productos/preworkout.png',
+    name: 'Top Deportivo High-Impact Racerback (Mujer)',
+    rubro: 'Mujer',
+    category: 'Tops & Bras',
+    price: 24900,
+    oldPrice: 29900,
+    rating: 4.8,
+    reviews: 74,
+    image: '/productos/top-deportivo.jpg',
     isOffer: true,
-    coinsEarned: 219,
-    stock: 19,
+    coinsEarned: 250,
+    stock: 40,
   },
   {
     id: 'm4-5',
-    name: 'Shaker Pro Mezclador Hermético 700ml',
-    rubro: 'Accesorios',
-    category: 'Botellas',
-    price: 7500,
+    name: 'Short 2-in-1 Training Liner Pro (Hombre)',
+    rubro: 'Hombre',
+    category: 'Shorts & Bermudas',
+    price: 32500,
     rating: 4.9,
-    reviews: 73,
-    image: '/productos/shaker.png',
-    coinsEarned: 75,
-    stock: 90,
+    reviews: 63,
+    image: '/productos/short-pro.jpg',
+    isFeatured: true,
+    coinsEarned: 325,
+    stock: 50,
   },
   {
     id: 'm4-6',
-    name: 'Cinturón de Levantamiento Cuero Ardyn',
-    rubro: 'Accesorios',
-    category: 'Entrenamiento',
-    price: 36000,
-    oldPrice: 42000,
-    rating: 5.0,
-    reviews: 31,
-    image: '/productos/cinturon.png',
-    isFeatured: true,
-    coinsEarned: 360,
-    stock: 14,
+    name: 'Jogger Tech Cargo Tactical (Unisex)',
+    rubro: 'Streetwear',
+    category: 'Pantalones & Joggers',
+    price: 49900,
+    oldPrice: 58000,
+    rating: 4.9,
+    reviews: 52,
+    image: '/productos/jogger-cargo.jpg',
+    isOffer: true,
+    coinsEarned: 500,
+    stock: 22,
   },
   {
     id: 'm4-7',
-    name: 'ARDYN BCAA 8:1:1 + Glutamina 500g',
-    rubro: 'Suplementos',
-    category: 'Aminoácidos',
-    price: 19800,
-    rating: 4.8,
-    reviews: 39,
-    image: '/productos/bcaa.png',
-    coinsEarned: 198,
-    stock: 33,
+    name: 'Conjunto 2-Piece Ribbed Seamless (Mujer)',
+    rubro: 'Mujer',
+    category: 'Conjuntos Deportivos',
+    price: 52000,
+    oldPrice: 59000,
+    rating: 5.0,
+    reviews: 86,
+    image: '/productos/conjunto-seamless.jpg',
+    isFeatured: true,
+    coinsEarned: 520,
+    stock: 18,
   },
   {
     id: 'm4-8',
-    name: 'Toalla Microfibra Gym Ultra Absorbente',
-    rubro: 'Accesorios',
-    category: 'Gimnasio',
-    price: 7000,
+    name: 'Remera Dry-Fit Training Pro Black (Hombre)',
+    rubro: 'Hombre',
+    category: 'Remeras Deportivas',
+    price: 22500,
     rating: 4.8,
     reviews: 48,
-    image: '/productos/toalla.png',
-    coinsEarned: 70,
-    stock: 52,
+    image: '/productos/camiseta.png',
+    coinsEarned: 225,
+    stock: 65,
   },
 ];
 
@@ -381,7 +386,7 @@ export default function Modelo4Page() {
           </h1>
 
           <p style={{ fontSize: '1.15rem', color: '#A1A1AA', lineHeight: 1.6, maxWidth: '560px', marginBottom: '2rem' }}>
-            Proteínas puras, creatinas testeadas, pre-entrenos intensos e indumentaria dry-fit oficial. Sumá Ardyn Coins con cada compra y ahorrá en tu próximo pedido.
+            Indumentaria deportiva técnica, calzas seamless, hoodies oversize y conjuntos urbanos para hombres y mujeres. Sumá Ardyn Coins con cada compra y ahorrá en tu próximo pedido.
           </p>
 
           <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
@@ -443,7 +448,7 @@ export default function Modelo4Page() {
               boxShadow: '0 20px 50px rgba(0, 0, 0, 0.8)',
             }}
           >
-            <Image src="/productos/whey-protein.png" alt="Ardyn Whey Protein" fill style={{ objectFit: 'contain' }} priority />
+            <Image src="/productos/hoodie-oversize.jpg" alt="Ardyn Streetwear Hoodie" fill style={{ objectFit: 'contain', borderRadius: '16px' }} priority />
           </div>
         </div>
       </section>
@@ -460,7 +465,7 @@ export default function Modelo4Page() {
       >
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
-            {['Todos', 'Suplementos', 'Indumentaria', 'Accesorios'].map((rubro) => (
+            {['Todos', 'Hombre', 'Mujer', 'Streetwear'].map((rubro) => (
               <button
                 key={rubro}
                 onClick={() => setSelectedRubro(rubro)}
