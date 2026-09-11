@@ -1333,12 +1333,27 @@ export default function Modelo5ClassicPage() {
             gap: '1.5rem',
           }}
         >
-          <div>
-            <div style={{ color: '#FFFFFF', fontWeight: 800, fontSize: '0.95rem', marginBottom: 4 }}>
-              {identidad.nombre_completo || 'ARDYN INDUMENTARIA & SUPLEMENTOS'}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+            <Image
+              src={identidad.logo_url || '/logo-ardyn.png'}
+              alt={identidad.nombre_marca || 'Ardyn'}
+              width={44}
+              height={44}
+              style={{
+                borderRadius: '9px',
+                objectFit: 'contain',
+                background: '#000000',
+                border: '1px solid rgba(254, 166, 4, 0.35)',
+                boxShadow: '0 0 12px rgba(254, 166, 4, 0.15)',
+              }}
+            />
+            <div>
+              <div style={{ color: '#FFFFFF', fontWeight: 800, fontSize: '0.95rem', marginBottom: 4 }}>
+                {identidad.nombre_completo || 'ARDYN INDUMENTARIA & SUPLEMENTOS'}
+              </div>
+              <div>{footer.direccion}</div>
+              <div>{footer.horarios}</div>
             </div>
-            <div>{footer.direccion}</div>
-            <div>{footer.horarios}</div>
           </div>
           <div style={{ textAlign: 'right' }}>
             <div style={{ color: '#A1A1AA', marginBottom: 4 }}>

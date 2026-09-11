@@ -1,11 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Zap, HeartPulse, Sparkles, LayoutGrid, Eye, Flame, Store, Video } from 'lucide-react';
+import { useStoreConfig } from '@/hooks/useStoreConfig';
 
 export default function ModelSwitcher({ current }: { current?: 'hub' | '1' | '2' | '3' | '4' | '5' }) {
   const pathname = usePathname();
+  const { config: identidad } = useStoreConfig('tienda_identidad');
+  const logoSrc = identidad.logo_url || '/logo-ardyn.png';
 
   const models = [
     {
@@ -88,8 +92,8 @@ export default function ModelSwitcher({ current }: { current?: 'hub' | '1' | '2'
             style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.4rem',
-              padding: '0.25rem 0.65rem',
+              gap: '0.45rem',
+              padding: '0.2rem 0.65rem 0.2rem 0.35rem',
               background: 'linear-gradient(135deg, rgba(254, 166, 4, 0.25), rgba(253, 130, 9, 0.25))',
               border: '1px solid rgba(254, 166, 4, 0.5)',
               borderRadius: '8px',
@@ -99,8 +103,19 @@ export default function ModelSwitcher({ current }: { current?: 'hub' | '1' | '2'
               letterSpacing: '0.06em',
             }}
           >
-            <Eye size={13} />
-            <span>ARDYN SHOWCASE // 5 MODELOS</span>
+            <Image
+              src={logoSrc}
+              alt={identidad.nombre_marca || 'ARDYN'}
+              width={22}
+              height={22}
+              style={{
+                borderRadius: '5px',
+                objectFit: 'contain',
+                background: '#000000',
+                border: '1px solid rgba(254, 166, 4, 0.4)',
+              }}
+            />
+            <span>{identidad.nombre_marca || 'ARDYN'} SHOWCASE // 5 MODELOS</span>
           </div>
           <span style={{ color: '#71717A', fontSize: '0.72rem' }} className="hide-mobile">
             Paleta Oficial Ardyn (#FEA604 • #FD8209)

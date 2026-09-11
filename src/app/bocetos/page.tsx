@@ -18,8 +18,11 @@ import {
   Palette,
 } from 'lucide-react';
 import ModelSwitcher from '@/components/bocetos/ModelSwitcher';
+import { useStoreConfig } from '@/hooks/useStoreConfig';
 
 export default function BocetosHubPage() {
+  const { config: identidad } = useStoreConfig('tienda_identidad');
+  const logoSrc = identidad.logo_url || '/logo-ardyn.png';
   const models = [
     {
       id: '1',
@@ -152,6 +155,24 @@ export default function BocetosHubPage() {
           textAlign: 'center',
         }}
       >
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.25rem' }}>
+          <Image
+            src={logoSrc}
+            alt={identidad.nombre_marca || 'ARDYN'}
+            width={72}
+            height={72}
+            priority
+            style={{
+              borderRadius: '16px',
+              objectFit: 'contain',
+              background: '#000000',
+              border: '1.5px solid rgba(254, 166, 4, 0.45)',
+              boxShadow: '0 0 25px rgba(254, 166, 4, 0.25)',
+              padding: '6px',
+            }}
+          />
+        </div>
+
         <div
           style={{
             display: 'inline-flex',
@@ -381,14 +402,33 @@ export default function BocetosHubPage() {
       <footer
         style={{
           borderTop: '1px solid rgba(255, 255, 255, 0.08)',
-          padding: '2.5rem 1.5rem',
+          padding: '3rem 1.5rem',
           textAlign: 'center',
           color: '#71717A',
           fontSize: '0.85rem',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '0.75rem',
         }}
       >
-        <p><strong>ARDYN LABS</strong> — Suite de 4 Modelos Visuales Minoristas.</p>
-        <p style={{ marginTop: '0.4rem' }}>Todos los modelos se ejecutan en vivo sobre Next.js y utilizan la paleta oficial de marca (#FEA604 • #FD8209).</p>
+        <Image
+          src={logoSrc}
+          alt={identidad.nombre_marca || 'ARDYN'}
+          width={40}
+          height={40}
+          style={{
+            borderRadius: '10px',
+            objectFit: 'contain',
+            background: '#000000',
+            border: '1px solid rgba(254, 166, 4, 0.35)',
+            boxShadow: '0 0 14px rgba(254, 166, 4, 0.2)',
+          }}
+        />
+        <p><strong>{identidad.nombre_marca || 'ARDYN'} LABS</strong> — Suite de 5 Modelos Visuales Minoristas.</p>
+        <p style={{ marginTop: '0.2rem', maxWidth: '650px' }}>
+          Todos los modelos se ejecutan en vivo sobre Next.js y utilizan la paleta oficial de marca (#FEA604 • #FD8209) con personalización centralizada.
+        </p>
       </footer>
     </div>
   );

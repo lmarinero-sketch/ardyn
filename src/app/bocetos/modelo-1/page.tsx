@@ -21,6 +21,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import ModelSwitcher from '@/components/bocetos/ModelSwitcher';
+import { useStoreConfig } from '@/hooks/useStoreConfig';
 
 interface MockProduct {
   id: string;
@@ -122,6 +123,8 @@ const PRODUCTS: MockProduct[] = [
 ];
 
 export default function Modelo1Page() {
+  const { config: identidad } = useStoreConfig('tienda_identidad');
+  const { config: footer } = useStoreConfig('tienda_footer');
   const [selectedGoal, setSelectedGoal] = useState<string>('todos');
   const [selectedFlavors, setSelectedFlavors] = useState<Record<string, string>>({
     '1': 'Doble Chocolate',
@@ -213,28 +216,36 @@ export default function Modelo1Page() {
         >
           {/* Brand */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <Link href="/bocetos/modelo-1" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+            <Link href="/bocetos/modelo-1" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
               <div
                 style={{
-                  width: 38,
-                  height: 38,
-                  borderRadius: '8px',
-                  background: 'linear-gradient(135deg, #FEA604, #FD8209)',
+                  width: 44,
+                  height: 44,
+                  borderRadius: '10px',
+                  background: '#000000',
+                  border: '1px solid rgba(254, 166, 4, 0.45)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontWeight: 900,
-                  fontSize: '1.2rem',
-                  color: '#000000',
-                  boxShadow: '0 0 16px rgba(254, 166, 4, 0.4)',
+                  overflow: 'hidden',
+                  padding: '4px',
+                  boxShadow: '0 0 16px rgba(254, 166, 4, 0.35)',
                 }}
               >
-                A
+                <Image
+                  src={identidad.logo_url || '/logo-ardyn.png'}
+                  alt={identidad.nombre_marca || 'ARDYN'}
+                  width={36}
+                  height={36}
+                  style={{ objectFit: 'contain' }}
+                />
               </div>
               <div>
-                <span style={{ fontSize: '1.25rem', fontWeight: 900, letterSpacing: '0.08em', color: '#FFFFFF' }}>ARDYN</span>
+                <span style={{ fontSize: '1.25rem', fontWeight: 900, letterSpacing: '0.08em', color: '#FFFFFF' }}>
+                  {identidad.nombre_marca || 'ARDYN'}
+                </span>
                 <span style={{ fontSize: '0.65rem', display: 'block', color: '#FEA604', fontWeight: 700, letterSpacing: '0.15em' }}>
-                  PERFORMANCE LABS
+                  {identidad.subtitulo_minorista || 'PERFORMANCE LABS'}
                 </span>
               </div>
             </Link>
@@ -716,6 +727,69 @@ export default function Modelo1Page() {
           <span>{notification}</span>
         </div>
       )}
+
+      {/* Cyber Athletic Footer */}
+      <footer
+        style={{
+          borderTop: '1px solid rgba(254, 166, 4, 0.2)',
+          background: '#07080a',
+          padding: '3.5rem 1.5rem 2.5rem',
+          color: '#71717A',
+          fontSize: '0.85rem',
+          marginTop: '5rem',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1360px',
+            margin: '0 auto',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '2rem',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <Image
+              src={identidad.logo_url || '/logo-ardyn.png'}
+              alt={identidad.nombre_marca || 'Ardyn'}
+              width={48}
+              height={48}
+              style={{
+                borderRadius: '8px',
+                objectFit: 'contain',
+                background: '#000000',
+                border: '1px solid rgba(254, 166, 4, 0.4)',
+                boxShadow: '0 0 16px rgba(254, 166, 4, 0.25)',
+              }}
+            />
+            <div>
+              <div
+                style={{
+                  color: '#FFFFFF',
+                  fontWeight: 900,
+                  fontSize: '1.2rem',
+                  letterSpacing: '0.05em',
+                  fontFamily: "'Bebas Neue', sans-serif",
+                }}
+              >
+                {identidad.nombre_marca || 'ARDYN'} PERFORMANCE LABS
+              </div>
+              <div style={{ fontSize: '0.8rem', color: '#A1A1AA', marginTop: '2px' }}>{footer.direccion}</div>
+              <div style={{ fontSize: '0.75rem', color: '#FEA604', fontWeight: 700 }}>HIGH IMPACT SPORT NUTRITION</div>
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ color: '#FEA604', fontWeight: 800, fontSize: '0.85rem' }}>
+              Instagram: {footer.instagram}
+            </div>
+            <div style={{ color: '#52525B', fontSize: '0.75rem', marginTop: '4px' }}>
+              {footer.texto_creditos || 'Hecho por Grow Labs'}
+            </div>
+          </div>
+        </div>
+      </footer>
 
       {/* Cart Drawer */}
       {isCartOpen && (

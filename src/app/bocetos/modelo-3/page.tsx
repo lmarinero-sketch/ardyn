@@ -17,6 +17,7 @@ import {
   SlidersHorizontal,
 } from 'lucide-react';
 import ModelSwitcher from '@/components/bocetos/ModelSwitcher';
+import { useStoreConfig } from '@/hooks/useStoreConfig';
 
 interface ApparelProduct {
   id: string;
@@ -124,6 +125,8 @@ const APPAREL_PRODUCTS: ApparelProduct[] = [
 ];
 
 export default function Modelo3Page() {
+  const { config: identidad } = useStoreConfig('tienda_identidad');
+  const { config: footer } = useStoreConfig('tienda_footer');
   const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({
     a1: 'L',
     a2: '750ml',
@@ -192,12 +195,37 @@ export default function Modelo3Page() {
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: '2.5rem' }}>
-            <Link href="/bocetos/modelo-3" style={{ textDecoration: 'none', color: '#FFFFFF' }}>
-              <div style={{ fontSize: '1.5rem', fontWeight: 900, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
-                ARDYN
+            <Link href="/bocetos/modelo-3" style={{ textDecoration: 'none', color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+              <div
+                style={{
+                  width: 42,
+                  height: 42,
+                  borderRadius: '10px',
+                  background: '#000000',
+                  border: '1px solid rgba(254, 166, 4, 0.35)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden',
+                  padding: '4px',
+                  boxShadow: '0 0 16px rgba(254, 166, 4, 0.25)',
+                }}
+              >
+                <Image
+                  src={identidad.logo_url || '/logo-ardyn.png'}
+                  alt={identidad.nombre_marca || 'ARDYN'}
+                  width={34}
+                  height={34}
+                  style={{ objectFit: 'contain' }}
+                />
               </div>
-              <div style={{ fontSize: '0.62rem', letterSpacing: '0.35em', color: '#FEA604', textTransform: 'uppercase', fontWeight: 800 }}>
-                HAUTE ACTIVEWEAR
+              <div>
+                <div style={{ fontSize: '1.45rem', fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', lineHeight: 1.1 }}>
+                  {identidad.nombre_marca || 'ARDYN'}
+                </div>
+                <div style={{ fontSize: '0.62rem', letterSpacing: '0.35em', color: '#FEA604', textTransform: 'uppercase', fontWeight: 800 }}>
+                  {identidad.subtitulo_minorista || 'HAUTE ACTIVEWEAR'}
+                </div>
               </div>
             </Link>
 
@@ -584,6 +612,68 @@ export default function Modelo3Page() {
           <span>{notification}</span>
         </div>
       )}
+
+      {/* Luxury Activewear Footer */}
+      <footer
+        style={{
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          background: '#0a0b0e',
+          padding: '3.5rem 2rem',
+          color: '#71717A',
+          fontSize: '0.85rem',
+          marginTop: '5rem',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1360px',
+            margin: '0 auto',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '2rem',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <Image
+              src={identidad.logo_url || '/logo-ardyn.png'}
+              alt={identidad.nombre_marca || 'Ardyn'}
+              width={46}
+              height={46}
+              style={{
+                borderRadius: '8px',
+                objectFit: 'contain',
+                background: '#000000',
+                border: '1px solid rgba(254, 166, 4, 0.4)',
+                boxShadow: '0 0 15px rgba(254, 166, 4, 0.15)',
+              }}
+            />
+            <div>
+              <div
+                style={{
+                  color: '#FFFFFF',
+                  fontWeight: 900,
+                  fontSize: '1.05rem',
+                  letterSpacing: '0.12em',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {identidad.nombre_marca || 'ARDYN'} · ACTIVEWEAR
+              </div>
+              <div style={{ color: '#A1A1AA', fontSize: '0.8rem', marginTop: '2px' }}>{footer.direccion}</div>
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ color: '#FEA604', fontWeight: 600, fontSize: '0.85rem', letterSpacing: '0.04em' }}>
+              Instagram: {footer.instagram}
+            </div>
+            <div style={{ color: '#52525B', fontSize: '0.75rem', marginTop: '4px' }}>
+              {footer.texto_creditos || 'Hecho por Grow Labs'}
+            </div>
+          </div>
+        </div>
+      </footer>
 
       {/* Shopping Bag Drawer */}
       {isBagOpen && (

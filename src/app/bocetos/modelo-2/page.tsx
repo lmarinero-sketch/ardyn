@@ -21,6 +21,7 @@ import {
   Star,
 } from 'lucide-react';
 import ModelSwitcher from '@/components/bocetos/ModelSwitcher';
+import { useStoreConfig } from '@/hooks/useStoreConfig';
 
 interface ClinicalProduct {
   id: string;
@@ -131,6 +132,8 @@ const CLINICAL_PRODUCTS: ClinicalProduct[] = [
 ];
 
 export default function Modelo2Page() {
+  const { config: identidad } = useStoreConfig('tienda_identidad');
+  const { config: footer } = useStoreConfig('tienda_footer');
   const [selectedProduct, setSelectedProduct] = useState<ClinicalProduct | null>(null);
   const [cart, setCart] = useState<{ product: ClinicalProduct; qty: number }[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -219,25 +222,33 @@ export default function Modelo2Page() {
           <Link href="/bocetos/modelo-2" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div
               style={{
-                width: 40,
-                height: 40,
+                width: 42,
+                height: 42,
                 borderRadius: '10px',
-                background: 'linear-gradient(135deg, #FEA604 0%, #FD8209 100%)',
+                background: '#000000',
+                border: '1px solid rgba(254, 166, 4, 0.4)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#000000',
-                boxShadow: '0 4px 14px rgba(254, 166, 4, 0.35)',
+                overflow: 'hidden',
+                padding: '4px',
+                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.1)',
               }}
             >
-              <HeartPulse size={22} />
+              <Image
+                src={identidad.logo_url || '/logo-ardyn.png'}
+                alt={identidad.nombre_marca || 'ARDYN'}
+                width={34}
+                height={34}
+                style={{ objectFit: 'contain' }}
+              />
             </div>
             <div>
               <div style={{ fontSize: '1.25rem', fontWeight: 900, color: '#0F172A', letterSpacing: '-0.01em' }}>
-                ARDYN <span style={{ color: '#FEA604' }}>CLINICAL</span>
+                {identidad.nombre_marca || 'ARDYN'} <span style={{ color: '#FEA604' }}>CLINICAL</span>
               </div>
               <div style={{ fontSize: '0.7rem', color: '#64748B', fontWeight: 700 }}>
-                Nutrición Celular & Medicina Preventiva
+                {identidad.subtitulo_minorista || 'Nutrición Celular & Medicina Preventiva'}
               </div>
             </div>
           </Link>
@@ -652,6 +663,61 @@ export default function Modelo2Page() {
           </div>
         </div>
       )}
+
+      {/* Clinical Footer */}
+      <footer
+        style={{
+          borderTop: '1px solid #E2E8F0',
+          background: '#FFFFFF',
+          padding: '3.5rem 2rem 2.5rem',
+          color: '#64748B',
+          fontSize: '0.85rem',
+          marginTop: '5rem',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1280px',
+            margin: '0 auto',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '2rem',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <Image
+              src={identidad.logo_url || '/logo-ardyn.png'}
+              alt={identidad.nombre_marca || 'Ardyn'}
+              width={46}
+              height={46}
+              style={{
+                borderRadius: '8px',
+                objectFit: 'contain',
+                background: '#0F172A',
+                border: '1px solid rgba(254, 166, 4, 0.35)',
+                boxShadow: '0 2px 10px rgba(0,0,0,0.06)',
+              }}
+            />
+            <div>
+              <div style={{ color: '#0F172A', fontWeight: 800, fontSize: '1rem' }}>
+                {identidad.nombre_marca || 'ARDYN'} · CLINICAL NUTRITION
+              </div>
+              <div style={{ fontSize: '0.8rem', color: '#64748B', marginTop: '2px' }}>{footer.direccion}</div>
+              <div style={{ fontSize: '0.75rem', color: '#0284C7', fontWeight: 600 }}>Trazabilidad Médica y Calidad QOAG</div>
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ color: '#0F172A', fontWeight: 700, fontSize: '0.85rem' }}>
+              Atención Profesional: {footer.horarios}
+            </div>
+            <div style={{ color: '#94A3B8', fontSize: '0.75rem', marginTop: '4px' }}>
+              {footer.texto_creditos || 'Hecho por Grow Labs'}
+            </div>
+          </div>
+        </div>
+      </footer>
 
       {/* Clinical Cart Drawer */}
       {isCartOpen && (

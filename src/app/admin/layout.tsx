@@ -18,6 +18,7 @@ import {
     UserCog,
     Settings,
 } from 'lucide-react';
+import { useStoreConfig } from '@/hooks/useStoreConfig';
 
 interface CurrentUser {
     id: string;
@@ -46,6 +47,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     const pathname = usePathname();
     const router = useRouter();
     const [user, setUser] = useState<CurrentUser | null>(null);
+    const { config: identidad } = useStoreConfig('tienda_identidad');
     const isLoginPage = pathname === '/admin/login';
 
     // Fetch current user (must be before any early return)
@@ -94,10 +96,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 {/* Brand */}
                 <div className="sidebar-brand">
                     <div className="sidebar-brand-icon">
-                        <img src="/logo-ardyn.png" alt="Ardyn" width={32} height={32} style={{ borderRadius: '6px', objectFit: 'contain' }} />
+                        <img
+                            src={identidad.logo_url || '/logo-ardyn.png'}
+                            alt={identidad.nombre_marca || 'Ardyn'}
+                            width={32}
+                            height={32}
+                            style={{ borderRadius: '6px', objectFit: 'contain' }}
+                        />
                     </div>
                     <div>
-                        <span className="sidebar-brand-name">Ardyn Labs</span>
+                        <span className="sidebar-brand-name">{identidad.nombre_marca || 'Ardyn'} Labs</span>
                         <span className="sidebar-brand-sub">Panel de gestión</span>
                     </div>
                 </div>

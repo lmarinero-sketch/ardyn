@@ -26,6 +26,7 @@ import {
   Store,
 } from 'lucide-react';
 import ModelSwitcher from '@/components/bocetos/ModelSwitcher';
+import { useStoreConfig } from '@/hooks/useStoreConfig';
 
 interface ProductItem {
   id: string;
@@ -153,6 +154,8 @@ const PRODUCTS_DATA: ProductItem[] = [
 ];
 
 export default function Modelo4Page() {
+  const { config: identidad } = useStoreConfig('tienda_identidad');
+  const { config: footer } = useStoreConfig('tienda_footer');
   const [selectedRubro, setSelectedRubro] = useState<string>('Todos');
   const [searchQuery, setSearchQuery] = useState('');
   const [cart, setCart] = useState<{ product: ProductItem; qty: number }[]>([]);
@@ -253,37 +256,30 @@ export default function Modelo4Page() {
                 width: 44,
                 height: 44,
                 borderRadius: '12px',
-                background: 'linear-gradient(135deg, #FEA604 0%, #FD8209 100%)',
-                padding: '2px',
+                background: '#000000',
+                border: '1px solid rgba(254, 166, 4, 0.4)',
                 boxShadow: '0 4px 20px rgba(254, 166, 4, 0.35)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                overflow: 'hidden',
+                padding: '4px',
               }}
             >
-              <div
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  background: '#0a0a0c',
-                  borderRadius: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontWeight: 900,
-                  fontSize: '1.3rem',
-                  color: '#FEA604',
-                }}
-              >
-                A
-              </div>
+              <Image
+                src={identidad.logo_url || '/logo-ardyn.png'}
+                alt={identidad.nombre_marca || 'ARDYN'}
+                width={36}
+                height={36}
+                style={{ objectFit: 'contain' }}
+              />
             </div>
             <div>
               <div style={{ fontSize: '1.4rem', fontWeight: 900, letterSpacing: '0.04em', color: '#FFFFFF' }}>
-                ARDYN <span style={{ color: '#FEA604' }}>TIENDA</span>
+                {identidad.nombre_marca || 'ARDYN'} <span style={{ color: '#FEA604' }}>TIENDA</span>
               </div>
               <div style={{ fontSize: '0.7rem', color: '#A1A1AA', fontWeight: 600, letterSpacing: '0.08em' }}>
-                SUPLEMENTOS & INDUMENTARIA OFICIAL
+                {identidad.subtitulo_minorista || 'SUPLEMENTOS & INDUMENTARIA OFICIAL'}
               </div>
             </div>
           </Link>
@@ -689,6 +685,61 @@ export default function Modelo4Page() {
           <span>{toastMsg}</span>
         </div>
       )}
+
+      {/* Footer Minorista Oficial */}
+      <footer
+        style={{
+          borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+          background: '#07080a',
+          padding: '3rem 1.5rem 2.5rem',
+          color: '#71717A',
+          fontSize: '0.85rem',
+          marginTop: '4rem',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1280px',
+            margin: '0 auto',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '1.5rem',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+            <Image
+              src={identidad.logo_url || '/logo-ardyn.png'}
+              alt={identidad.nombre_marca || 'Ardyn'}
+              width={46}
+              height={46}
+              style={{
+                borderRadius: '10px',
+                objectFit: 'contain',
+                background: '#000000',
+                border: '1px solid rgba(254, 166, 4, 0.35)',
+                boxShadow: '0 0 14px rgba(254, 166, 4, 0.2)',
+              }}
+            />
+            <div>
+              <div style={{ color: '#FFFFFF', fontWeight: 900, fontSize: '1rem', letterSpacing: '-0.01em' }}>
+                {identidad.nombre_marca || 'ARDYN'} · {identidad.subtitulo_minorista || 'Tienda Oficial'}
+              </div>
+              <div style={{ fontSize: '0.8rem', color: '#A1A1AA', marginTop: '2px' }}>{footer.direccion}</div>
+              <div style={{ fontSize: '0.75rem', color: '#71717A' }}>{footer.horarios}</div>
+            </div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ color: '#FEA604', fontWeight: 700, fontSize: '0.85rem' }}>
+              Instagram: {footer.instagram}
+            </div>
+            <div style={{ fontSize: '0.75rem', color: '#52525B', marginTop: '4px' }}>
+              {footer.texto_creditos || 'Hecho por Grow Labs'}
+            </div>
+          </div>
+        </div>
+      </footer>
 
       {/* Cart Drawer */}
       {isCartOpen && (
