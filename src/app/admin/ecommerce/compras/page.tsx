@@ -6,7 +6,7 @@ import {
   ArrowLeft, Plus, Search, Trash2, PackagePlus, Check, X, Loader2,
   ChevronDown, ChevronUp, FileText, Calendar, Truck, AlertCircle
 } from 'lucide-react';
-import { Compra, Producto } from '@/types/ecommerce';
+import { Compra, Producto, Categoria, Marca } from '@/types/ecommerce';
 
 interface CompraFormItem {
   producto_id: string;
@@ -30,10 +30,25 @@ export default function ComprasAdminPage() {
   const [notas, setNotas] = useState('');
   const [items, setItems] = useState<CompraFormItem[]>([{ producto_id: '', producto_nombre: '', cantidad: '1', precio_unitario: '', precio_anterior: 0 }]);
 
-  // Product search
-  const [productos, setProductos] = useState<Producto[]>([]);
+  // Product search & catalogue state
+  const [allProductos, setAllProductos] = useState<Producto[]>([]);
   const [productSearch, setProductSearch] = useState('');
   const [activeSearchIdx, setActiveSearchIdx] = useState<number | null>(null);
+
+  // Quick product create modal
+  const [showQuickCreate, setShowQuickCreate] = useState(false);
+  const [quickTargetIdx, setQuickTargetIdx] = useState<number>(0);
+  const [quickNombre, setQuickNombre] = useState('');
+  const [quickCategoriaId, setQuickCategoriaId] = useState('');
+  const [quickMarcaId, setQuickMarcaId] = useState('');
+  const [quickPrecioCosto, setQuickPrecioCosto] = useState('');
+  const [quickPrecioVenta, setQuickPrecioVenta] = useState('');
+  const [quickCreating, setQuickCreating] = useState(false);
+  const [quickError, setQuickError] = useState<string | null>(null);
+
+  // Categories & Brands
+  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const [marcas, setMarcas] = useState<Marca[]>([]);
 
   const fetchCompras = useCallback(async () => {
     const res = await fetch('/api/ecommerce/compras');
@@ -42,22 +57,43 @@ export default function ComprasAdminPage() {
     setLoading(false);
   }, []);
 
-  const fetchProductos = useCallback(async (search: string) => {
-    const res = await fetch(`/api/ecommerce/productos?all=true&limit=50&search=${encodeURIComponent(search)}`);
-    const data = await res.json();
-    setProductos(data.productos || []);
+  const fetchAllProductos = useCallback(async () => {
+    try {
+      const res = await fetch('/api/ecommerce/productos?all=true&limit=250');
+      const data = await res.json();
+      setAllProductos(data.productos || []);
+    } catch (e) {
+      console.error('Error al cargar productos:', e);
+    }
   }, []);
 
-  useEffect(() => { fetchCompras(); }, [fetchCompras]);
+  const fetchFilters = useCallback(async () => {
+    try {
+      const [catRes, marcaRes] = await Promise.all([
+        fetch('/api/ecommerce/categorias'),
+        fetch('/api/ecommerce/marcas'),
+      ]);
+      const [catData, marcaData] = await Promise.all([catRes.json(), marcaRes.json()]);
+      setCategorias(catData.categorias || []);
+      setMarcas(marcaData.marcas || []);
+    } catch (e) {
+      console.error('Error al cargar categorías/marcas:', e);
+    }
+  }, []);
 
   useEffect(() => {
-    if (productSearch.length >= 2) {
-      const t = setTimeout(() => fetchProductos(productSearch), 300);
-      return () => clearTimeout(t);
-    } else {
-      setProductos([]);
+    fetchCompras();
+    fetchAllProductos();
+    fetchFilters();
+  }, [fetchCompras, fetchAllProductos, fetchFilters]);
+
+  // Si abren el modal de nueva compra, recargamos productos para asegurar catálogo actualizado
+  useEffect(() => {
+    if (showForm) {
+      fetchAllProductos();
+      fetchFilters();
     }
-  }, [productSearch, fetchProductos]);
+  }, [showForm, fetchAllProductos, fetchFilters]);
 
   const addItem = () => {
     setItems([...items, { producto_id: '', producto_nombre: '', cantidad: '1', precio_unitario: '', precio_anterior: 0 }]);
@@ -77,12 +113,72 @@ export default function ComprasAdminPage() {
       ...item,
       producto_id: prod.id,
       producto_nombre: prod.nombre,
-      precio_unitario: prod.precio_costo ? String(prod.precio_costo) : '',
+      precio_unitario: prod.precio_costo ? String(prod.precio_costo) : (item.precio_unitario || ''),
       precio_anterior: prod.precio_costo || 0,
     } : item));
     setActiveSearchIdx(null);
     setProductSearch('');
-    setProductos([]);
+  };
+
+  const openQuickCreate = (targetIdx: number, initialName = '') => {
+    setQuickTargetIdx(targetIdx);
+    setQuickNombre(initialName.trim());
+    setQuickCategoriaId(categorias[0]?.id || '');
+    setQuickMarcaId(marcas[0]?.id || '');
+    setQuickPrecioCosto(items[targetIdx]?.precio_unitario || '');
+    setQuickPrecioVenta('');
+    setQuickError(null);
+    setShowQuickCreate(true);
+  };
+
+  const handleCreateQuickProduct = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!quickNombre.trim()) {
+      setQuickError('El nombre del producto es obligatorio');
+      return;
+    }
+
+    setQuickCreating(true);
+    setQuickError(null);
+
+    try {
+      const costo = parseFloat(quickPrecioCosto) || 0;
+      const venta = parseFloat(quickPrecioVenta) || (costo > 0 ? Math.round(costo * 1.3) : 0);
+
+      const res = await fetch('/api/ecommerce/productos', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: quickNombre.trim(),
+          categoria_id: quickCategoriaId || null,
+          marca_id: quickMarcaId || null,
+          precio_costo: costo,
+          precio_unitario: venta,
+          precio_mayorista: venta,
+          stock: 0,
+          activo: true,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || data.error) {
+        throw new Error(data.error || 'Error al crear producto');
+      }
+
+      const created: Producto = data.producto;
+
+      // Actualizar lista local de productos
+      setAllProductos(prev => [created, ...prev]);
+
+      // Seleccionar automáticamente en la línea de compra activa
+      selectProduct(quickTargetIdx, created);
+
+      setShowQuickCreate(false);
+    } catch (err: any) {
+      setQuickError(err.message || 'Error al crear el producto');
+    } finally {
+      setQuickCreating(false);
+    }
   };
 
   const calcTotal = () => {
@@ -117,6 +213,7 @@ export default function ComprasAdminPage() {
       setShowForm(false);
       resetForm();
       fetchCompras();
+      fetchAllProductos();
     } catch (err) {
       console.error(err);
     } finally {
@@ -133,6 +230,7 @@ export default function ComprasAdminPage() {
         body: JSON.stringify({ confirmar: true }),
       });
       fetchCompras();
+      fetchAllProductos();
     } catch (err) {
       console.error(err);
     } finally {
@@ -151,6 +249,8 @@ export default function ComprasAdminPage() {
     setNumeroFactura('');
     setNotas('');
     setItems([{ producto_id: '', producto_nombre: '', cantidad: '1', precio_unitario: '', precio_anterior: 0 }]);
+    setActiveSearchIdx(null);
+    setProductSearch('');
   };
 
   const formatPrice = (price: number) =>
@@ -161,6 +261,19 @@ export default function ComprasAdminPage() {
     confirmada: { badge: 'badge-green', label: '✅ Confirmada' },
     cancelada: { badge: 'badge-red', label: '❌ Cancelada' },
   };
+
+  // Filtrado reactivo de productos
+  const filteredProducts = productSearch.trim()
+    ? allProductos.filter(p => {
+        const q = productSearch.toLowerCase();
+        return (
+          p.nombre.toLowerCase().includes(q) ||
+          (p.sku && p.sku.toLowerCase().includes(q)) ||
+          (p.categoria?.nombre && p.categoria.nombre.toLowerCase().includes(q)) ||
+          (p.marca?.nombre && p.marca.nombre.toLowerCase().includes(q))
+        );
+      })
+    : allProductos;
 
   return (
     <div className="page-container">
@@ -175,7 +288,7 @@ export default function ComprasAdminPage() {
           <h1 style={{ marginBottom: '0.25rem' }}>Compras</h1>
           <p style={{ color: 'var(--text-muted)', fontSize: '0.875rem' }}>Registrá ingresos de mercadería · Actualizá stock y costos</p>
         </div>
-        <button onClick={() => { resetForm(); setShowForm(true); }}>
+        <button onClick={() => { resetForm(); setShowForm(true); }} className="btn-brand">
           <Plus size={18} /> Nueva Compra
         </button>
       </div>
@@ -184,16 +297,17 @@ export default function ComprasAdminPage() {
       {showForm && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-          background: 'rgba(0,0,0,0.5)', zIndex: 100,
+          background: 'rgba(0,0,0,0.6)', zIndex: 100,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          padding: '1rem',
+          padding: '1rem', backdropFilter: 'blur(3px)',
         }}>
           <div className="glass-card animate-scaleIn" style={{
-            width: '100%', maxWidth: 720, maxHeight: '90vh', overflowY: 'auto',
+            width: '100%', maxWidth: 740, maxHeight: '90vh', overflowY: 'auto',
+            background: '#0e0e11', border: '1px solid #27272a',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-              <h3 style={{ margin: 0 }}>
-                <PackagePlus size={20} style={{ marginRight: 8, verticalAlign: 'middle' }} />
+              <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+                <PackagePlus size={20} color="#FEA604" />
                 Nueva Compra
               </h3>
               <button 
@@ -221,7 +335,7 @@ export default function ComprasAdminPage() {
             <div style={{ marginBottom: '1rem' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
                 <label style={{ margin: 0, fontWeight: 700, fontSize: '0.9375rem' }}>Productos</label>
-                <button className="btn-ghost" onClick={addItem} style={{ fontSize: '0.8125rem', color: 'var(--accent-blue)', padding: '0.25rem 0.5rem' }}>
+                <button className="btn-ghost" onClick={addItem} style={{ fontSize: '0.8125rem', color: 'var(--brand-gold)', padding: '0.25rem 0.5rem', fontWeight: 600 }}>
                   <Plus size={14} /> Agregar línea
                 </button>
               </div>
@@ -229,55 +343,129 @@ export default function ComprasAdminPage() {
               {items.map((item, idx) => (
                 <div key={idx} style={{
                   display: 'grid', gridTemplateColumns: '1fr 100px 130px 36px',
-                  gap: '0.5rem', alignItems: 'end', marginBottom: '0.5rem',
+                  gap: '0.5rem', alignItems: 'end', marginBottom: '0.625rem',
                   padding: '0.75rem', background: 'var(--bg-secondary)', borderRadius: 12,
+                  border: '1px solid #1f1f23',
                 }}>
                   {/* Product selector */}
                   <div style={{ position: 'relative' }}>
-                    <label style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>Producto</label>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <label style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', margin: 0 }}>Producto</label>
+                      <button
+                        type="button"
+                        onClick={() => openQuickCreate(idx, activeSearchIdx === idx ? productSearch : '')}
+                        style={{
+                          background: 'none', border: 'none', color: 'var(--brand-gold)',
+                          fontSize: '0.6875rem', fontWeight: 700, cursor: 'pointer', padding: 0,
+                          display: 'flex', alignItems: 'center', gap: 2, minHeight: 'auto',
+                        }}
+                      >
+                        <Plus size={11} /> Nuevo
+                      </button>
+                    </div>
+
                     {item.producto_nombre ? (
                       <div style={{
-                        padding: '0.75rem 1rem', background: 'var(--bg-color)', border: '1px solid var(--accent-green)',
+                        padding: '0.75rem 1rem', background: 'var(--bg-color)', border: '1px solid var(--brand-gold)',
                         borderRadius: 12, fontSize: '0.875rem', fontWeight: 600, marginTop: '0.375rem',
                         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
                       }}>
-                        <span>{item.producto_nombre}</span>
-                        <button className="btn-ghost" onClick={() => updateItem(idx, 'producto_id', '')} style={{ padding: 2, fontSize: 0, minHeight: 'auto' }}>
+                        <span style={{ color: '#ffffff' }}>{item.producto_nombre}</span>
+                        <button className="btn-ghost" onClick={() => updateItem(idx, 'producto_id', '')} style={{ padding: 2, fontSize: 0, minHeight: 'auto', color: 'var(--text-muted)' }}>
                           <X size={14} />
                         </button>
                       </div>
                     ) : (
                       <>
                         <input
-                          placeholder="Buscar producto..."
+                          placeholder="Buscar o seleccionar producto..."
                           value={activeSearchIdx === idx ? productSearch : ''}
-                          onFocus={() => setActiveSearchIdx(idx)}
-                          onChange={e => { setProductSearch(e.target.value); setActiveSearchIdx(idx); }}
+                          onFocus={() => {
+                            setActiveSearchIdx(idx);
+                            setProductSearch('');
+                          }}
+                          onChange={e => {
+                            setProductSearch(e.target.value);
+                            setActiveSearchIdx(idx);
+                          }}
                           style={{ marginBottom: 0 }}
                         />
-                        {activeSearchIdx === idx && productos.length > 0 && (
-                          <div style={{
-                            position: 'absolute', top: '100%', left: 0, right: 0, zIndex: 50,
-                            background: 'var(--card-bg)', border: '1px solid var(--border-color)',
-                            borderRadius: 10, maxHeight: 200, overflowY: 'auto',
-                            boxShadow: '0 8px 24px rgba(0,0,0,0.12)',
-                          }}>
-                            {productos.map(p => (
-                              <div key={p.id}
-                                onClick={() => selectProduct(idx, p)}
+
+                        {/* Dropdown Menu */}
+                        {activeSearchIdx === idx && (
+                          <>
+                            {/* Backdrop para cerrar al hacer clic afuera */}
+                            <div
+                              style={{ position: 'fixed', inset: 0, zIndex: 48 }}
+                              onClick={() => setActiveSearchIdx(null)}
+                            />
+
+                            <div style={{
+                              position: 'absolute', top: 'calc(100% + 4px)', left: 0, right: 0, zIndex: 50,
+                              background: '#121216', border: '1px solid #3f3f46',
+                              borderRadius: 12, maxHeight: 260, overflowY: 'auto',
+                              boxShadow: '0 12px 35px rgba(0,0,0,0.85)',
+                            }}>
+                              {/* Botón destacado para crear nuevo producto */}
+                              <div
+                                onClick={() => openQuickCreate(idx, productSearch)}
                                 style={{
                                   padding: '0.625rem 0.875rem', cursor: 'pointer',
-                                  fontSize: '0.8125rem', borderBottom: '1px solid var(--border-light)',
-                                  display: 'flex', justifyContent: 'space-between',
+                                  background: 'rgba(254, 166, 4, 0.12)', borderBottom: '1px solid #27272a',
+                                  display: 'flex', alignItems: 'center', gap: '0.5rem',
+                                  color: '#FEA604', fontWeight: 700, fontSize: '0.8125rem',
+                                  position: 'sticky', top: 0, zIndex: 2,
                                 }}
+                                onMouseEnter={e => e.currentTarget.style.background = 'rgba(254, 166, 4, 0.22)'}
+                                onMouseLeave={e => e.currentTarget.style.background = 'rgba(254, 166, 4, 0.12)'}
                               >
-                                <span style={{ fontWeight: 600 }}>{p.nombre}</span>
-                                <span style={{ color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', fontSize: '0.75rem' }}>
-                                  Stock: {p.stock} · Costo: {formatPrice(p.precio_costo || 0)}
+                                <Plus size={15} />
+                                <span>
+                                  {productSearch.trim()
+                                    ? `+ Crear "${productSearch.trim()}" como nuevo producto`
+                                    : '+ Crear nuevo producto...'}
                                 </span>
                               </div>
-                            ))}
-                          </div>
+
+                              {/* Lista de productos filtrados o todos */}
+                              {filteredProducts.length > 0 ? (
+                                filteredProducts.map(p => (
+                                  <div
+                                    key={p.id}
+                                    onClick={() => selectProduct(idx, p)}
+                                    style={{
+                                      padding: '0.625rem 0.875rem', cursor: 'pointer',
+                                      fontSize: '0.8125rem', borderBottom: '1px solid #27272a',
+                                      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                                      transition: 'background 0.15s',
+                                    }}
+                                    onMouseEnter={e => e.currentTarget.style.background = '#1e1e24'}
+                                    onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+                                  >
+                                    <div>
+                                      <div style={{ fontWeight: 600, color: '#fff' }}>{p.nombre}</div>
+                                      <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)', marginTop: 2 }}>
+                                        {p.categoria?.nombre ? `${p.categoria.nombre}` : 'Sin categoría'}
+                                        {p.marca?.nombre ? ` · ${p.marca.nombre}` : ''}
+                                      </div>
+                                    </div>
+                                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                                      <div style={{ color: 'var(--brand-gold)', fontFamily: 'var(--font-mono)', fontSize: '0.8125rem', fontWeight: 700 }}>
+                                        {formatPrice(p.precio_costo || 0)}
+                                      </div>
+                                      <div style={{ color: p.stock > 0 ? '#10b981' : '#ef4444', fontSize: '0.6875rem' }}>
+                                        Stock: {p.stock}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div style={{ padding: '1rem', fontSize: '0.8125rem', color: 'var(--text-muted)', textAlign: 'center' }}>
+                                  No hay productos que coincidan con &quot;{productSearch}&quot;. Podés crearlo arriba.
+                                </div>
+                              )}
+                            </div>
+                          </>
                         )}
                       </>
                     )}
@@ -299,7 +487,7 @@ export default function ComprasAdminPage() {
                       Costo Unit.
                       {item.producto_id && item.precio_unitario && parseFloat(item.precio_unitario) !== item.precio_anterior && (
                         <span style={{ 
-                          color: parseFloat(item.precio_unitario) > item.precio_anterior ? 'var(--accent-red)' : 'var(--accent-green)',
+                          color: parseFloat(item.precio_unitario) > item.precio_anterior ? 'var(--accent-red)' : 'var(--brand-gold)',
                           fontWeight: 700 
                         }}>
                           {parseFloat(item.precio_unitario) > item.precio_anterior ? '⬆️' : '⬇️'} {Math.abs(100 * (parseFloat(item.precio_unitario) - item.precio_anterior) / (item.precio_anterior || 1)).toFixed(1)}%
@@ -309,7 +497,7 @@ export default function ComprasAdminPage() {
                     <input
                       type="number" min="0" step="0.01" value={item.precio_unitario}
                       onChange={e => updateItem(idx, 'precio_unitario', e.target.value)}
-                      style={{ marginBottom: 0, borderColor: item.producto_id && item.precio_unitario && parseFloat(item.precio_unitario) !== item.precio_anterior ? (parseFloat(item.precio_unitario) > item.precio_anterior ? 'var(--accent-red)' : 'var(--accent-green)') : undefined }}
+                      style={{ marginBottom: 0, borderColor: item.producto_id && item.precio_unitario && parseFloat(item.precio_unitario) !== item.precio_anterior ? (parseFloat(item.precio_unitario) > item.precio_anterior ? 'var(--accent-red)' : 'var(--brand-gold)') : undefined }}
                       placeholder="$0"
                     />
                   </div>
@@ -337,11 +525,11 @@ export default function ComprasAdminPage() {
               marginBottom: '1rem',
             }}>
               <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-muted)' }}>Total</span>
-              <span style={{ fontSize: '1.5rem', fontWeight: 900, fontFamily: 'var(--font-mono)' }}>{formatPrice(calcTotal())}</span>
+              <span style={{ fontSize: '1.5rem', fontWeight: 900, fontFamily: 'var(--font-mono)', color: 'var(--brand-gold)' }}>{formatPrice(calcTotal())}</span>
             </div>
 
             <div style={{ display: 'flex', gap: '0.75rem' }}>
-              <button onClick={() => handleSave(true)} disabled={saving || !items.some(i => i.producto_id)} style={{ flex: 1 }} className="btn-green">
+              <button onClick={() => handleSave(true)} disabled={saving || !items.some(i => i.producto_id)} style={{ flex: 1 }} className="btn-brand">
                 {saving ? <><Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> Guardando...</> : <><Check size={16} /> Confirmar y Actualizar Stock</>}
               </button>
               <button onClick={() => handleSave(false)} disabled={saving || !items.some(i => i.producto_id)} className="secondary" style={{ fontSize: '0.8125rem' }}>
@@ -351,6 +539,146 @@ export default function ComprasAdminPage() {
                 Cancelar
               </button>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════ MODAL CREAR PRODUCTO RÁPIDO ══════ */}
+      {showQuickCreate && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.75)', zIndex: 120,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          padding: '1rem', backdropFilter: 'blur(4px)',
+        }}>
+          <div className="glass-card animate-scaleIn" style={{
+            width: '100%', maxWidth: 480, background: '#121216', border: '1px solid #3f3f46',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.85)', padding: '1.5rem',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div style={{
+                  width: 32, height: 32, borderRadius: 8, background: 'rgba(254, 166, 4, 0.15)',
+                  border: '1px solid rgba(254, 166, 4, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <PackagePlus size={18} color="#FEA604" />
+                </div>
+                <h3 style={{ margin: 0, fontSize: '1.125rem' }}>Nuevo Producto Rápido</h3>
+              </div>
+              <button
+                className="btn-ghost"
+                onClick={() => setShowQuickCreate(false)}
+                style={{ padding: 4, minHeight: 'auto', color: 'var(--text-muted)' }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '1.25rem' }}>
+              Completá los datos básicos para registrarlo en el catálogo y seleccionarlo automáticamente en esta compra.
+            </p>
+
+            {quickError && (
+              <div style={{
+                padding: '0.625rem 0.875rem', background: 'rgba(239,68,68,0.12)',
+                border: '1px solid var(--accent-red)', borderRadius: 8, color: 'var(--accent-red)',
+                fontSize: '0.8125rem', marginBottom: '1rem',
+              }}>
+                {quickError}
+              </div>
+            )}
+
+            <form onSubmit={handleCreateQuickProduct}>
+              <div style={{ marginBottom: '1rem' }}>
+                <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>Nombre del Producto *</label>
+                <input
+                  required
+                  autoFocus
+                  value={quickNombre}
+                  onChange={e => setQuickNombre(e.target.value)}
+                  placeholder="Ej: Creatina Micronizada 300g"
+                  style={{ marginTop: 4 }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 0.75rem', marginBottom: '1rem' }}>
+                <div>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>Categoría</label>
+                  <select
+                    value={quickCategoriaId}
+                    onChange={e => setQuickCategoriaId(e.target.value)}
+                    style={{ marginTop: 4 }}
+                  >
+                    <option value="">Sin categoría</option>
+                    {categorias.map(c => (
+                      <option key={c.id} value={c.id}>{c.nombre}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>Marca</label>
+                  <select
+                    value={quickMarcaId}
+                    onChange={e => setQuickMarcaId(e.target.value)}
+                    style={{ marginTop: 4 }}
+                  >
+                    <option value="">Sin marca</option>
+                    {marcas.map(m => (
+                      <option key={m.id} value={m.id}>{m.nombre}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 0.75rem', marginBottom: '1.5rem' }}>
+                <div>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>Precio de Costo ($)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={quickPrecioCosto}
+                    onChange={e => setQuickPrecioCosto(e.target.value)}
+                    placeholder="$0"
+                    style={{ marginTop: 4 }}
+                  />
+                </div>
+                <div>
+                  <label style={{ fontSize: '0.75rem', fontWeight: 700, textTransform: 'uppercase' }}>Precio Minorista ($)</label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={quickPrecioVenta}
+                    onChange={e => setQuickPrecioVenta(e.target.value)}
+                    placeholder="$0 (opcional)"
+                    style={{ marginTop: 4 }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: '0.75rem' }}>
+                <button
+                  type="submit"
+                  disabled={quickCreating || !quickNombre.trim()}
+                  className="btn-brand"
+                  style={{ flex: 1, padding: '0.75rem' }}
+                >
+                  {quickCreating ? (
+                    <><Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> Creando...</>
+                  ) : (
+                    <><Check size={16} /> Crear y Seleccionar</>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  className="secondary"
+                  onClick={() => setShowQuickCreate(false)}
+                >
+                  Cancelar
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}
@@ -370,112 +698,131 @@ export default function ComprasAdminPage() {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
           {compras.map(compra => {
-            const cfg = estadoConfig[compra.estado] || estadoConfig.pendiente;
             const isExpanded = expandedId === compra.id;
+            const itemsCount = compra.items?.length || 0;
+            const totalUnits = compra.items?.reduce((s, i) => s + i.cantidad, 0) || 0;
+
             return (
               <div key={compra.id} className="glass-card" style={{ padding: 0, overflow: 'hidden' }}>
-                {/* Header row */}
+                {/* Row Header */}
                 <div
                   onClick={() => setExpandedId(isExpanded ? null : compra.id)}
                   style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '1rem 1.25rem', cursor: 'pointer', gap: '1rem',
-                    transition: 'background 0.15s',
+                    padding: '1.25rem 1.5rem', cursor: 'pointer',
+                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+                    flexWrap: 'wrap', gap: '1rem',
                   }}
                 >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flex: 1, minWidth: 0 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                     <div style={{
-                      width: 40, height: 40, borderRadius: 10,
-                      background: compra.estado === 'confirmada' ? 'var(--accent-green-light)' : 'var(--accent-amber-light)',
+                      width: 42, height: 42, borderRadius: 10,
+                      background: compra.estado === 'confirmada' ? 'rgba(254, 166, 4, 0.15)' : 'rgba(245, 158, 11, 0.1)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      color: compra.estado === 'confirmada' ? 'var(--accent-green)' : 'var(--accent-amber)',
-                      flexShrink: 0,
+                      color: compra.estado === 'confirmada' ? 'var(--brand-gold)' : 'var(--accent-amber)',
                     }}>
-                      {compra.estado === 'confirmada' ? <Check size={20} /> : <FileText size={20} />}
+                      <Truck size={20} />
                     </div>
-                    <div style={{ minWidth: 0 }}>
-                      <div style={{ fontWeight: 700, fontSize: '0.9375rem' }}>
-                        {compra.proveedor || 'Sin proveedor'}
+                    <div>
+                      <div style={{ fontWeight: 700, fontSize: '0.9375rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <span>{compra.proveedor || 'Sin proveedor'}</span>
                         {compra.numero_factura && (
-                          <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: '0.8125rem', marginLeft: 8 }}>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
                             #{compra.numero_factura}
                           </span>
                         )}
                       </div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-                        <Calendar size={12} />
-                        {new Date(compra.fecha).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' })}
-                        <span>·</span>
-                        <span>{(compra.items || []).length} productos</span>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'flex', gap: '1rem', marginTop: 2 }}>
+                        <span><Calendar size={12} style={{ verticalAlign: 'middle', marginRight: 4 }} />{new Date(compra.created_at).toLocaleDateString('es-AR')}</span>
+                        <span>{itemsCount} {itemsCount === 1 ? 'producto' : 'productos'} ({totalUnits} u.)</span>
                       </div>
                     </div>
                   </div>
 
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-                    <span className={`badge ${cfg.badge}`} style={{ fontSize: '0.6875rem' }}>{cfg.label}</span>
-                    <span style={{ fontWeight: 800, fontSize: '1rem', fontFamily: 'var(--font-mono)' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+                    <span className={`badge ${estadoConfig[compra.estado]?.badge || 'badge-gray'}`}>
+                      {estadoConfig[compra.estado]?.label || compra.estado}
+                    </span>
+                    <span style={{ fontWeight: 800, fontSize: '1.125rem', fontFamily: 'var(--font-mono)' }}>
                       {formatPrice(compra.total)}
                     </span>
-                    {isExpanded ? <ChevronUp size={18} style={{ color: 'var(--text-muted)' }} /> : <ChevronDown size={18} style={{ color: 'var(--text-muted)' }} />}
+                    {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                   </div>
                 </div>
 
-                {/* Expanded details */}
+                {/* Expanded Detail */}
                 {isExpanded && (
-                  <div style={{ borderTop: '1px solid var(--border-light)', padding: '1rem 1.25rem' }}>
+                  <div style={{ padding: '0 1.5rem 1.5rem', borderTop: '1px solid var(--border-light)' }}>
                     {compra.notas && (
-                      <div style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '0.75rem', fontStyle: 'italic' }}>
-                        📝 {compra.notas}
-                      </div>
+                      <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', margin: '1rem 0 0.5rem', fontStyle: 'italic' }}>
+                        &ldquo;{compra.notas}&rdquo;
+                      </p>
                     )}
-                    <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                      <thead>
-                        <tr>
-                          {['Producto', 'Cantidad', 'Costo Unit.', 'Subtotal'].map(h => (
-                            <th key={h} style={{
-                              textAlign: 'left', padding: '0.5rem 0.75rem',
-                              fontSize: '0.6875rem', fontWeight: 600, color: 'var(--text-muted)',
-                              textTransform: 'uppercase', borderBottom: '1px solid var(--border-light)',
-                            }}>{h}</th>
-                          ))}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {(compra.items || []).map(item => (
-                          <tr key={item.id} style={{ borderBottom: '1px solid var(--border-light)' }}>
-                            <td style={{ padding: '0.5rem 0.75rem', fontWeight: 600, fontSize: '0.875rem' }}>{item.producto_nombre}</td>
-                            <td style={{ padding: '0.5rem 0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>{item.cantidad}</td>
-                            <td style={{ padding: '0.5rem 0.75rem', fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>
-                              {formatPrice(item.precio_unitario)}
-                              {item.precio_anterior != null && item.precio_unitario !== item.precio_anterior && (
-                                <div style={{ fontSize: '0.6875rem', color: item.precio_unitario > item.precio_anterior ? 'var(--accent-red)' : 'var(--accent-green)' }}>
-                                  {item.precio_unitario > item.precio_anterior ? '⬆️' : '⬇️'} de {formatPrice(item.precio_anterior)}
-                                </div>
-                              )}
-                            </td>
-                            <td style={{ padding: '0.5rem 0.75rem', fontWeight: 700, fontFamily: 'var(--font-mono)', fontSize: '0.875rem' }}>{formatPrice(item.subtotal)}</td>
+
+                    <div style={{ overflowX: 'auto', marginTop: '1rem' }}>
+                      <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
+                        <thead>
+                          <tr style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'left', color: 'var(--text-muted)' }}>
+                            <th style={{ padding: '0.5rem 0' }}>Producto</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center' }}>Cantidad</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'right' }}>Costo Unit.</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'right' }}>Subtotal</th>
+                            <th style={{ padding: '0.5rem', textAlign: 'center' }}>Variación</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
+                        </thead>
+                        <tbody>
+                          {compra.items?.map(item => {
+                            const diff = item.precio_anterior ? item.precio_unitario - item.precio_anterior : 0;
+                            const pct = item.precio_anterior ? (diff / item.precio_anterior) * 100 : 0;
+
+                            return (
+                              <tr key={item.id} style={{ borderBottom: '1px solid var(--border-light)' }}>
+                                <td style={{ padding: '0.625rem 0', fontWeight: 600 }}>{item.producto_nombre}</td>
+                                <td style={{ padding: '0.625rem', textAlign: 'center' }}>{item.cantidad}</td>
+                                <td style={{ padding: '0.625rem', textAlign: 'right', fontFamily: 'var(--font-mono)' }}>
+                                  {formatPrice(item.precio_unitario)}
+                                </td>
+                                <td style={{ padding: '0.625rem', textAlign: 'right', fontWeight: 700, fontFamily: 'var(--font-mono)' }}>
+                                  {formatPrice(item.subtotal)}
+                                </td>
+                                <td style={{ padding: '0.625rem', textAlign: 'center', fontSize: '0.75rem', fontWeight: 600 }}>
+                                  {item.precio_anterior && diff !== 0 ? (
+                                    <span style={{ color: diff > 0 ? 'var(--accent-red)' : 'var(--brand-gold)' }}>
+                                      {diff > 0 ? '⬆️ +' : '⬇️ '}{pct.toFixed(1)}%
+                                    </span>
+                                  ) : (
+                                    <span style={{ color: 'var(--text-light)' }}>—</span>
+                                  )}
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
 
                     {/* Actions */}
-                    <div style={{ display: 'flex', gap: '0.5rem', marginTop: '1rem', justifyContent: 'flex-end' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1.25rem' }}>
                       {compra.estado === 'pendiente' && (
-                        <button className="btn-green" onClick={() => handleConfirm(compra.id)}
+                        <button
+                          onClick={() => handleConfirm(compra.id)}
                           disabled={confirmingId === compra.id}
-                          style={{ fontSize: '0.8125rem', padding: '0.5rem 1rem' }}>
-                          {confirmingId === compra.id
-                            ? <><Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> Confirmando...</>
-                            : <><Check size={14} /> Confirmar · Actualizar Stock</>}
+                          className="btn-brand"
+                          style={{ fontSize: '0.8125rem', padding: '0.5rem 1rem' }}
+                        >
+                          {confirmingId === compra.id ? (
+                            <><Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} /> Confirmando...</>
+                          ) : (
+                            <><Check size={14} /> Confirmar Ingreso (Actualizar Stock)</>
+                          )}
                         </button>
                       )}
-                      {compra.estado !== 'confirmada' && (
-                        <button className="btn-ghost" onClick={() => handleDelete(compra.id)}
-                          style={{ padding: '0.5rem', color: 'var(--accent-red)' }}>
-                          <Trash2 size={16} />
-                        </button>
-                      )}
+                      <button
+                        className="btn-ghost"
+                        onClick={() => handleDelete(compra.id)}
+                        style={{ fontSize: '0.8125rem', color: 'var(--accent-red)', padding: '0.5rem 0.75rem' }}
+                      >
+                        <Trash2 size={14} /> Eliminar
+                      </button>
                     </div>
                   </div>
                 )}
