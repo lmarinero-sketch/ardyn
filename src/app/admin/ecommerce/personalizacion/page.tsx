@@ -1,9 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Store, Type, MessageCircle, MapPin, HelpCircle, Image as ImageIcon, Video, Save, RotateCcw, Check, Loader2, ChevronDown, Plus, Trash2, GripVertical, BookOpen, ChevronLeft, ChevronRight, X, Lightbulb, ExternalLink, Sparkles, Send, AlertTriangle, Palette } from 'lucide-react';
+import { Store, Type, MessageCircle, MapPin, HelpCircle, Image as ImageIcon, Video, Save, RotateCcw, Check, Loader2, ChevronDown, Plus, Trash2, GripVertical, BookOpen, ChevronLeft, ChevronRight, X, Lightbulb, ExternalLink, Sparkles, Send, AlertTriangle, Palette, Pencil } from 'lucide-react';
 import { STORE_DEFAULTS, StoreConfigKey } from '@/hooks/useStoreConfig';
 import { formatYouTubeEmbed } from '@/lib/youtube';
+import GrowyMascot from '@/components/GrowyMascot';
 
 type TabKey = 'identidad' | 'colores' | 'hero_mayorista' | 'hero_minorista' | 'footer' | 'whatsapp' | 'faqs_mayorista' | 'faqs_minorista';
 
@@ -262,17 +263,37 @@ interface ChatMessage {
 }
 
 const QUICK_QUESTIONS = [
-  '¿Cómo cambio el logo?',
-  '¿Cómo agrego un video?',
-  '¿Cómo cambio el número de WhatsApp?',
-  '¿Cómo agrego preguntas frecuentes?',
-  '¿Qué formato tiene que tener el número?',
-  '¿Cómo vuelvo a los valores originales?',
+  '¿Cómo edito la tienda?',
+  '¿Cómo cambio el video de YouTube?',
+  '¿Cómo oculto las sucursales del footer?',
+  '¿Cómo agrego un producto y fotos?',
+  '¿Cómo cambio tu nombre?',
 ];
 
-function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) {
+function AsesorChat({
+  isOpen,
+  onClose,
+  asesorNombre = 'Growy',
+  onUpdateAsesorNombre,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  asesorNombre?: string;
+  onUpdateAsesorNombre?: (nuevoNombre: string) => void;
+}) {
+  const currentName = asesorNombre || 'Growy';
+  const [editingName, setEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState(currentName);
+
+  useEffect(() => {
+    setNameInput(asesorNombre || 'Growy');
+  }, [asesorNombre]);
+
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'assistant', content: '¡Hola! 👋 Soy tu asesor virtual del Editor de Tienda. Preguntame lo que necesites sobre cómo personalizar tu ecommerce: logo, hero, footer, WhatsApp, FAQs y más.' }
+    {
+      role: 'assistant',
+      content: `¡Qué hacés, campeón! 💪🏋️‍♂️ Soy ${currentName}, tu asesor fitness del Editor de Tienda.\n\nPreguntame lo que necesites sobre cómo personalizar tu ecommerce: cambiar logo, video de portada de YouTube, ocultar sucursales o contacto del footer, WhatsApp, FAQs y productos.`,
+    },
   ]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
@@ -285,6 +306,13 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const handleSaveName = () => {
+    const trimmed = nameInput.trim() || 'Growy';
+    setNameInput(trimmed);
+    setEditingName(false);
+    onUpdateAsesorNombre?.(trimmed);
+  };
 
   const sendMessage = async (text: string) => {
     if (!text.trim() || loading) return;
@@ -301,18 +329,31 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           messages: newMessages.map(m => ({ role: m.role, content: m.content })),
+          nombreAsesor: nameInput || currentName,
         }),
       });
 
       const data = await res.json();
 
-      if (data.error) {
-        setMessages(prev => [...prev, { role: 'assistant', content: '❌ Hubo un error al consultar. Intentá de nuevo en unos segundos.' }]);
-      } else {
+      if (data.reply) {
         setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
+      } else {
+        setMessages(prev => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: `¡A meterle fuerza fiera! 💪🏋️‍♂️ Acá ${currentName}. Decime qué sección del editor querés modificar (Identidad, Hero, Footer, WhatsApp o FAQs) y te explico el paso a paso.`,
+          },
+        ]);
       }
     } catch {
-      setMessages(prev => [...prev, { role: 'assistant', content: '❌ No pude conectar con el asesor. Verificá tu conexión.' }]);
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: `¡A meterle garra campeón! 💪🏋️‍♂️ Acá ${currentName}. Podés consultarme sobre cómo cambiar el video de portada, ocultar sucursales en el footer o editar los datos de tu tienda.`,
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -324,7 +365,7 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
     <>
       {/* Backdrop */}
       <div
-        style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.3)', zIndex: 9990 }}
+        style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 9990, backdropFilter: 'blur(3px)' }}
         onClick={onClose}
       />
 
@@ -333,21 +374,23 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
         position: 'fixed',
         bottom: 0,
         right: 0,
-        width: 'min(420px, 100vw)',
-        height: 'min(600px, calc(100vh - 2rem))',
-        background: '#fff',
+        width: 'min(440px, 100vw)',
+        height: 'min(620px, calc(100vh - 1.5rem))',
+        background: '#ffffff',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 0,
-        boxShadow: '-8px 0 40px rgba(0,0,0,0.15)',
+        boxShadow: '-10px 0 50px rgba(0,0,0,0.3)',
         zIndex: 9991,
         display: 'flex',
         flexDirection: 'column',
         animation: 'asesorSlideIn 0.3s ease-out',
+        borderLeft: '1px solid #e5e7eb',
       }}>
         {/* Header */}
         <div style={{
-          padding: '1rem 1.25rem',
-          background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
+          padding: '0.875rem 1.25rem',
+          background: 'linear-gradient(135deg, #18181b 0%, #27272a 100%)',
+          borderBottom: '2px solid #fea604',
           color: '#fff',
           display: 'flex',
           alignItems: 'center',
@@ -355,21 +398,93 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
           borderTopLeftRadius: 20,
           flexShrink: 0,
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             <div style={{
-              width: 36, height: 36, borderRadius: '50%',
-              background: 'rgba(255,255,255,0.2)',
+              width: 44, height: 44, borderRadius: '50%',
+              background: 'rgba(254, 166, 4, 0.15)',
+              border: '2px solid #fea604',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: '0 0 16px rgba(254, 166, 4, 0.35)',
+              overflow: 'hidden',
             }}>
-              <Sparkles size={18} />
+              <GrowyMascot size={38} animate={true} />
             </div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: '0.9375rem' }}>Asesor de Tienda</div>
-              <div style={{ fontSize: '0.6875rem', opacity: 0.75 }}>Impulsado por IA • Siempre disponible</div>
+              {editingName ? (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+                  <input
+                    value={nameInput}
+                    onChange={e => setNameInput(e.target.value)}
+                    onKeyDown={e => {
+                      if (e.key === 'Enter') handleSaveName();
+                    }}
+                    autoFocus
+                    placeholder="Nombre"
+                    style={{
+                      padding: '3px 8px',
+                      fontSize: '0.875rem',
+                      fontWeight: 700,
+                      borderRadius: 6,
+                      border: '1px solid #fea604',
+                      background: '#09090b',
+                      color: '#ffffff',
+                      width: 120,
+                    }}
+                  />
+                  <button
+                    onClick={handleSaveName}
+                    style={{
+                      background: '#fea604',
+                      color: '#000000',
+                      border: 'none',
+                      borderRadius: 6,
+                      padding: '3px 8px',
+                      fontSize: '0.75rem',
+                      fontWeight: 800,
+                      cursor: 'pointer',
+                      minHeight: 'auto',
+                    }}
+                  >
+                    Guardar
+                  </button>
+                </div>
+              ) : (
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{ fontWeight: 800, fontSize: '1.0625rem', color: '#FEA604', letterSpacing: '-0.01em' }}>
+                    {currentName}
+                  </span>
+                  <button
+                    onClick={() => setEditingName(true)}
+                    title="Editar nombre del asesor"
+                    style={{
+                      background: 'rgba(255,255,255,0.1)',
+                      border: '1px solid rgba(255,255,255,0.15)',
+                      borderRadius: 5,
+                      padding: '2px 6px',
+                      color: '#d4d4d8',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 3,
+                      fontSize: '0.6875rem',
+                      fontWeight: 600,
+                      minHeight: 'auto',
+                    }}
+                  >
+                    <Pencil size={10} />
+                    <span>Renombrar</span>
+                  </button>
+                </div>
+              )}
+              <div style={{ fontSize: '0.6875rem', color: '#a1a1aa', marginTop: 2, display: 'flex', alignItems: 'center', gap: 4 }}>
+                <span>🏋️‍♂️ Asesor Fitness de Tienda</span>
+                <span>•</span>
+                <span style={{ color: '#34d399', fontWeight: 600 }}>Siempre activo</span>
+              </div>
             </div>
           </div>
           <button onClick={onClose} style={{
-            background: 'rgba(255,255,255,0.15)', border: 'none', cursor: 'pointer',
+            background: 'rgba(255,255,255,0.12)', border: 'none', cursor: 'pointer',
             width: 32, height: 32, borderRadius: 8, color: '#fff',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             minHeight: 'auto', padding: 0, boxShadow: 'none',
@@ -381,24 +496,45 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
         {/* Messages */}
         <div style={{
           flex: 1, overflowY: 'auto', padding: '1rem',
-          display: 'flex', flexDirection: 'column', gap: '0.75rem',
+          display: 'flex', flexDirection: 'column', gap: '0.875rem',
+          background: '#f8fafc',
         }}>
           {messages.map((msg, i) => (
             <div key={i} style={{
               display: 'flex',
               justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start',
+              alignItems: 'flex-start',
+              gap: '0.5rem',
             }}>
+              {msg.role === 'assistant' && (
+                <div style={{
+                  width: 30, height: 30, borderRadius: '50%',
+                  background: 'linear-gradient(135deg, #18181b, #27272a)',
+                  border: '1.5px solid #fea604',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                  boxShadow: '0 2px 8px rgba(254, 166, 4, 0.25)',
+                  overflow: 'hidden',
+                  marginTop: 2,
+                }}>
+                  <GrowyMascot size={24} animate={false} />
+                </div>
+              )}
               <div style={{
-                maxWidth: '85%',
+                maxWidth: '84%',
                 padding: '0.75rem 1rem',
                 borderRadius: msg.role === 'user' ? '14px 14px 4px 14px' : '14px 14px 14px 4px',
                 background: msg.role === 'user'
-                  ? 'linear-gradient(135deg, #8b5cf6, #6366f1)'
-                  : '#f3f4f6',
-                color: msg.role === 'user' ? '#fff' : '#1f2937',
+                  ? 'linear-gradient(135deg, #18181b, #27272a)'
+                  : '#ffffff',
+                border: msg.role === 'user' ? '1px solid #3f3f46' : '1px solid #e2e8f0',
+                color: msg.role === 'user' ? '#ffffff' : '#1e293b',
                 fontSize: '0.875rem',
                 lineHeight: 1.55,
                 whiteSpace: 'pre-wrap',
+                boxShadow: msg.role === 'user'
+                  ? '0 4px 14px rgba(0, 0, 0, 0.25)'
+                  : '0 2px 8px rgba(0, 0, 0, 0.04)',
               }}>
                 {msg.content}
               </div>
@@ -407,10 +543,21 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 
           {/* Typing indicator */}
           {loading && (
-            <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center', gap: '0.5rem' }}>
+              <div style={{
+                width: 30, height: 30, borderRadius: '50%',
+                background: 'linear-gradient(135deg, #18181b, #27272a)',
+                border: '1.5px solid #fea604',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0,
+                overflow: 'hidden',
+              }}>
+                <GrowyMascot size={24} animate={true} />
+              </div>
               <div style={{
                 padding: '0.75rem 1rem', borderRadius: '14px 14px 14px 4px',
-                background: '#f3f4f6', display: 'flex', gap: 4, alignItems: 'center',
+                background: '#ffffff', border: '1px solid #e2e8f0', display: 'flex', gap: 5, alignItems: 'center',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
               }}>
                 <span className="typing-dot" style={{ animationDelay: '0s' }} />
                 <span className="typing-dot" style={{ animationDelay: '0.15s' }} />
@@ -424,8 +571,10 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
         {/* Quick questions (only when few messages) */}
         {messages.length <= 2 && !loading && (
           <div style={{
-            padding: '0 1rem 0.5rem',
+            padding: '0.5rem 1rem',
             display: 'flex', flexWrap: 'wrap', gap: '0.375rem',
+            background: '#ffffff',
+            borderTop: '1px solid #f1f5f9',
           }}>
             {QUICK_QUESTIONS.map((q, i) => (
               <button
@@ -433,20 +582,20 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
                 onClick={() => sendMessage(q)}
                 style={{
                   padding: '0.375rem 0.75rem', borderRadius: 100,
-                  background: '#f3f4f6', border: '1px solid #e5e7eb',
-                  fontSize: '0.75rem', color: '#6b7280', cursor: 'pointer',
-                  fontWeight: 500, transition: 'all 0.15s',
+                  background: '#f8fafc', border: '1px solid #e2e8f0',
+                  fontSize: '0.75rem', color: '#475569', cursor: 'pointer',
+                  fontWeight: 600, transition: 'all 0.15s',
                   minHeight: 'auto', boxShadow: 'none', letterSpacing: 'normal', textTransform: 'none' as const,
                 }}
                 onMouseEnter={e => {
-                  (e.currentTarget).style.background = '#ede9fe';
-                  (e.currentTarget).style.borderColor = '#8b5cf6';
-                  (e.currentTarget).style.color = '#6d28d9';
+                  (e.currentTarget).style.background = '#fffbeb';
+                  (e.currentTarget).style.borderColor = '#f59e0b';
+                  (e.currentTarget).style.color = '#b45309';
                 }}
                 onMouseLeave={e => {
-                  (e.currentTarget).style.background = '#f3f4f6';
-                  (e.currentTarget).style.borderColor = '#e5e7eb';
-                  (e.currentTarget).style.color = '#6b7280';
+                  (e.currentTarget).style.background = '#f8fafc';
+                  (e.currentTarget).style.borderColor = '#e2e8f0';
+                  (e.currentTarget).style.color = '#475569';
                 }}
               >
                 {q}
@@ -457,30 +606,30 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
 
         {/* Input */}
         <div style={{
-          padding: '0.75rem 1rem', borderTop: '1px solid #f3f4f6',
-          display: 'flex', gap: '0.5rem', flexShrink: 0, background: '#fafafa',
+          padding: '0.75rem 1rem', borderTop: '1px solid #e2e8f0',
+          display: 'flex', gap: '0.5rem', flexShrink: 0, background: '#ffffff',
         }}>
           <input
             value={input}
             onChange={e => setInput(e.target.value)}
             onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(input); } }}
-            placeholder="Escribí tu consulta..."
+            placeholder={`Preguntale a ${currentName}...`}
             disabled={loading}
             style={{
               flex: 1, padding: '0.625rem 0.875rem', borderRadius: 10,
-              border: '1px solid #e5e7eb', fontSize: '0.875rem',
-              outline: 'none', background: '#fff',
+              border: '1px solid #cbd5e1', fontSize: '0.875rem',
+              outline: 'none', background: '#f8fafc', color: '#0f172a',
             }}
           />
           <button
             onClick={() => sendMessage(input)}
             disabled={loading || !input.trim()}
             style={{
-              width: 40, height: 40, borderRadius: 10,
-              background: loading || !input.trim() ? '#e5e7eb' : 'linear-gradient(135deg, #8b5cf6, #6366f1)',
-              border: 'none', color: '#fff', cursor: loading ? 'not-allowed' : 'pointer',
+              width: 42, height: 42, borderRadius: 10,
+              background: loading || !input.trim() ? '#cbd5e1' : 'linear-gradient(135deg, #fea604, #d97706)',
+              border: 'none', color: '#000', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              minHeight: 'auto', padding: 0, boxShadow: 'none', flexShrink: 0,
+              minHeight: 'auto', padding: 0, boxShadow: '0 2px 8px rgba(254, 166, 4, 0.3)', flexShrink: 0,
             }}
           >
             <Send size={16} />
@@ -493,8 +642,8 @@ function AsesorChat({ isOpen, onClose }: { isOpen: boolean; onClose: () => void 
             to { transform: translateX(0); }
           }
           .typing-dot {
-            width: 6px; height: 6px; border-radius: 50%;
-            background: #9ca3af; display: inline-block;
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #fea604; display: inline-block;
             animation: typingBounce 1s infinite;
           }
           @keyframes typingBounce {
@@ -585,12 +734,13 @@ function ColorPickerField({ label, value, onChange, description, presets }: {
   );
 }
 
-function TextField({ label, value, onChange, placeholder, multiline }: {
-  label: string; value: string; onChange: (v: string) => void; placeholder?: string; multiline?: boolean;
+function TextField({ label, value, onChange, placeholder, multiline, hint }: {
+  label: string; value: string; onChange: (v: string) => void; placeholder?: string; multiline?: boolean; hint?: string;
 }) {
   return (
     <div style={{ marginBottom: '1rem' }}>
       <label style={{ display: 'block', marginBottom: 4, fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{label}</label>
+      {hint && <p style={{ fontSize: '0.75rem', color: 'var(--text-light)', marginBottom: 6 }}>{hint}</p>}
       {multiline ? (
         <textarea rows={3} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} />
       ) : (
@@ -879,6 +1029,13 @@ export default function PersonalizacionPage() {
       <TextField label="Nombre completo (footer)" value={currentConfig.nombre_completo || ''} onChange={v => updateField('nombre_completo', v)} placeholder="ARDYN SUPLEMENTOS" />
       <TextField label="Subtítulo Mayorista" value={currentConfig.subtitulo_mayorista || ''} onChange={v => updateField('subtitulo_mayorista', v)} placeholder="Mayorista" />
       <TextField label="Subtítulo Minorista" value={currentConfig.subtitulo_minorista || ''} onChange={v => updateField('subtitulo_minorista', v)} placeholder="Tienda Oficial" />
+      <TextField 
+        label="Nombre del Asesor Virtual (IA)" 
+        value={currentConfig.nombre_asesor || 'Growy'} 
+        onChange={v => updateField('nombre_asesor', v)} 
+        placeholder="Growy" 
+        hint="Personalizá el nombre de tu asistente virtual fitness (ej: Growy). Podés consultarle dudas técnicas en cualquier momento." 
+      />
       <ImageField label="Logo de la tienda" value={currentConfig.logo_url || ''} onChange={v => updateField('logo_url', v)} hint="Recomendado: formato cuadrado (200×200px)" onError={setErrorMessage} />
     </>
   );
@@ -1178,30 +1335,50 @@ export default function PersonalizacionPage() {
 
       {/* ═══ Floating Buttons (Tutorial + Asesor) ═══ */}
       {!tutorialActive && (
-        <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', zIndex: 40 }}>
-          {/* Asesor button */}
+        <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', display: 'flex', flexDirection: 'column', gap: '0.75rem', zIndex: 40, alignItems: 'flex-end' }}>
+          {/* Asesor button (Mascota fitness levantando pesas) */}
           <button
             onClick={() => setAsesorOpen(true)}
-            aria-label="Abrir asesor virtual"
+            aria-label={`Abrir asesor virtual ${configs.tienda_identidad?.nombre_asesor || 'Growy'}`}
             style={{
-              width: 52, height: 52, borderRadius: '50%',
-              background: 'linear-gradient(135deg, #f59e0b, #d97706)',
-              border: 'none', color: '#fff',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', boxShadow: '0 4px 20px rgba(245,158,11,0.4)',
-              transition: 'transform 0.2s, box-shadow 0.2s',
-              minHeight: 'auto', padding: 0, letterSpacing: 'normal', textTransform: 'none' as const,
+              height: 52,
+              padding: '0 1.125rem 0 0.5rem',
+              borderRadius: 26,
+              background: 'linear-gradient(135deg, #18181b, #27272a)',
+              border: '2px solid #fea604',
+              color: '#fff',
+              display: 'flex', alignItems: 'center', gap: '0.625rem',
+              cursor: 'pointer',
+              boxShadow: '0 6px 25px rgba(254, 166, 4, 0.4)',
+              transition: 'all 0.25s cubic-bezier(0.4, 0, 0.2, 1)',
+              minHeight: 'auto', letterSpacing: 'normal', textTransform: 'none' as const,
             }}
             onMouseEnter={e => {
-              (e.currentTarget).style.transform = 'scale(1.1)';
-              (e.currentTarget).style.boxShadow = '0 6px 28px rgba(245,158,11,0.5)';
+              (e.currentTarget).style.transform = 'scale(1.06) translateY(-2px)';
+              (e.currentTarget).style.boxShadow = '0 10px 32px rgba(254, 166, 4, 0.6)';
             }}
             onMouseLeave={e => {
-              (e.currentTarget).style.transform = 'scale(1)';
-              (e.currentTarget).style.boxShadow = '0 4px 20px rgba(245,158,11,0.4)';
+              (e.currentTarget).style.transform = 'scale(1) translateY(0)';
+              (e.currentTarget).style.boxShadow = '0 6px 25px rgba(254, 166, 4, 0.4)';
             }}
           >
-            <Sparkles size={22} />
+            <div style={{
+              width: 38, height: 38, borderRadius: '50%',
+              background: 'rgba(254, 166, 4, 0.15)',
+              border: '1.5px solid #fea604',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              overflow: 'hidden',
+              boxShadow: '0 0 12px rgba(254, 166, 4, 0.3)',
+            }}>
+              <GrowyMascot size={32} animate={true} />
+            </div>
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontSize: '0.8125rem', fontWeight: 800, color: '#FEA604', display: 'flex', alignItems: 'center', gap: 4 }}>
+                {configs.tienda_identidad?.nombre_asesor || 'Growy'}
+                <span style={{ fontSize: '0.625rem', padding: '1px 5px', borderRadius: 4, background: 'rgba(254, 166, 4, 0.2)', color: '#FEA604', fontWeight: 700 }}>IA</span>
+              </div>
+              <div style={{ fontSize: '0.6875rem', color: '#a1a1aa' }}>Asesor Fitness</div>
+            </div>
           </button>
 
           {/* Tutorial button */}
@@ -1209,24 +1386,24 @@ export default function PersonalizacionPage() {
             onClick={startTutorial}
             aria-label="Activar tutorial guiado"
             style={{
-              width: 52, height: 52, borderRadius: '50%',
+              width: 44, height: 44, borderRadius: '50%',
               background: 'linear-gradient(135deg, #8b5cf6, #6366f1)',
               border: 'none', color: '#fff',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', boxShadow: '0 4px 20px rgba(99,102,241,0.4)',
+              cursor: 'pointer', boxShadow: '0 4px 16px rgba(99,102,241,0.35)',
               transition: 'transform 0.2s, box-shadow 0.2s',
               minHeight: 'auto', padding: 0, letterSpacing: 'normal', textTransform: 'none' as const,
             }}
             onMouseEnter={e => {
               (e.currentTarget).style.transform = 'scale(1.1)';
-              (e.currentTarget).style.boxShadow = '0 6px 28px rgba(99,102,241,0.5)';
+              (e.currentTarget).style.boxShadow = '0 6px 24px rgba(99,102,241,0.5)';
             }}
             onMouseLeave={e => {
               (e.currentTarget).style.transform = 'scale(1)';
-              (e.currentTarget).style.boxShadow = '0 4px 20px rgba(99,102,241,0.4)';
+              (e.currentTarget).style.boxShadow = '0 4px 16px rgba(99,102,241,0.35)';
             }}
           >
-            <BookOpen size={22} />
+            <BookOpen size={18} />
           </button>
         </div>
       )}
@@ -1274,7 +1451,25 @@ export default function PersonalizacionPage() {
       )}
 
       {/* ═══ Asesor Virtual Chat ═══ */}
-      <AsesorChat isOpen={asesorOpen} onClose={() => setAsesorOpen(false)} />
+      <AsesorChat 
+        isOpen={asesorOpen} 
+        onClose={() => setAsesorOpen(false)} 
+        asesorNombre={configs.tienda_identidad?.nombre_asesor || 'Growy'}
+        onUpdateAsesorNombre={(nuevoNombre) => {
+          updateField('nombre_asesor', nuevoNombre);
+          fetch('/api/ecommerce/configuraciones', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              clave: 'tienda_identidad',
+              valor: {
+                ...(configs.tienda_identidad || {}),
+                nombre_asesor: nuevoNombre,
+              },
+            }),
+          }).catch(console.error);
+        }}
+      />
     </div>
   );
 }
