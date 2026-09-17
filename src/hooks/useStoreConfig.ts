@@ -44,6 +44,8 @@ export const STORE_DEFAULTS = {
     color_texto_secundario: '#A1A1AA',
   },
   tienda_footer: {
+    mostrar_sucursales: false,
+    mostrar_contacto: false,
     direccion: '📍 Av. Libertador 4858 Oeste, Rivadavia, San Juan',
     direccion_secundaria: '📍 Sede Rawson: Mendoza Sur 582, Rawson, San Juan',
     horarios: '🕒 Lun a Sáb: 9:00 - 13:00 y 17:30 - 21:30 hs',

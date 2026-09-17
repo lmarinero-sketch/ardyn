@@ -238,105 +238,109 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
             </div>
 
             {/* Column 2: Sucursales y Direcciones */}
-            <div>
-              <h4 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <MapPin size={16} style={{ color: 'var(--brand-gold)' }} /> Sucursales & Ubicación
-              </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.85rem' }}>
-                <div>
-                  <div style={{ fontWeight: 600, color: '#FFFFFF' }}>Sucursal Central</div>
-                  <div style={{ color: 'var(--text-muted)' }}>{footer.direccion}</div>
-                  {whatsapp.url_sucursal && (
-                    <a href={whatsapp.url_sucursal} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', color: 'var(--brand-gold)', fontSize: '0.75rem', marginTop: '3px', textDecoration: 'none' }}>
-                      📍 Ver en Google Maps →
-                    </a>
-                  )}
-                </div>
-
-                {footer.direccion_secundaria && (
+            {footer.mostrar_sucursales && (
+              <div>
+                <h4 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <MapPin size={16} style={{ color: 'var(--brand-gold)' }} /> Sucursales & Ubicación
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', fontSize: '0.85rem' }}>
                   <div>
-                    <div style={{ fontWeight: 600, color: '#FFFFFF' }}>Segunda Sucursal</div>
-                    <div style={{ color: 'var(--text-muted)' }}>{footer.direccion_secundaria}</div>
-                    {whatsapp.url_sucursal_rawson && (
-                      <a href={whatsapp.url_sucursal_rawson} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', color: 'var(--brand-gold)', fontSize: '0.75rem', marginTop: '3px', textDecoration: 'none' }}>
+                    <div style={{ fontWeight: 600, color: '#FFFFFF' }}>Sucursal Central</div>
+                    <div style={{ color: 'var(--text-muted)' }}>{footer.direccion}</div>
+                    {whatsapp.url_sucursal && (
+                      <a href={whatsapp.url_sucursal} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', color: 'var(--brand-gold)', fontSize: '0.75rem', marginTop: '3px', textDecoration: 'none' }}>
                         📍 Ver en Google Maps →
                       </a>
                     )}
                   </div>
-                )}
 
-                {footer.horarios && (
-                  <div>
-                    <div style={{ fontWeight: 600, color: '#FFFFFF' }}>Horarios de Atención</div>
-                    <div style={{ color: 'var(--text-muted)' }}>{footer.horarios}</div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Column 3: Contacto & Teléfonos */}
-            <div>
-              <h4 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <Phone size={16} style={{ color: 'var(--brand-gold)' }} /> Atención & Pedidos
-              </h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.85rem' }}>
-                <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#25D366', textDecoration: 'none', fontWeight: 600 }}>
-                  <span>💬 WhatsApp Minorista:</span> {whatsapp.numero_minorista}
-                </a>
-
-                {footer.telefono && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
-                    <Phone size={14} /> {footer.telefono}
-                  </div>
-                )}
-
-                {footer.telefono_fijo && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
-                    <span>☎️</span> {footer.telefono_fijo}
-                  </div>
-                )}
-
-                {footer.email_contacto && (
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
-                    <Mail size={14} /> {footer.email_contacto}
-                  </div>
-                )}
-
-                {/* Redes Sociales */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
-                  {footer.instagram && (
-                    <a href={`https://instagram.com/${footer.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-                      padding: '0.35rem 0.65rem', borderRadius: '6px',
-                      background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                      color: 'var(--text-main)', fontSize: '0.75rem', textDecoration: 'none',
-                    }}>
-                      <Instagram size={13} /> {footer.instagram}
-                    </a>
+                  {footer.direccion_secundaria && (
+                    <div>
+                      <div style={{ fontWeight: 600, color: '#FFFFFF' }}>Segunda Sucursal</div>
+                      <div style={{ color: 'var(--text-muted)' }}>{footer.direccion_secundaria}</div>
+                      {whatsapp.url_sucursal_rawson && (
+                        <a href={whatsapp.url_sucursal_rawson} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', color: 'var(--brand-gold)', fontSize: '0.75rem', marginTop: '3px', textDecoration: 'none' }}>
+                          📍 Ver en Google Maps →
+                        </a>
+                      )}
+                    </div>
                   )}
-                  {footer.facebook && (
-                    <a href={footer.facebook.startsWith('http') ? footer.facebook : `https://facebook.com/${footer.facebook}`} target="_blank" rel="noopener noreferrer" style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-                      padding: '0.35rem 0.65rem', borderRadius: '6px',
-                      background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                      color: 'var(--text-main)', fontSize: '0.75rem', textDecoration: 'none',
-                    }}>
-                      Facebook
-                    </a>
-                  )}
-                  {footer.tiktok && (
-                    <a href={footer.tiktok.startsWith('http') ? footer.tiktok : `https://tiktok.com/@${footer.tiktok.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
-                      padding: '0.35rem 0.65rem', borderRadius: '6px',
-                      background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                      color: 'var(--text-main)', fontSize: '0.75rem', textDecoration: 'none',
-                    }}>
-                      TikTok
-                    </a>
+
+                  {footer.horarios && (
+                    <div>
+                      <div style={{ fontWeight: 600, color: '#FFFFFF' }}>Horarios de Atención</div>
+                      <div style={{ color: 'var(--text-muted)' }}>{footer.horarios}</div>
+                    </div>
                   )}
                 </div>
               </div>
-            </div>
+            )}
+
+            {/* Column 3: Contacto & Teléfonos */}
+            {footer.mostrar_contacto && (
+              <div>
+                <h4 style={{ fontSize: '0.9375rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '1.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <Phone size={16} style={{ color: 'var(--brand-gold)' }} /> Atención & Pedidos
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.85rem' }}>
+                  <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#25D366', textDecoration: 'none', fontWeight: 600 }}>
+                    <span>💬 WhatsApp Minorista:</span> {whatsapp.numero_minorista}
+                  </a>
+
+                  {footer.telefono && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
+                      <Phone size={14} /> {footer.telefono}
+                    </div>
+                  )}
+
+                  {footer.telefono_fijo && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
+                      <span>☎️</span> {footer.telefono_fijo}
+                    </div>
+                  )}
+
+                  {footer.email_contacto && (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
+                      <Mail size={14} /> {footer.email_contacto}
+                    </div>
+                  )}
+
+                  {/* Redes Sociales */}
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginTop: '0.5rem' }}>
+                    {footer.instagram && (
+                      <a href={`https://instagram.com/${footer.instagram.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                        padding: '0.35rem 0.65rem', borderRadius: '6px',
+                        background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                        color: 'var(--text-main)', fontSize: '0.75rem', textDecoration: 'none',
+                      }}>
+                        <Instagram size={13} /> {footer.instagram}
+                      </a>
+                    )}
+                    {footer.facebook && (
+                      <a href={footer.facebook.startsWith('http') ? footer.facebook : `https://facebook.com/${footer.facebook}`} target="_blank" rel="noopener noreferrer" style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                        padding: '0.35rem 0.65rem', borderRadius: '6px',
+                        background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                        color: 'var(--text-main)', fontSize: '0.75rem', textDecoration: 'none',
+                      }}>
+                        Facebook
+                      </a>
+                    )}
+                    {footer.tiktok && (
+                      <a href={footer.tiktok.startsWith('http') ? footer.tiktok : `https://tiktok.com/@${footer.tiktok.replace('@', '')}`} target="_blank" rel="noopener noreferrer" style={{
+                        display: 'inline-flex', alignItems: 'center', gap: '0.35rem',
+                        padding: '0.35rem 0.65rem', borderRadius: '6px',
+                        background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                        color: 'var(--text-main)', fontSize: '0.75rem', textDecoration: 'none',
+                      }}>
+                        TikTok
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Bottom Bar: Copyright & GROW LABS BADGE */}

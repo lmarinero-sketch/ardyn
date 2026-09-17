@@ -1002,6 +1002,12 @@ export default function PersonalizacionPage() {
       <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#FFFFFF', marginBottom: '0.75rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.35rem' }}>
         📍 Direcciones de Sucursales
       </div>
+      <ToggleField 
+        label="Mostrar sección de Sucursales en el pie de página" 
+        value={currentConfig.mostrar_sucursales ?? false} 
+        onChange={v => updateField('mostrar_sucursales', v)} 
+        description="Si está desactivado, no se mostrarán las direcciones ni horarios en la tienda." 
+      />
       <TextField label="Dirección Principal (Sede Rivadavia)" value={currentConfig.direccion || ''} onChange={v => updateField('direccion', v)} placeholder="📍 Av. Libertador 4858 Oeste, Rivadavia, San Juan" />
       <TextField label="Dirección Secundaria (Sede Rawson)" value={currentConfig.direccion_secundaria || ''} onChange={v => updateField('direccion_secundaria', v)} placeholder="📍 Sede Rawson: Mendoza Sur 582, Rawson, San Juan" />
       <TextField label="Horarios de Atención" value={currentConfig.horarios || ''} onChange={v => updateField('horarios', v)} placeholder="🕒 Lun a Sáb: 9:00 - 13:00 y 17:30 - 21:30 hs" />
@@ -1009,6 +1015,12 @@ export default function PersonalizacionPage() {
       <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#FFFFFF', margin: '1.25rem 0 0.75rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.35rem' }}>
         📞 Teléfonos y Contacto
       </div>
+      <ToggleField 
+        label="Mostrar sección de Contacto y Redes en el pie de página" 
+        value={currentConfig.mostrar_contacto ?? false} 
+        onChange={v => updateField('mostrar_contacto', v)} 
+        description="Si está desactivado, no se mostrarán los teléfonos, emails ni redes en el pie de página." 
+      />
       <TextField label="Teléfono Celular / Llamadas" value={currentConfig.telefono || ''} onChange={v => updateField('telefono', v)} placeholder="📱 +54 9 264 679-6509" />
       <TextField label="Teléfono Fijo (Opcional)" value={currentConfig.telefono_fijo || ''} onChange={v => updateField('telefono_fijo', v)} placeholder="☎️ (0264) 424-1234" />
       <TextField label="Email de Contacto" value={currentConfig.email_contacto || ''} onChange={v => updateField('email_contacto', v)} placeholder="contacto@ardyn.com.ar" />
