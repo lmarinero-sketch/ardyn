@@ -5,18 +5,18 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
     LayoutDashboard,
-    Coins,
-    CreditCard,
-    Users,
-    BarChart3,
-    RefreshCcw,
-    Swords,
+    Package,
     ShoppingCart,
+    Tag,
+    Layers,
+    Award,
+    PackagePlus,
+    Paintbrush,
+    Settings,
+    UserCog,
+    ExternalLink,
     BookOpen,
     LogOut,
-    Send,
-    UserCog,
-    Settings,
 } from 'lucide-react';
 import { useStoreConfig } from '@/hooks/useStoreConfig';
 
@@ -28,18 +28,19 @@ interface CurrentUser {
 }
 
 const navItems = [
-    { href: '/admin', label: 'Inicio', icon: LayoutDashboard },
-    { href: '/admin/ardyn-coins', label: 'Ardyn Coins', icon: Coins },
-    { href: '/admin/debt', label: 'Cta Corriente', icon: CreditCard },
-    { href: '/admin/clients', label: 'Clientes', icon: Users },
-    { href: '/admin/bi', label: 'Analytics', icon: BarChart3 },
-    { href: '/admin/retention', label: 'Retención', icon: RefreshCcw },
-    { href: '/admin/competitors', label: 'Competencia', icon: Swords },
-    { href: '/admin/ecommerce', label: 'Ecommerce', icon: ShoppingCart },
+    { href: '/admin/ecommerce', label: 'Resumen', icon: LayoutDashboard },
+    { href: '/admin/ecommerce/productos', label: 'Productos', icon: Package },
+    { href: '/admin/ecommerce/pedidos', label: 'Pedidos', icon: ShoppingCart },
+    { href: '/admin/ecommerce/listas-precios', label: 'Listas de Precios', icon: Tag },
+    { href: '/admin/ecommerce/categorias', label: 'Categorías & Rubros', icon: Layers },
+    { href: '/admin/ecommerce/marcas', label: 'Marcas', icon: Award },
+    { href: '/admin/ecommerce/compras', label: 'Ingreso Stock', icon: PackagePlus },
+    { href: '/admin/ecommerce/personalizacion', label: 'Personalización', icon: Paintbrush },
     { href: '/admin/configuracion', label: 'Configuración', icon: Settings },
 ];
 
 const bottomItems = [
+    { href: '/tienda', label: 'Ver Tienda', icon: ExternalLink, target: '_blank' },
     { href: '/tutorial', label: 'Ayuda', icon: BookOpen },
 ];
 
@@ -69,8 +70,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     }
 
     const isActive = (href: string) => {
-        if (href === '/admin') return pathname === '/admin';
-        return pathname.startsWith(href);
+        if (href === '/admin/ecommerce') return pathname === '/admin/ecommerce';
+        return pathname === href || pathname.startsWith(href + '/');
     };
 
     const today = new Date().toLocaleDateString('es-AR', {
@@ -149,6 +150,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                                 key={item.href}
                                 href={item.href}
                                 className="sidebar-nav-item"
+                                target={(item as any).target}
                             >
                                 <Icon size={18} strokeWidth={1.8} />
                                 <span>{item.label}</span>
