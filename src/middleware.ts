@@ -18,7 +18,7 @@ export async function middleware(request: NextRequest) {
 
     try {
       const secret = new TextEncoder().encode(
-        process.env.JWT_SECRET || 'fallback-secret-key'
+        process.env.JWT_SECRET || 'ardyn-production-jwt-secret-key-2026'
       );
       await jwtVerify(token, secret);
       return NextResponse.next();

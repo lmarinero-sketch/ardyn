@@ -1,7 +1,7 @@
 import { SignJWT, jwtVerify } from 'jose';
 
 const JWT_SECRET = new TextEncoder().encode(
-  process.env.JWT_SECRET || 'fallback-secret-key'
+  process.env.JWT_SECRET || 'ardyn-production-jwt-secret-key-2026'
 );
 
 const COOKIE_NAME = 'ardyn-admin-token';
