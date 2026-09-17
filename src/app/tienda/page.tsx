@@ -8,6 +8,7 @@ import { Search, Filter, X, ShoppingCart, Plus, Star, ChevronDown, Flame, Sparkl
 import { Producto, Rubro, Categoria, Marca } from '@/types/ecommerce';
 import { useCart } from '@/lib/cart';
 import { useStoreConfig } from '@/hooks/useStoreConfig';
+import { formatYouTubeEmbed } from '@/lib/youtube';
 
 // ═════ Product Card Component ═════
 function ProductCard({ producto, formatPrice, onAdd, addedId }: {
@@ -385,12 +386,12 @@ function TiendaPageContent() {
           <iframe 
             width="100%" 
             height="100%" 
-            src={heroConfig.video_url} 
+            src={formatYouTubeEmbed(heroConfig.video_url)} 
             title="Ardyn Suplementos" 
             frameBorder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
             allowFullScreen
-            style={{ display: 'block', border: 'none', pointerEvents: 'none' }}
+            style={{ display: 'block', border: 'none' }}
           />
         </div>
       )}

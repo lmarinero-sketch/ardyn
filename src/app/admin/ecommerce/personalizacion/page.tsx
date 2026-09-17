@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { Store, Type, MessageCircle, MapPin, HelpCircle, Image as ImageIcon, Video, Save, RotateCcw, Check, Loader2, ChevronDown, Plus, Trash2, GripVertical, BookOpen, ChevronLeft, ChevronRight, X, Lightbulb, ExternalLink, Sparkles, Send, AlertTriangle, Palette } from 'lucide-react';
 import { STORE_DEFAULTS, StoreConfigKey } from '@/hooks/useStoreConfig';
+import { formatYouTubeEmbed } from '@/lib/youtube';
 
 type TabKey = 'identidad' | 'colores' | 'hero_mayorista' | 'hero_minorista' | 'footer' | 'whatsapp' | 'faqs_mayorista' | 'faqs_minorista';
 
@@ -683,29 +684,56 @@ function ImageField({ label, value, onChange, hint, onError }: {
 function VideoField({ label, value, onChange }: {
   label: string; value: string; onChange: (v: string) => void;
 }) {
+  const handleInputChange = (rawUrl: string) => {
+    // Si pega un link de YouTube común, lo convertimos automáticamente al formato embed para que funcione
+    const formatted = formatYouTubeEmbed(rawUrl);
+    onChange(formatted || rawUrl);
+  };
+
+  const previewUrl = formatYouTubeEmbed(value) || value;
+  const isEmbeddable = previewUrl && previewUrl.includes('youtube.com/embed');
+
   return (
     <div style={{ marginBottom: '1.25rem' }}>
       <label style={{ display: 'block', marginBottom: 6, fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{label}</label>
 
-      {/* Instructions */}
-      <div style={{ background: 'var(--accent-amber-light)', border: '1px solid rgba(245,158,11,0.2)', borderRadius: 10, padding: '0.75rem 1rem', marginBottom: 10 }}>
-        <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--accent-amber)', marginBottom: 4 }}>📺 ¿Cómo obtener la URL de embed?</p>
-        <ol style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', paddingLeft: '1.25rem', margin: 0, lineHeight: 1.8 }}>
-          <li>Abrí tu video en <strong>YouTube</strong></li>
-          <li>Hacé clic en <strong>Compartir → Insertar</strong></li>
-          <li>Copiá solo la URL del <code style={{ background: 'var(--bg-tertiary)', padding: '1px 4px', borderRadius: 4, fontSize: '0.7rem' }}>src="..."</code></li>
-          <li>Ejemplo: <code style={{ background: 'var(--bg-tertiary)', padding: '1px 4px', borderRadius: 4, fontSize: '0.7rem' }}>https://www.youtube.com/embed/XXXXXXXXXXX</code></li>
-        </ol>
+      <div style={{ background: 'rgba(254, 166, 4, 0.08)', border: '1px solid rgba(254, 166, 4, 0.25)', borderRadius: 10, padding: '0.75rem 1rem', marginBottom: 10 }}>
+        <p style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--brand-gold)', marginBottom: 2 }}>🎬 Pegá cualquier link de YouTube</p>
+        <p style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', margin: 0 }}>
+          Podés pegar el link normal del navegador (ej: <code>https://www.youtube.com/watch?v=...</code> o <code>https://youtu.be/...</code>). Se adapta automáticamente para reproducirse de portada.
+        </p>
       </div>
 
-      <input value={value} onChange={e => onChange(e.target.value)} placeholder="https://www.youtube.com/embed/tu-video-id" />
+      <input 
+        value={value} 
+        onChange={e => handleInputChange(e.target.value)} 
+        placeholder="https://www.youtube.com/watch?v=tu-video" 
+      />
 
       {/* Live preview */}
-      {value && value.includes('youtube.com/embed') && (
-        <div style={{ marginTop: 8, borderRadius: 10, overflow: 'hidden', border: '1px solid var(--border-color)', aspectRatio: '16/9', maxHeight: 220 }}>
-          <iframe src={value} style={{ width: '100%', height: '100%', border: 'none' }} allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope" allowFullScreen title="Preview" />
+      {isEmbeddable ? (
+        <div style={{ marginTop: 10 }}>
+          <div style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--accent-green)', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 4 }}>
+            ✓ Vista previa del video (YouTube conectado)
+          </div>
+          <div style={{ borderRadius: 10, overflow: 'hidden', border: '1px solid var(--border-color)', aspectRatio: '16/9', maxHeight: 240, background: '#000' }}>
+            <iframe 
+              src={previewUrl} 
+              style={{ width: '100%', height: '100%', border: 'none' }} 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowFullScreen 
+              title="Preview del video de portada" 
+            />
+          </div>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 6, fontStyle: 'italic' }}>
+            💡 Recordá hacer clic en el botón azul <strong>"Guardar"</strong> arriba a la derecha para que el video se guarde en la tienda.
+          </p>
         </div>
-      )}
+      ) : value ? (
+        <div style={{ marginTop: 6, fontSize: '0.75rem', color: 'var(--brand-gold)' }}>
+          ⚠️ Verificá que sea un enlace válido de YouTube.
+        </div>
+      ) : null}
     </div>
   );
 }
