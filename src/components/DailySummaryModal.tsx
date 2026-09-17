@@ -218,7 +218,7 @@ export default function DailySummaryModal({ isOpen, onClose }: DailySummaryModal
 
                 {loading ? (
                     <div style={{ padding: '4rem', textAlign: 'center' }}>
-                        <Loader2 size={32} style={{ animation: 'spin 1s linear infinite', color: '#00FF88', marginBottom: '1rem' }} />
+                        <Loader2 size={32} style={{ animation: 'spin 1s linear infinite', color: '#FEA604', marginBottom: '1rem' }} />
                         <p style={{ color: 'var(--text-muted)' }}>Cargando datos del día...</p>
                     </div>
                 ) : data ? (
@@ -243,7 +243,7 @@ export default function DailySummaryModal({ isOpen, onClose }: DailySummaryModal
                                 label="Ganancia Neta"
                                 value={fmt(data.netProfit)}
                                 icon={data.netProfit >= 0 ? <TrendingUp size={16} /> : <TrendingDown size={16} />}
-                                color={data.netProfit >= 0 ? '#00FF88' : '#ef4444'}
+                                color={data.netProfit >= 0 ? '#FEA604' : '#ef4444'}
                                 highlight
                             />
                         </div>
@@ -382,10 +382,10 @@ export default function DailySummaryModal({ isOpen, onClose }: DailySummaryModal
                         {sent && (
                             <div style={{
                                 padding: '1rem',
-                                background: 'rgba(0,255,136,0.1)',
-                                border: '1px solid #00FF88',
+                                background: 'rgba(254,166,4,0.1)',
+                                border: '1px solid #FEA604',
                                 borderRadius: '8px',
-                                color: '#00FF88',
+                                color: '#FEA604',
                                 fontSize: '0.9rem',
                                 marginBottom: '1rem',
                                 textAlign: 'center',
@@ -412,7 +412,7 @@ export default function DailySummaryModal({ isOpen, onClose }: DailySummaryModal
                                     padding: '0.75rem',
                                     fontSize: '0.9rem',
                                     fontWeight: 700,
-                                    background: sent ? '#27272a' : '#00FF88',
+                                    background: sent ? '#27272a' : 'var(--brand-gradient)',
                                     color: sent ? 'var(--text-muted)' : '#000',
                                     border: sent ? '1px solid #3f3f46' : 'none',
                                     borderRadius: '8px',

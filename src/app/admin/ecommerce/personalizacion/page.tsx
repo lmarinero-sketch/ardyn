@@ -233,8 +233,8 @@ function TutorialOverlay({ step, total, currentStep, onNext, onPrev, onClose }: 
             style={{
               display: 'flex', alignItems: 'center', gap: 4,
               padding: '0.5rem 0.875rem', borderRadius: 8,
-              background: isLast ? '#10b981' : 'var(--brand-gradient)',
-              border: 'none', color: isLast ? '#fff' : '#000',
+              background: 'var(--brand-gradient)',
+              border: 'none', color: '#000',
               cursor: 'pointer', fontSize: '0.8125rem', fontWeight: 700,
               minHeight: 'auto', boxShadow: '0 2px 8px rgba(254,166,4,0.3)', letterSpacing: 'normal', textTransform: 'none' as const,
             }}
@@ -479,7 +479,7 @@ function AsesorChat({
               <div style={{ fontSize: '0.6875rem', color: '#a1a1aa', marginTop: 2, display: 'flex', alignItems: 'center', gap: 4 }}>
                 <span>🏋️‍♂️ Asesor Fitness de Tienda</span>
                 <span>•</span>
-                <span style={{ color: '#34d399', fontWeight: 600 }}>Siempre activo</span>
+                <span style={{ color: '#FEA604', fontWeight: 600 }}>Siempre activo</span>
               </div>
             </div>
           </div>
@@ -901,7 +901,7 @@ function ToggleField({ label, value, onChange, description }: {
         onClick={() => onChange(!value)}
         style={{
           width: 44, height: 24, borderRadius: 12, border: 'none', cursor: 'pointer',
-          background: value ? '#10b981' : '#d1d5db', position: 'relative', transition: 'background 0.2s',
+          background: value ? '#FEA604' : '#3f3f46', position: 'relative', transition: 'background 0.2s',
         }}
       >
         <div style={{
@@ -1072,7 +1072,7 @@ export default function PersonalizacionPage() {
           value={currentConfig.color_primario || '#FEA604'}
           onChange={v => updateField('color_primario', v)}
           description="Color de botones principales, pestañas activas e indicadores."
-          presets={['#FEA604', '#FD8209', '#00FF88', '#3b82f6', '#ec4899', '#8b5cf6', '#ef4444']}
+          presets={['#FEA604', '#FD8209', '#F59E0B', '#3b82f6', '#ec4899', '#8b5cf6', '#ef4444']}
         />
 
         <ColorPickerField
@@ -1084,11 +1084,11 @@ export default function PersonalizacionPage() {
         />
 
         <ColorPickerField
-          label="Color de Éxito / Precios"
-          value={currentConfig.color_acento || '#00FF88'}
+          label="Color de Acento / Destacados"
+          value={currentConfig.color_acento || '#FEA604'}
           onChange={v => updateField('color_acento', v)}
-          description="Etiquetas de ahorro, badges de stock y precios de oferta."
-          presets={['#00FF88', '#10b981', '#22c55e', '#4ade80', '#14b8a6']}
+          description="Acentos y detalles en botones y elementos destacados."
+          presets={['#FEA604', '#FD8209', '#F59E0B', '#EAB308', '#D97706']}
         />
 
         <ColorPickerField

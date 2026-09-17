@@ -38,7 +38,7 @@ export const STORE_DEFAULTS = {
   tienda_colores: {
     color_primario: '#FEA604',
     color_secundario: '#FD8209',
-    color_acento: '#00FF88',
+    color_acento: '#FEA604',
     color_fondo: '#000000',
     color_tarjeta: '#0d0d0f',
     color_texto: '#FFFFFF',

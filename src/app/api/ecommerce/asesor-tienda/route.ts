@@ -143,7 +143,7 @@ Para gestionar tus productos:
 En la pestaña **"Colores & Estilo"** podés elegir:
 - **Color Primario**: El dorado representativo de Ardyn (#FEA604).
 - **Color Secundario**: Naranja intenso (#FD8209).
-- **Color de Acento**: Verde flúor deportivo (#00FF88).
+- **Color de Acento**: Amarillo y dorado Ardyn (#FEA604).
 - **Color de Fondo y Tarjetas**: Fondos oscuros elegantes para resaltar las fotos de tus suplementos.
 ¡Tocá **"Guardar"** para ver el cambio inmediato en la tienda pública!`;
   }

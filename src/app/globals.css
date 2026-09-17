@@ -20,13 +20,13 @@
   --border-color: rgba(255, 255, 255, 0.12);
   --border-light: rgba(255, 255, 255, 0.07);
 
-  --accent: #FFFFFF;
-  --accent-hover: #E4E4E7;
-  --accent-light: rgba(255, 255, 255, 0.1);
+  --accent: #FEA604;
+  --accent-hover: #FD8209;
+  --accent-light: rgba(254, 166, 4, 0.15);
   --accent-blue: #3B82F6;
   --accent-blue-light: rgba(59, 130, 246, 0.15);
-  --accent-green: #10B981;
-  --accent-green-light: rgba(16, 185, 129, 0.15);
+  --accent-green: #FEA604;
+  --accent-green-light: rgba(254, 166, 4, 0.15);
   --accent-red: #EF4444;
   --accent-red-light: rgba(239, 68, 68, 0.15);
   --accent-amber: #F59E0B;
@@ -168,7 +168,7 @@ button {
 button:hover {
   background: var(--accent-hover);
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(254, 166, 4, 0.35);
 }
 
 button:active {
@@ -211,12 +211,14 @@ button.btn-blue:hover {
 }
 
 button.btn-green {
-  background: var(--accent-green);
-  color: white;
+  background: var(--brand-gold);
+  color: #000000;
+  font-weight: 700;
 }
 
 button.btn-green:hover {
-  background: #059669;
+  background: var(--brand-orange);
+  box-shadow: 0 4px 14px rgba(254, 166, 4, 0.35);
 }
 
 button.btn-danger {

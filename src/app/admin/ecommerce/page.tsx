@@ -97,7 +97,7 @@ export default function EcommerceAdminPage() {
     { href: '/admin/ecommerce/productos', icon: <Package size={22} />, title: 'Productos', desc: 'Catálogo, precios y stock', color: '#3b82f6', count: stats.totalProductos },
     { href: '/admin/ecommerce/compras', icon: <PackagePlus size={22} />, title: 'Compras', desc: 'Ingreso de mercadería', color: '#8b5cf6', count: null },
     { href: '/admin/ecommerce/listas-precios', icon: <List size={22} />, title: 'Listas de Precios', desc: 'Markup y promociones', color: '#f97316', count: null },
-    { href: '/admin/ecommerce/categorias', icon: <Layers size={22} />, title: 'Categorías', desc: 'Rubros y categorías', color: '#10b981', count: null },
+    { href: '/admin/ecommerce/categorias', icon: <Layers size={22} />, title: 'Categorías', desc: 'Rubros y categorías', color: '#FEA604', count: null },
     { href: '/admin/ecommerce/marcas', icon: <Tag size={22} />, title: 'Marcas', desc: 'Gestionar marcas', color: '#f59e0b', count: null },
     { href: '/admin/ecommerce/pedidos', icon: <ShoppingCart size={22} />, title: 'Pedidos', desc: 'Gestionar pedidos', color: '#ef4444', count: stats.totalPedidos },
     { href: '/admin/ecommerce/personalizacion', icon: <Paintbrush size={22} />, title: 'Personalización', desc: 'Apariencia de la tienda', color: '#a855f7', count: null },
@@ -327,7 +327,7 @@ export default function EcommerceAdminPage() {
           </div>
           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             <code style={{
-              background: 'rgba(255,255,255,0.1)', color: '#10b981',
+              background: 'rgba(255,255,255,0.1)', color: '#FEA604',
               padding: '0.5rem 0.875rem', borderRadius: 8, fontSize: '0.8125rem',
               fontFamily: 'var(--font-mono)',
             }}>
@@ -335,7 +335,7 @@ export default function EcommerceAdminPage() {
             </code>
             <Link href="/tienda" target="_blank">
               <button style={{
-                background: '#10b981', color: 'white', fontSize: '0.8125rem',
+                background: '#FEA604', color: '#000000', fontSize: '0.8125rem',
                 padding: '0.5rem 1rem', border: 'none', borderRadius: 8, cursor: 'pointer',
                 fontWeight: 700, display: 'flex', alignItems: 'center', gap: 6,
                 minHeight: 'auto', boxShadow: 'none', letterSpacing: 0,

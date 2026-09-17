@@ -124,8 +124,8 @@ export default function RetentionPage() {
             </header>
 
             {/* Context Widget */}
-            <div className="glass-card" style={{ marginBottom: '2rem', borderLeft: '4px solid #00FF88', background: 'linear-gradient(90deg, rgba(0,255,136,0.05) 0%, rgba(0,0,0,0) 100%)' }}>
-                <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#00FF88', marginBottom: '0.5rem' }}>
+            <div className="glass-card" style={{ marginBottom: '2rem', borderLeft: '4px solid #FEA604', background: 'linear-gradient(90deg, rgba(254,166,4,0.08) 0%, rgba(0,0,0,0) 100%)' }}>
+                <h3 style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#FEA604', marginBottom: '0.5rem' }}>
                     <AlertCircle size={20} /> Ventana de Recompra (Día 25 - 35)
                 </h3>
                 <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
