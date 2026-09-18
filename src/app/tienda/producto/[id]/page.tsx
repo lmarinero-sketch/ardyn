@@ -282,7 +282,7 @@ export default function ProductoPage() {
             </div>
             
             <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginTop: '0.5rem' }}>
-              Precio mayorista (x1 un.)
+              Precio final (x1 un.)
             </p>
 
             {/* Tiers/Escalones info */}

@@ -15,7 +15,7 @@ const steps = [
   {
     number: 2,
     title: 'Agregá productos al pedido',
-    description: 'Hacé click en "+ Agregar" en cada producto que quieras. Se va a sumar automáticamente a tu pedido con la cantidad mínima mayorista. Podés ver el detalle de cada producto haciendo click en su imagen.',
+    description: 'Hacé click en "+ Agregar" en cada producto que quieras. Se va a sumar automáticamente a tu carrito. Podés ver el detalle de cada producto haciendo click en su imagen.',
     icon: <Plus size={24} />,
     color: '#10b981',
   },

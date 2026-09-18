@@ -15,7 +15,7 @@ const steps = [
   {
     number: 2,
     title: 'Agregá productos al pedido',
-    description: 'Hacé click en "+ Agregar" en cada producto que quieras. Se va a sumar automáticamente a tu pedido con la cantidad mínima mayorista. Podés ver el detalle de cada producto haciendo click en su imagen.',
+    description: 'Hacé click en "+ Agregar" en cada producto que quieras. Se va a sumar automáticamente a tu carrito. Podés ver el detalle de cada producto haciendo click en su imagen.',
     icon: <Plus size={24} />,
     color: '#10b981',
   },
@@ -50,11 +50,11 @@ const steps = [
 ];
 
 export default function ComoComprarPage() {
-  const { config: faqsConfig } = useStoreConfig('tienda_faqs_mayorista');
+  const { config: faqsConfig } = useStoreConfig('tienda_faqs_minorista');
   const { config: whatsapp } = useStoreConfig('tienda_whatsapp');
   const { config: identidad } = useStoreConfig('tienda_identidad');
 
-  const waConsultaLink = `https://api.whatsapp.com/send/?phone=${whatsapp.numero_mayorista}&text=${encodeURIComponent(whatsapp.mensaje_consulta)}&type=phone_number&app_absent=0`;
+  const waConsultaLink = `https://api.whatsapp.com/send/?phone=${whatsapp.numero_minorista}&text=${encodeURIComponent(whatsapp.mensaje_consulta)}&type=phone_number&app_absent=0`;
 
   return (
     <div style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem 1.5rem 4rem' }}>
@@ -72,7 +72,7 @@ export default function ComoComprarPage() {
           ¿Cómo comprar?
         </h1>
         <p style={{ color: 'var(--text-muted)', fontSize: '1rem', maxWidth: '500px', margin: '0 auto', lineHeight: 1.6 }}>
-          Comprar en {identidad.nombre_marca} es fácil y rápido. Seguí estos pasos y armá tu pedido mayorista en minutos.
+          Comprar en {identidad.nombre_marca} es fácil y rápido. Seguí estos pasos y armá tu pedido en minutos.
         </p>
       </div>
 

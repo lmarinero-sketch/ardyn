@@ -133,17 +133,25 @@ export default function ProductosAdminPage() {
   const handleSave = async () => {
     setSaving(true);
 
+    const listaActiva = selectedListaMinoristaId 
+      ? listas.find(l => l.id === selectedListaMinoristaId) 
+      : listas.find(l => (l.es_default_minorista || l.es_default) && l.activo);
+    const costo = parseFloat(form.precio_costo) || 0;
+    const calculado = listaActiva ? Math.round(costo * listaActiva.markup) : costo;
+
     const payload = {
       nombre: form.nombre,
       descripcion: form.descripcion,
-      precio_costo: parseFloat(form.precio_costo) || 0,
+      precio_costo: costo,
+      precio_unitario: calculado,
+      precio_mayorista: calculado,
       stock: parseInt(form.stock) || 0,
-      cantidad_minima: parseInt(form.cantidad_minima) || 1,
+      cantidad_minima: 1,
       categoria_id: form.categoria_id || null,
       marca_id: form.marca_id || null,
-      lista_precio_id: selectedListaId || null,
+      lista_precio_id: selectedListaMinoristaId || null,
       lista_precio_minorista_id: selectedListaMinoristaId || null,
-      lista_escalonada_id: selectedListaEscalonadaId || null,
+      lista_escalonada_id: selectedListaEscalonadaMinoristaId || null,
       lista_escalonada_minorista_id: selectedListaEscalonadaMinoristaId || null,
       activo: form.activo,
       destacado: form.destacado,
@@ -207,10 +215,12 @@ export default function ProductosAdminPage() {
       variantes: p.variantes || [],
     });
     setEditingId(p.id);
-    setSelectedListaId(p.lista_precio_id || '');
-    setSelectedListaMinoristaId((p as any).lista_precio_minorista_id || '');
-    setSelectedListaEscalonadaId((p as any).lista_escalonada_id || '');
-    setSelectedListaEscalonadaMinoristaId((p as any).lista_escalonada_minorista_id || '');
+    const minoristaList = (p as any).lista_precio_minorista_id || p.lista_precio_id || '';
+    const minoristaEscalonada = (p as any).lista_escalonada_minorista_id || (p as any).lista_escalonada_id || '';
+    setSelectedListaId(minoristaList);
+    setSelectedListaMinoristaId(minoristaList);
+    setSelectedListaEscalonadaId(minoristaEscalonada);
+    setSelectedListaEscalonadaMinoristaId(minoristaEscalonada);
     setShowForm(true);
   };
 
@@ -320,115 +330,89 @@ export default function ProductosAdminPage() {
               <h4 style={{ marginBottom: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '1.1rem' }}>
                 <span>💰</span> Configuración de Precios
               </h4>
-              <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '1.5rem', lineHeight: 1.4 }}>
-                El precio final de venta se calcula automáticamente a partir del <b>Costo</b>. <br/>
-                La <b>Base</b> aplica el margen de ganancia principal (ej. +20%). La <b>Escalonada</b> te permite hacer descuentos automáticos por volumen (ej. -5% si llevan más de 10 unid).
+              <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', marginBottom: '1.25rem', lineHeight: 1.4 }}>
+                El precio final de venta se calcula automáticamente a partir del <b>Costo</b> y el <b>Margen de Ganancia</b> asignado.
               </p>
               
-              <div style={{ marginBottom: '1.5rem' }}>
-                <label>Precio de Costo *</label>
-                <input type="number" value={form.precio_costo} onChange={e => setForm({ ...form, precio_costo: e.target.value })} placeholder="0" style={{ borderColor: form.precio_costo ? 'var(--accent-green)' : undefined, maxWidth: '250px' }} />
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)', gap: '1.5rem' }}>
-                {/* Mayorista Column */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0', borderRight: '1px solid var(--border-color)', paddingRight: '1.5rem' }}>
-                  <div style={{ fontWeight: 600, color: 'var(--accent-green)', marginBottom: '0.25rem', fontSize: '1.1rem', letterSpacing: '-0.02em' }}>🛒 Canal Mayorista</div>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: 1.3 }}>Precios mostrados en tu ecommerce para clientes mayoristas habilitados.</p>
-                  
-                  <div>
-                    <label>Base Mayorista</label>
-                    <select value={selectedListaId} onChange={e => setSelectedListaId(e.target.value)}>
-                      <option value="">Por defecto</option>
-                      {listas.filter(l => l.activo && l.tipo === 'markup').map(l => (
-                        <option key={l.id} value={l.id}>
-                          {l.nombre} ({Math.round((l.markup - 1) * 100)}%){l.es_default ? ' [Default]' : ''}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  <div>
-                    <label>Escalonada Mayorista (Opcional)</label>
-                    <select value={selectedListaEscalonadaId} onChange={e => setSelectedListaEscalonadaId(e.target.value)}>
-                      <option value="">Ninguna</option>
-                      {listas.filter(l => l.activo && l.tipo === 'escalonada').map(l => (
-                        <option key={l.id} value={l.id}>
-                          {l.nombre}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {form.precio_costo && (() => {
-                    const listaActiva = selectedListaId 
-                          ? listas.find(l => l.id === selectedListaId) 
-                          : listas.find(l => l.es_default && l.activo);
-                    const costo = parseFloat(form.precio_costo) || 0;
-                    const calculado = listaActiva ? Math.round(costo * listaActiva.markup) : costo;
-                    return (
-                      <div style={{ fontSize: '0.875rem', color: 'var(--accent-green)', marginTop: '0.5rem', fontWeight: 700, padding: '0.5rem', background: 'rgba(0, 255, 136, 0.05)', borderRadius: '8px' }}>
-                         PRECIO VENTA: {new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(calculado)}
-                      </div>
-                    );
-                  })()}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '1rem', marginBottom: '1.25rem' }}>
+                <div>
+                  <label>Precio de Costo *</label>
+                  <input 
+                    type="number" 
+                    value={form.precio_costo} 
+                    onChange={e => setForm({ ...form, precio_costo: e.target.value })} 
+                    placeholder="0" 
+                    style={{ borderColor: form.precio_costo ? 'var(--brand-gold)' : undefined }} 
+                  />
                 </div>
 
-                {/* Minorista Column */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-                  <div style={{ fontWeight: 600, color: 'var(--accent-pink)', marginBottom: '0.25rem', fontSize: '1.1rem', letterSpacing: '-0.02em' }}>🛍️ Canal Minorista</div>
-                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: '1rem', lineHeight: 1.3 }}>Precios mostrados en tu ecommerce abierto destinado al público general.</p>
-                  
-                  <div>
-                    <label>Base Minorista</label>
-                    <select value={selectedListaMinoristaId} onChange={e => setSelectedListaMinoristaId(e.target.value)}>
-                      <option value="">Por defecto (Minorista)</option>
-                      {listas.filter(l => l.activo && l.tipo === 'markup').map(l => (
-                        <option key={l.id} value={l.id}>
-                          {l.nombre} ({Math.round((l.markup - 1) * 100)}%){l.es_default_minorista ? ' [Default]' : ''}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                <div>
+                  <label>Lista de Margen Base (Markup)</label>
+                  <select value={selectedListaMinoristaId} onChange={e => {
+                    setSelectedListaMinoristaId(e.target.value);
+                    setSelectedListaId(e.target.value);
+                  }}>
+                    <option value="">Por defecto (Minorista)</option>
+                    {listas.filter(l => l.activo && l.tipo === 'markup').map(l => (
+                      <option key={l.id} value={l.id}>
+                        {l.nombre} ({Math.round((l.markup - 1) * 100)}%){l.es_default_minorista || l.es_default ? ' [Default]' : ''}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                  <div>
-                    <label>Escalonada Minorista (Opcional)</label>
-                    <select value={selectedListaEscalonadaMinoristaId} onChange={e => setSelectedListaEscalonadaMinoristaId(e.target.value)}>
-                      <option value="">Ninguna</option>
-                      {listas.filter(l => l.activo && l.tipo === 'escalonada').map(l => (
-                        <option key={l.id} value={l.id}>
-                          {l.nombre}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {form.precio_costo && (() => {
-                    const listaActiva = selectedListaMinoristaId 
-                          ? listas.find(l => l.id === selectedListaMinoristaId) 
-                          : listas.find(l => l.es_default_minorista && l.activo);
-                    const costo = parseFloat(form.precio_costo) || 0;
-                    const calculado = listaActiva ? Math.round(costo * listaActiva.markup) : costo;
-                    return (
-                      <div style={{ fontSize: '0.875rem', color: 'var(--accent-pink)', marginTop: '0.5rem', fontWeight: 700, padding: '0.5rem', background: 'rgba(255, 49, 49, 0.05)', borderRadius: '8px' }}>
-                         PRECIO VENTA: {new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(calculado)}
-                      </div>
-                    );
-                  })()}
+                <div>
+                  <label>Descuento por Volumen (Opcional)</label>
+                  <select value={selectedListaEscalonadaMinoristaId} onChange={e => {
+                    setSelectedListaEscalonadaMinoristaId(e.target.value);
+                    setSelectedListaEscalonadaId(e.target.value);
+                  }}>
+                    <option value="">Ninguno</option>
+                    {listas.filter(l => l.activo && l.tipo === 'escalonada').map(l => (
+                      <option key={l.id} value={l.id}>
+                        {l.nombre}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
+
+              {form.precio_costo && (() => {
+                const listaActiva = selectedListaMinoristaId 
+                      ? listas.find(l => l.id === selectedListaMinoristaId) 
+                      : listas.find(l => (l.es_default_minorista || l.es_default) && l.activo);
+                const costo = parseFloat(form.precio_costo) || 0;
+                const calculado = listaActiva ? Math.round(costo * listaActiva.markup) : costo;
+                return (
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    justifyContent: 'space-between',
+                    flexWrap: 'wrap',
+                    gap: '0.5rem',
+                    fontSize: '0.875rem', 
+                    color: '#000000', 
+                    fontWeight: 800, 
+                    padding: '0.75rem 1.25rem', 
+                    background: 'var(--brand-gradient)', 
+                    borderRadius: '10px',
+                    boxShadow: '0 4px 15px rgba(254, 166, 4, 0.25)'
+                  }}>
+                    <span>PRECIO FINAL DE VENTA:</span>
+                    <span style={{ fontSize: '1.25rem', fontFamily: 'var(--font-mono)' }}>
+                      {new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', minimumFractionDigits: 0 }).format(calculado)}
+                    </span>
+                  </div>
+                );
+              })()}
             </div>
 
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0 1rem' }}>
-
-              <div>
-                <label>Stock</label>
+              <div style={{ gridColumn: 'span 2' }}>
+                <label>Stock Disponible</label>
                 <input type="number" value={form.stock} onChange={e => setForm({ ...form, stock: e.target.value })} placeholder="0" />
               </div>
-              <div>
-                <label>Cantidad Mínima</label>
-                <input type="number" value={form.cantidad_minima} onChange={e => setForm({ ...form, cantidad_minima: e.target.value })} placeholder="1" />
-              </div>
+
               {/* CATEGORÍA — Seleccionar o Crear */}
               <div>
                 <label>Categoría</label>
@@ -826,7 +810,7 @@ export default function ProductosAdminPage() {
             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
               <thead>
                 <tr>
-                  {['', 'Producto', 'Costo', 'Precio May.', 'Stock', 'Estado', 'Acciones'].map(h => (
+                  {['', 'Producto', 'Costo', 'Precio', 'Stock', 'Estado', 'Acciones'].map(h => (
                     <th key={h} style={{
                       textAlign: 'left', padding: '0.75rem 1rem',
                       fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)',
@@ -882,7 +866,7 @@ export default function ProductosAdminPage() {
                       {formatPrice(p.precio_costo || 0)}
                     </td>
                     <td style={{ padding: '0.75rem 1rem', fontWeight: 700 }}>
-                      {formatPrice(p.precio_mayorista)}
+                      {formatPrice(p.precio_unitario || p.precio_mayorista)}
                     </td>
                     <td style={{ padding: '0.75rem 1rem' }}>
                       <span className={`badge ${p.stock > 0 ? 'badge-green' : 'badge-red'}`}>

@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   const all = searchParams.get('all'); // for admin: return all including inactive
   const offset = (page - 1) * limit;
 
-  const tienda = searchParams.get('tienda') || 'mayorista'; // 'mayorista' | 'minorista'
+  const tienda = searchParams.get('tienda') || 'minorista'; // defaults to 'minorista'
 
   let query = supabase
     .from('productos')
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
 
   if (!all) {
     query = query.eq('activo', true).gt('stock', 0);
-    query = query.eq(tienda === 'minorista' ? 'activo_minorista' : 'activo_mayorista', true);
+    query = query.eq(tienda === 'mayorista' ? 'activo_mayorista' : 'activo_minorista', true);
     // Filter out empty arrays at DB level to improve pagination consistency
     query = query.not('imagenes', 'eq', '[]').not('imagenes', 'is', null);
   }
@@ -83,20 +83,20 @@ export async function GET(request: NextRequest) {
     .from('listas_precios')
     .select('*, escalones:lista_precio_escalones(*)')
     .eq('activo', true)
-    .eq(tienda === 'minorista' ? 'es_default_minorista' : 'es_default', true)
+    .eq(tienda === 'mayorista' ? 'es_default' : 'es_default_minorista', true)
     .single();
 
   // Apply dynamic pricing
   const mappedData = filtered.map((p: any) => {
-    // 1. Elegir la lista de precios a utilizar basa en el tipo de tienda
-    const overrideList = tienda === 'minorista' ? p.lista_precio_minorista : p.lista_precio;
+    // 1. Elegir la lista de precios a utilizar basada en el tipo de tienda
+    const overrideList = tienda === 'mayorista' ? p.lista_precio : p.lista_precio_minorista;
     const listToUse = overrideList || defaultList;
     const appliedMarkup = listToUse?.markup || 1;
-    const computedPrice = p.precio_costo ? Math.round(p.precio_costo * appliedMarkup) : (tienda === 'minorista' ? p.precio_unitario : p.precio_mayorista);
+    const computedPrice = p.precio_costo ? Math.round(p.precio_costo * appliedMarkup) : (p.precio_unitario || p.precio_mayorista || 0);
     
-    // Remove the nested object to keep the payload clean (optional, keeping it for info in admin)
     return {
       ...p,
+      precio_unitario: computedPrice,
       precio_mayorista: computedPrice,
       lista_activa: listToUse,
     };

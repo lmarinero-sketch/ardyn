@@ -18,9 +18,10 @@ function ProductCard({ producto, formatPrice, onAdd, addedId }: {
   addedId: string | null;
 }) {
   const isOnSale = producto.en_oferta && producto.precio_oferta && producto.precio_oferta > 0;
-  const displayPrice = isOnSale ? producto.precio_oferta! : producto.precio_mayorista;
-  const discount = isOnSale
-    ? Math.round((1 - producto.precio_oferta! / producto.precio_mayorista) * 100)
+  const unitPrice = producto.precio_unitario || producto.precio_mayorista;
+  const displayPrice = isOnSale ? producto.precio_oferta! : unitPrice;
+  const discount = isOnSale && unitPrice > 0
+    ? Math.round((1 - producto.precio_oferta! / unitPrice) * 100)
     : 0;
 
   return (
@@ -237,7 +238,7 @@ function TiendaPageContent() {
   const [addedId, setAddedId] = useState<string | null>(null);
   const [activeSection, setActiveSection] = useState<'home' | 'catalog'>(initRubro || initCategoria || initMarca ? 'catalog' : 'home');
   const { addItem, items } = useCart();
-  const { config: heroConfig } = useStoreConfig('tienda_hero_mayorista');
+  const { config: heroConfig } = useStoreConfig('tienda_hero_minorista');
   const { config: whatsapp } = useStoreConfig('tienda_whatsapp');
 
   useEffect(() => {
@@ -759,7 +760,7 @@ function TiendaPageContent() {
 
       {/* ═══ Floating WhatsApp Button ═══ */}
       <a
-        href={`https://api.whatsapp.com/send/?phone=${whatsapp.numero_mayorista}&text=${encodeURIComponent(whatsapp.mensaje_mayorista)}&type=phone_number&app_absent=0`}
+        href={`https://api.whatsapp.com/send/?phone=${whatsapp.numero_minorista || whatsapp.numero_mayorista}&text=${encodeURIComponent(whatsapp.mensaje_minorista || whatsapp.mensaje_mayorista)}&type=phone_number&app_absent=0`}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Contactar por WhatsApp"

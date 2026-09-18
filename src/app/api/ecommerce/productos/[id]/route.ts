@@ -9,7 +9,7 @@ export async function GET(
   const { id } = await params;
 
   const searchParams = request.nextUrl.searchParams;
-  const tienda = searchParams.get('tienda') || 'mayorista';
+  const tienda = searchParams.get('tienda') || 'minorista';
 
   const { data, error } = await supabase
     .from('productos')
@@ -33,15 +33,15 @@ export async function GET(
     .from('listas_precios')
     .select('*, escalones:lista_precio_escalones(*)')
     .eq('activo', true)
-    .eq(tienda === 'minorista' ? 'es_default_minorista' : 'es_default', true)
+    .eq(tienda === 'mayorista' ? 'es_default' : 'es_default_minorista', true)
     .single();
 
-  const overrideList = tienda === 'minorista' ? data.lista_precio_minorista : data.lista_precio;
+  const overrideList = tienda === 'mayorista' ? data.lista_precio : data.lista_precio_minorista;
   const listToUse = overrideList || defaultList;
   const appliedMarkup = listToUse?.markup || 1;
-  const computedPrice = data.precio_costo ? Math.round(data.precio_costo * appliedMarkup) : (tienda === 'minorista' ? data.precio_unitario : data.precio_mayorista);
+  const computedPrice = data.precio_costo ? Math.round(data.precio_costo * appliedMarkup) : (data.precio_unitario || data.precio_mayorista || 0);
   
-  const escalonadaToUse = tienda === 'minorista' ? data.lista_escalonada_minorista : data.lista_escalonada;
+  const escalonadaToUse = tienda === 'mayorista' ? data.lista_escalonada : data.lista_escalonada_minorista;
 
   // Fetch variants (either explicitly defined in JSON or sibling products sharing same base name/brand)
   let variantes = data.variantes || [];
@@ -82,6 +82,7 @@ export async function GET(
 
   const mappedData = {
     ...data,
+    precio_unitario: computedPrice,
     precio_mayorista: computedPrice,
     lista_activa: listToUse,
     lista_escalonada_activa: escalonadaToUse,

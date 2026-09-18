@@ -34,12 +34,12 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
     return () => window.removeEventListener('cart-updated', handler);
   }, [isLoaded, getItemCount]);
 
-  const waLink = `https://api.whatsapp.com/send/?phone=${whatsapp.numero_mayorista}&text=${encodeURIComponent(whatsapp.mensaje_mayorista)}`;
+  const waLink = `https://api.whatsapp.com/send/?phone=${whatsapp.numero_minorista}&text=${encodeURIComponent(whatsapp.mensaje_minorista)}`;
 
   return (
     <div style={{ minHeight: '100vh', background: 'transparent' }}>
       {/* ===== MARQUEE ===== */}
-      <MarqueeBar storeType="mayorista" />
+      <MarqueeBar storeType="minorista" />
 
       {/* ===== HEADER ===== */}
       <header style={{
@@ -76,7 +76,7 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
             />
             <div>
               <div style={{ fontWeight: 800, fontSize: '1.125rem', lineHeight: 1.2, letterSpacing: '-0.02em', color: '#FFFFFF' }}>{identidad.nombre_marca}</div>
-              <div style={{ fontSize: '0.6875rem', color: 'var(--brand-gold)', fontWeight: 600, letterSpacing: '0.02em' }}>{identidad.subtitulo_mayorista}</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--brand-gold)', fontWeight: 600, letterSpacing: '0.02em' }}>{identidad.subtitulo_minorista || 'Tienda Oficial'}</div>
             </div>
           </Link>
 
@@ -229,11 +229,11 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
                 />
                 <div>
                   <div style={{ fontWeight: 800, fontSize: '1.125rem', color: '#FFFFFF' }}>{identidad.nombre_marca}</div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--brand-gold)', fontWeight: 600 }}>{identidad.subtitulo_mayorista}</div>
+                  <div style={{ fontSize: '0.75rem', color: 'var(--brand-gold)', fontWeight: 600 }}>{identidad.subtitulo_minorista || 'Tienda Oficial'}</div>
                 </div>
               </div>
               <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: '1rem' }}>
-                {identidad.nombre_completo}. Indumentaria deportiva y urbana de alto rendimiento, suplementación y accesorios para atletas y revendedores.
+                {identidad.nombre_completo}. Indumentaria deportiva y urbana de alto rendimiento, suplementación y accesorios para atletas.
               </p>
             </div>
 
@@ -284,7 +284,7 @@ export default function TiendaLayout({ children }: { children: React.ReactNode }
                 </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.85rem' }}>
                   <a href={waLink} target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#25D366', textDecoration: 'none', fontWeight: 600 }}>
-                    <span>💬 WhatsApp Mayorista:</span> {whatsapp.numero_mayorista}
+                    <span>💬 WhatsApp:</span> {whatsapp.numero_minorista || whatsapp.numero_mayorista}
                   </a>
 
                   {footer.telefono && (

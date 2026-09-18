@@ -59,7 +59,7 @@ export default function CheckoutPage() {
         throw new Error(data.error || 'Error al procesar el pedido');
       }
 
-      const whatsappLink = generateWhatsAppLink(items, form, data.pedido?.numero_pedido, 'mayorista');
+      const whatsappLink = generateWhatsAppLink(items, form, data.pedido?.numero_pedido, 'minorista');
 
       // Mark success
       setSuccess(true);
@@ -129,7 +129,7 @@ export default function CheckoutPage() {
           </Link>
           <button
             onClick={() => {
-              const link = generateWhatsAppLink(items.length > 0 ? items : [], form, undefined, 'mayorista');
+              const link = generateWhatsAppLink(items.length > 0 ? items : [], form, undefined, 'minorista');
               window.open(link, '_blank');
             }}
             className="btn-green"

@@ -110,7 +110,7 @@ export default function EcommerceAdminPage() {
       <header style={{ marginBottom: '2rem' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
-            <h1 style={{ marginBottom: '0.25rem', fontSize: '1.75rem' }}>Ecommerce Mayorista</h1>
+            <h1 style={{ marginBottom: '0.25rem', fontSize: '1.75rem' }}>Ecommerce · Tienda Oficial</h1>
             <p style={{ color: 'var(--text-muted)', fontSize: '0.9375rem' }}>Dashboard de gestión · Ardyn Suplementos</p>
           </div>
           <div style={{ display: 'flex', gap: '0.5rem' }}>

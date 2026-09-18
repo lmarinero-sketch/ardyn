@@ -11,12 +11,10 @@ type TabKey = 'identidad' | 'colores' | 'hero_mayorista' | 'hero_minorista' | 'f
 const TABS: { key: TabKey; label: string; icon: React.ReactNode; configKey: StoreConfigKey }[] = [
   { key: 'identidad', label: 'Identidad', icon: <Store size={16} />, configKey: 'tienda_identidad' },
   { key: 'colores', label: 'Colores & Estilo', icon: <Palette size={16} />, configKey: 'tienda_colores' },
-  { key: 'hero_mayorista', label: 'Hero Mayorista', icon: <ImageIcon size={16} />, configKey: 'tienda_hero_mayorista' },
-  { key: 'hero_minorista', label: 'Hero Minorista', icon: <ImageIcon size={16} />, configKey: 'tienda_hero_minorista' },
+  { key: 'hero_minorista', label: 'Hero de Portada', icon: <ImageIcon size={16} />, configKey: 'tienda_hero_minorista' },
   { key: 'footer', label: 'Direcciones & Footer', icon: <MapPin size={16} />, configKey: 'tienda_footer' },
   { key: 'whatsapp', label: 'WhatsApp & Teléfonos', icon: <MessageCircle size={16} />, configKey: 'tienda_whatsapp' },
-  { key: 'faqs_mayorista', label: 'FAQs Mayorista', icon: <HelpCircle size={16} />, configKey: 'tienda_faqs_mayorista' },
-  { key: 'faqs_minorista', label: 'FAQs Minorista', icon: <HelpCircle size={16} />, configKey: 'tienda_faqs_minorista' },
+  { key: 'faqs_minorista', label: 'Preguntas Frecuentes', icon: <HelpCircle size={16} />, configKey: 'tienda_faqs_minorista' },
 ];
 
 // ═══════════════════════════════════════════════════════════
@@ -33,7 +31,7 @@ interface TutorialStep {
 const TUTORIAL_STEPS: TutorialStep[] = [
   {
     title: '¡Bienvenido al Editor de Tienda! 🎨',
-    content: 'Este editor te permite personalizar completamente la apariencia de tu tienda mayorista y minorista. Cada cambio que hagas acá se refleja en tiempo real en las tiendas públicas.',
+    content: 'Este editor te permite personalizar completamente la apariencia de tu tienda oficial. Cada cambio que hagas acá se refleja en tiempo real en la tienda pública.',
     tip: 'Siempre podés volver a los valores originales con el botón "Predeterminado".',
   },
   {
@@ -44,49 +42,38 @@ const TUTORIAL_STEPS: TutorialStep[] = [
   },
   {
     title: '🏪 Identidad de Marca',
-    content: 'Acá definís lo fundamental: el nombre de tu marca que aparece en el header, el logo y los subtítulos que diferencian la tienda mayorista de la minorista. El "Nombre completo" se muestra en el footer.',
+    content: 'Acá definís lo fundamental: el nombre de tu marca que aparece en el header, el logo y el subtítulo de la tienda oficial. El "Nombre completo" se muestra en el footer.',
     tip: 'Para el logo, subí la imagen a tu hosting y pegá la URL acá. Recomendamos formato cuadrado (ej: 200x200px).',
     navigateTo: 'identidad',
     highlightArea: 'content-area',
   },
   {
-    title: '🖼️ Hero Mayorista',
-    content: 'El Hero es el banner principal que ven tus clientes al entrar a la tienda mayorista. Personalizá el título, la descripción y la imagen de fondo. También podés agregar o quitar el video de portada.',
+    title: '🖼️ Hero de Portada',
+    content: 'El Hero es el banner principal que ven tus clientes al entrar a la tienda oficial. Personalizá el título, la descripción y la imagen de fondo. También podés agregar o quitar el video de portada.',
     tip: 'Para el video, usá URLs de YouTube en formato embed: "https://www.youtube.com/embed/TU_VIDEO_ID?autoplay=1&mute=1&loop=1"',
-    navigateTo: 'hero_mayorista',
+    navigateTo: 'hero_minorista',
     highlightArea: 'content-area',
   },
   {
-    title: '🖼️ Hero Minorista',
-    content: 'Igual que el anterior, pero para la tienda minorista. Podés usar textos y multimedia diferentes para cada tienda, lo que te permite comunicar mensajes distintos a cada público.',
-    tip: 'Usá un tono más cercano y "retail" para minorista, y más profesional/B2B para mayorista.',
-    navigateTo: 'hero_minorista',
-  },
-  {
     title: '📍 Footer (Pie de página)',
-    content: 'Editá la información que aparece al final de ambas tiendas: dirección del local, teléfono, Instagram, y los créditos del desarrollador.',
+    content: 'Editá la información que aparece al final de la tienda: dirección del local, teléfono, Instagram, y los créditos del desarrollador.',
     tip: 'Usá emojis como 📍 y 📱 antes de la dirección y teléfono para mejor legibilidad visual.',
     navigateTo: 'footer',
     highlightArea: 'content-area',
   },
   {
     title: '💬 WhatsApp',
-    content: 'Configurá los números de WhatsApp para cada tienda. Los mensajes pre-cargados son los que se envían cuando un cliente toca el botón de WhatsApp o envía un pedido. También podés activar/desactivar el botón flotante verde.',
-    tip: 'El formato del número debe ser: código de país + código de área + número, sin guiones ni espacios. Ej: 5492644193032',
+    content: 'Configurá los números de WhatsApp. Los mensajes pre-cargados son los que se envían cuando un cliente toca el botón de WhatsApp o envía un pedido.',
+    tip: 'El formato del número debe ser: código de país + código de área + número, sin guiones ni espacios. Ej: 5492646796509',
     navigateTo: 'whatsapp',
     highlightArea: 'content-area',
   },
   {
-    title: '❓ FAQs Mayorista',
-    content: 'Las preguntas frecuentes aparecen en la página "¿Cómo comprar?" de la tienda mayorista. Podés agregar, editar o eliminar preguntas. Se muestran como acordeones expandibles.',
-    tip: 'Incluí preguntas sobre medios de pago, envíos, montos mínimos y plazos de entrega. Son las dudas más comunes.',
-    navigateTo: 'faqs_mayorista',
-    highlightArea: 'content-area',
-  },
-  {
-    title: '❓ FAQs Minorista',
-    content: 'Igual que las FAQs mayoristas, pero para la tienda minorista. Podés tener preguntas completamente diferentes para cada público.',
+    title: '❓ Preguntas Frecuentes (FAQs)',
+    content: 'Las preguntas frecuentes aparecen en la página "¿Cómo comprar?". Podés agregar, editar o eliminar preguntas. Se muestran como acordeones expandibles.',
+    tip: 'Incluí preguntas sobre medios de pago, envíos y plazos de entrega.',
     navigateTo: 'faqs_minorista',
+    highlightArea: 'content-area',
   },
   {
     title: '💾 Guardar y Restaurar',
@@ -1026,9 +1013,16 @@ export default function PersonalizacionPage() {
   const renderIdentidad = () => (
     <>
       <TextField label="Nombre de marca" value={currentConfig.nombre_marca || ''} onChange={v => updateField('nombre_marca', v)} placeholder="ARDYN" />
-      <TextField label="Nombre completo (footer)" value={currentConfig.nombre_completo || ''} onChange={v => updateField('nombre_completo', v)} placeholder="ARDYN SUPLEMENTOS" />
-      <TextField label="Subtítulo Mayorista" value={currentConfig.subtitulo_mayorista || ''} onChange={v => updateField('subtitulo_mayorista', v)} placeholder="Mayorista" />
-      <TextField label="Subtítulo Minorista" value={currentConfig.subtitulo_minorista || ''} onChange={v => updateField('subtitulo_minorista', v)} placeholder="Tienda Oficial" />
+      <TextField 
+        label="Subtítulo de la Tienda" 
+        value={currentConfig.subtitulo_minorista || ''} 
+        onChange={v => { 
+          updateField('subtitulo_minorista', v); 
+          updateField('subtitulo_mayorista', v); 
+        }} 
+        placeholder="Tienda Oficial" 
+        hint="Aparece debajo del logo en el encabezado de la tienda (ej: Tienda Oficial)."
+      />
       <TextField 
         label="Nombre del Asesor Virtual (IA)" 
         value={currentConfig.nombre_asesor || 'Growy'} 

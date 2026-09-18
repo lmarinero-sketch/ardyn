@@ -35,7 +35,7 @@ export default function CarritoPage() {
         </div>
         <h2 style={{ marginBottom: '0.5rem' }}>Tu pedido está vacío</h2>
         <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
-          Explorá el catálogo y agregá productos para armar tu pedido mayorista.
+          Explorá el catálogo y agregá productos a tu carrito.
         </p>
         <Link href="/tienda">
           <button style={{ padding: '0.875rem 2rem' }}>

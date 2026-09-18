@@ -44,7 +44,7 @@ export default function HomePage() {
         {/* Main Navigation Grid */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', maxWidth: '1100px', margin: '0 auto', gap: '1.5rem' }}>
 
-          {/* Module 1: Tienda Mayorista */}
+          {/* Module 1: Tienda Oficial */}
           <Link href="/tienda">
             <div className="glass-card" style={{
               height: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2.5rem 1.75rem',
@@ -61,38 +61,11 @@ export default function HomePage() {
               }}>
                 <ShoppingCart size={28} />
               </div>
-              <h2 style={{ fontSize: '1.35rem', marginBottom: '0.75rem', color: 'white' }}>Tienda Mayorista</h2>
+              <h2 style={{ fontSize: '1.35rem', marginBottom: '0.75rem', color: 'white' }}>Tienda Oficial</h2>
               <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', lineHeight: '1.6', fontSize: '0.875rem' }}>
-                Catálogo de productos con precios mayoristas y escalonados.
+                Catálogo completo de suplementos, indumentaria y combos especiales.
               </p>
               <button className="btn-brand" style={{ width: '100%', marginTop: 'auto' }}>
-                VER MAYORISTA <ArrowRight size={16} />
-              </button>
-            </div>
-          </Link>
-
-          {/* Module 2: Tienda Minorista */}
-          <Link href="/minorista">
-            <div className="glass-card" style={{
-              height: '100%', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '2.5rem 1.75rem',
-              background: 'linear-gradient(135deg, #0d0d10, #15151a)',
-              color: 'white', border: '1px solid var(--border-color)',
-            }}>
-              <div style={{
-                width: 56, height: 56, borderRadius: 14,
-                background: 'rgba(255, 255, 255, 0.08)',
-                border: '1px solid rgba(255, 255, 255, 0.15)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                marginBottom: '1rem',
-                color: '#FFFFFF',
-              }}>
-                <ShoppingCart size={28} />
-              </div>
-              <h2 style={{ fontSize: '1.35rem', marginBottom: '0.75rem', color: 'white' }}>Tienda Minorista</h2>
-              <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem', lineHeight: '1.6', fontSize: '0.875rem' }}>
-                Venta directa al público, promociones y combos especiales.
-              </p>
-              <button style={{ width: '100%', marginTop: 'auto', background: '#FFFFFF', color: '#000000', fontWeight: 700 }}>
                 VER TIENDA OFICIAL <ArrowRight size={16} />
               </button>
             </div>
