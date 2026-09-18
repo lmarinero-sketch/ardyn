@@ -12,7 +12,6 @@ import {
     Award,
     PackagePlus,
     Paintbrush,
-    Settings,
     UserCog,
     ExternalLink,
     BookOpen,
@@ -36,7 +35,6 @@ const navItems = [
     { href: '/admin/ecommerce/marcas', label: 'Marcas', icon: Award },
     { href: '/admin/ecommerce/compras', label: 'Ingreso Stock', icon: PackagePlus },
     { href: '/admin/ecommerce/personalizacion', label: 'Personalización', icon: Paintbrush },
-    { href: '/admin/configuracion', label: 'Configuración', icon: Settings },
 ];
 
 const bottomItems = [

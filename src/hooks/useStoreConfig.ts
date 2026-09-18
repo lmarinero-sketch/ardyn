@@ -98,6 +98,13 @@ export const STORE_DEFAULTS = {
     activo: false,
     banners: [] as { id: string; imagen_url: string; link: string; texto_alt: string; activo: boolean; orden: number }[],
   },
+  marquesina_minorista: {
+    activo: true,
+    mensajes: [
+      '10% Off en pagos en efectivo o transferencia.',
+      'Hasta 3 cuotas sin interés con todas las tarjetas.',
+    ] as string[],
+  },
 } as const;
 
 export type StoreConfigKey = keyof typeof STORE_DEFAULTS;

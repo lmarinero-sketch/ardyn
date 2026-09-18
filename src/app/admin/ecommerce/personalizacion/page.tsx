@@ -1,16 +1,17 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { Store, Type, MessageCircle, MapPin, HelpCircle, Image as ImageIcon, Video, Save, RotateCcw, Check, Loader2, ChevronDown, Plus, Trash2, GripVertical, BookOpen, ChevronLeft, ChevronRight, X, Lightbulb, ExternalLink, Sparkles, Send, AlertTriangle, Palette, Pencil } from 'lucide-react';
+import { Store, Type, MessageCircle, MapPin, HelpCircle, Image as ImageIcon, Video, Save, RotateCcw, Check, Loader2, ChevronDown, Plus, Trash2, GripVertical, BookOpen, ChevronLeft, ChevronRight, X, Lightbulb, ExternalLink, Sparkles, Send, AlertTriangle, Palette, Pencil, Megaphone } from 'lucide-react';
 import { STORE_DEFAULTS, StoreConfigKey } from '@/hooks/useStoreConfig';
 import { formatYouTubeEmbed } from '@/lib/youtube';
 import GrowyMascot from '@/components/GrowyMascot';
 
-type TabKey = 'identidad' | 'colores' | 'hero_mayorista' | 'hero_minorista' | 'footer' | 'whatsapp' | 'faqs_mayorista' | 'faqs_minorista';
+type TabKey = 'identidad' | 'colores' | 'marquesina' | 'hero_minorista' | 'footer' | 'whatsapp' | 'faqs_minorista';
 
 const TABS: { key: TabKey; label: string; icon: React.ReactNode; configKey: StoreConfigKey }[] = [
   { key: 'identidad', label: 'Identidad', icon: <Store size={16} />, configKey: 'tienda_identidad' },
   { key: 'colores', label: 'Colores & Estilo', icon: <Palette size={16} />, configKey: 'tienda_colores' },
+  { key: 'marquesina', label: 'Marquesina', icon: <Megaphone size={16} />, configKey: 'marquesina_minorista' },
   { key: 'hero_minorista', label: 'Hero de Portada', icon: <ImageIcon size={16} />, configKey: 'tienda_hero_minorista' },
   { key: 'footer', label: 'Direcciones & Footer', icon: <MapPin size={16} />, configKey: 'tienda_footer' },
   { key: 'whatsapp', label: 'WhatsApp & Teléfonos', icon: <MessageCircle size={16} />, configKey: 'tienda_whatsapp' },
@@ -985,6 +986,15 @@ export default function PersonalizacionPage() {
         body: JSON.stringify({ clave: currentTab.configKey, valor: configs[currentTab.configKey] }),
       });
       if (!res.ok) throw new Error('Error al guardar');
+
+      if (currentTab.configKey === 'marquesina_minorista') {
+        await fetch('/api/ecommerce/configuraciones', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ clave: 'marquesina_mayorista', valor: configs['marquesina_minorista'] }),
+        }).catch(() => {});
+      }
+
       setSaved(true);
       setTimeout(() => setSaved(false), 3000);
     } catch (err) {
@@ -1246,15 +1256,111 @@ export default function PersonalizacionPage() {
     );
   };
 
+  const renderMarquesina = () => {
+    const mensajes: string[] = currentConfig.mensajes || [];
+    const updateMensajes = (newMsgs: string[]) => {
+      updateField('mensajes', newMsgs);
+    };
+
+    return (
+      <>
+        <div style={{ background: 'rgba(254, 166, 4, 0.08)', border: '1px solid rgba(254, 166, 4, 0.25)', borderRadius: 12, padding: '1rem', marginBottom: '1.25rem' }}>
+          <p style={{ fontSize: '0.875rem', color: 'var(--brand-gold)', fontWeight: 600, margin: 0 }}>
+            📢 La marquesina es la barra superior continua de anuncios en tu tienda oficial. Podés sumar promociones, métodos de pago, cuotas o envíos.
+          </p>
+        </div>
+
+        <ToggleField
+          label="Marquesina activa"
+          value={currentConfig.activo ?? true}
+          onChange={v => updateField('activo', v)}
+          description="Mostrar u ocultar la barra superior corrediza en la tienda"
+        />
+
+        <div style={{ fontSize: '0.875rem', fontWeight: 700, color: '#FFFFFF', margin: '1.5rem 0 0.75rem', borderBottom: '1px solid var(--border-color)', paddingBottom: '0.35rem' }}>
+          Mensajes de la Marquesina
+        </div>
+
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginBottom: '1rem' }}>
+          {mensajes.map((msg: string, i: number) => (
+            <div key={i} style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+              <input
+                value={msg}
+                onChange={e => {
+                  const updated = [...mensajes];
+                  updated[i] = e.target.value;
+                  updateMensajes(updated);
+                }}
+                placeholder="Ej: 10% Off en pagos en efectivo o transferencia."
+                style={{ flex: 1, margin: 0, padding: '0.75rem', borderRadius: 8, border: '1px solid var(--border-color)', background: 'var(--bg-tertiary)', color: 'var(--text-primary)' }}
+              />
+              <button
+                type="button"
+                className="btn-ghost"
+                onClick={() => {
+                  const updated = mensajes.filter((_, idx) => idx !== i);
+                  updateMensajes(updated);
+                }}
+                style={{ color: 'var(--accent-red)', padding: '0.625rem' }}
+                title="Eliminar mensaje"
+              >
+                <Trash2 size={16} />
+              </button>
+            </div>
+          ))}
+        </div>
+
+        <button
+          type="button"
+          onClick={() => updateMensajes([...mensajes, 'Nuevo anuncio'])}
+          style={{
+            width: '100%', padding: '0.75rem', background: 'var(--bg-secondary)', border: '2px dashed var(--border-color)',
+            borderRadius: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            gap: 8, fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)',
+          }}
+        >
+          <Plus size={16} /> Agregar Mensaje
+        </button>
+
+        {/* Live Preview */}
+        {currentConfig.activo && mensajes.length > 0 && (
+          <div style={{ marginTop: '2rem' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', marginBottom: '0.5rem' }}>
+              VISTA PREVIA EN VIVO
+            </span>
+            <div style={{
+              background: '#222222',
+              color: '#ffffff',
+              borderRadius: 8,
+              padding: '0.75rem 1rem',
+              overflow: 'hidden',
+              display: 'flex',
+              gap: '1.5rem',
+              alignItems: 'center',
+              fontSize: '0.8125rem',
+              fontWeight: 600,
+            }}>
+              {mensajes.map((m: string, idx: number) => (
+                <span key={idx} style={{ display: 'inline-flex', alignItems: 'center', gap: '1.5rem', whiteSpace: 'nowrap' }}>
+                  <span>{m}</span>
+                  <span style={{ color: 'var(--brand-gold)' }}>◆</span>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </>
+    );
+  };
+
   const renderContent = () => {
     switch (activeTab) {
       case 'identidad': return renderIdentidad();
       case 'colores': return renderColores();
-      case 'hero_mayorista': return renderHero('tienda_hero_mayorista');
+      case 'marquesina': return renderMarquesina();
       case 'hero_minorista': return renderHero('tienda_hero_minorista');
       case 'footer': return renderFooter();
       case 'whatsapp': return renderWhatsapp();
-      case 'faqs_mayorista': return renderFaqs('tienda_faqs_mayorista');
       case 'faqs_minorista': return renderFaqs('tienda_faqs_minorista');
     }
   };
